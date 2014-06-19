@@ -28,6 +28,11 @@
 - (void)resizeFrameView:(NSValue *)newFrameRect;
 
 /**
+ * Notify the video session about the interface orientation change
+ */
+- (void)interfaceOrientationChanged:(UIInterfaceOrientation)o;
+
+/**
  * handler that is called when a output selection button is pressed
  */
 - (void)procOutputSelectBtnAction:(UIButton *)sender;
@@ -58,11 +63,11 @@
 }
 
 - (void)dealloc {
-    [cam stop];
-    [cam release];
+    [camSession release];
+    [camDeviceInput release];
     
     [glView release];
-    [frameView release];
+    [CamView release];
     [baseView release];
     
     if (detector) delete detector;
@@ -87,8 +92,9 @@
     baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.height, screenRect.size.width)];
     
     // create the image view for the camera frames
-    frameView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.height, screenRect.size.width)];
-    [baseView addSubview:frameView];
+    camView = [[CamView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.height, screenRect.size.width)];
+    
+    [baseView addSubview:camView];
     
     // create the GL view
     glView = [[GLView alloc] initWithFrame:baseView.frame];
@@ -122,6 +128,18 @@
     [self setView:baseView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"view will appear - start camera session");
+    
+    [camSession startRunning];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    NSLog(@"view did disappear - stop camera session");
+    
+    [camSession stopRunning];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -140,6 +158,10 @@
     [cam start];
     
     NSLog(@"cam loaded: %d", cam.captureSessionLoaded);
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)o duration:(NSTimeInterval)duration {
+    [self interfaceOrientationChanged:o];
 }
 
 #pragma mark CvVideoCameraDelegate methods
@@ -196,19 +218,40 @@
 }
 
 - (void)initCam {
-    assert(cam == NULL);
-    
     NSLog(@"initializing cam");
     
-    cam = [[CvVideoCamera alloc] initWithParentView:frameView];
+    NSError *error = nil;
     
-    cam.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
-    cam.defaultAVCaptureSessionPreset = AVCaptureSessionPresetHigh;
-    cam.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationLandscapeLeft;
-    cam.defaultFPS = 30;
-    //    cam.grayscale = NO;
+    // set up the camera capture session
+    camSession = [[AVCaptureSession alloc] init];
+    [camView setSession:camSession];
     
-    [cam setDelegate:self];
+    // get the camera device
+	NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    assert(devices.count > 0);
+    
+	AVCaptureDevice *camDevice = [devices firstObject];
+	for (AVCaptureDevice *device in devices) {
+		if ([device position] == AVCaptureDevicePositionBack) {
+			camDevice = device;
+			break;
+		}
+	}
+    
+    camDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:camDevice error:&error];
+    
+    if (error) {
+        NSLog(@"error getting camera device: %@", error);
+        return;
+    }
+    
+    assert(camDeviceInput);
+    
+    // add the camera device to the session
+    if ([camSession canAddInput:camDeviceInput]) {
+        [camSession addInput:camDeviceInput];
+        [self interfaceOrientationChanged:self.interfaceOrientation];
+    }
 }
 
 - (BOOL)initDetector {
@@ -275,6 +318,10 @@
     [glView setShowMarkers:(sender.tag < 0)];   // only show markers in "normal" display mode
     
     detector->setFrameOutputLevel((ocv_ar::FrameProcLevel)sender.tag);
+}
+
+- (void)interfaceOrientationChanged:(UIInterfaceOrientation)o {
+    [[(AVCaptureVideoPreviewLayer *)camView.layer connection] setVideoOrientation:(AVCaptureVideoOrientation)o];
 }
 
 @end

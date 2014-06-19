@@ -11,11 +11,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import <opencv2/highgui/cap_ios.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 #include "../../../../ocv_ar/ocv_ar.h"
 
 #import "Tools.h"
+#import "CamView.h"
 #import "GLView.h"
 
 // change to following lines to adjust to your setting:
@@ -32,11 +34,12 @@ using namespace ocv_ar;
  * Main view controller.
  * Handles UI initialization and interactions.
  */
-@interface RootViewController : UIViewController<CvVideoCameraDelegate> {
-    CvVideoCamera *cam;     // for grabbing video frames
+@interface RootViewController : UIViewController {
+    AVCaptureSession *camSession;
+    AVCaptureDeviceInput *camDeviceInput;
     
     UIView *baseView;       // root view
-    UIImageView *frameView; // frame view shows the grabbed video frames
+    CamView *camView;       // shows the grabbed video frames
     GLView *glView;         // gl view displays the highlighted markers
     
     Detect *detector;       // ocv_ar::Detector for marker detection
