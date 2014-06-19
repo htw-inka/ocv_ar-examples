@@ -14,11 +14,6 @@
 		28EA5A421952DC0900B46513 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A411952DC0900B46513 /* main.m */; };
 		28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A451952DC0900B46513 /* AppDelegate.m */; };
 		28EA5A481952DC0900B46513 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A471952DC0900B46513 /* Images.xcassets */; };
-		28EA5A4F1952DC0900B46513 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A4E1952DC0900B46513 /* XCTest.framework */; };
-		28EA5A501952DC0900B46513 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A351952DC0900B46513 /* Foundation.framework */; };
-		28EA5A511952DC0900B46513 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A391952DC0900B46513 /* UIKit.framework */; };
-		28EA5A591952DC0900B46513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A571952DC0900B46513 /* InfoPlist.strings */; };
-		28EA5A5B1952DC0900B46513 /* OcvARBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */; };
 		28EA5A911952E1D300B46513 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A901952E1D300B46513 /* opencv2.framework */; };
 		28EA5A941952E1F700B46513 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A921952E1F700B46513 /* GLKit.framework */; };
 		28EA5A951952E1F700B46513 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A931952E1F700B46513 /* OpenGLES.framework */; };
@@ -43,16 +38,6 @@
 		28EA5AD7195319D200B46513 /* ident_7x7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AD5195319D200B46513 /* ident_7x7.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		28EA5A521952DC0900B46513 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28EA5A2A1952DC0900B46513 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 28EA5A311952DC0900B46513;
-			remoteInfo = OcvARBasic;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		28EA5A321952DC0900B46513 /* OcvARBasic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OcvARBasic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28EA5A351952DC0900B46513 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,11 +50,7 @@
 		28EA5A441952DC0900B46513 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		28EA5A451952DC0900B46513 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		28EA5A471952DC0900B46513 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		28EA5A4D1952DC0900B46513 /* OcvARBasicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OcvARBasicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28EA5A4E1952DC0900B46513 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		28EA5A561952DC0900B46513 /* OcvARBasicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OcvARBasicTests-Info.plist"; sourceTree = "<group>"; };
-		28EA5A581952DC0900B46513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OcvARBasicTests.m; sourceTree = "<group>"; };
 		28EA5A901952E1D300B46513 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "../../../opencv-ios/opencv2.framework"; sourceTree = "<group>"; };
 		28EA5A921952E1F700B46513 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		28EA5A931952E1F700B46513 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -127,16 +108,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		28EA5A4A1952DC0900B46513 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28EA5A4F1952DC0900B46513 /* XCTest.framework in Frameworks */,
-				28EA5A511952DC0900B46513 /* UIKit.framework in Frameworks */,
-				28EA5A501952DC0900B46513 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -144,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				28EA5A3B1952DC0900B46513 /* OcvARBasic */,
-				28EA5A541952DC0900B46513 /* OcvARBasicTests */,
 				28EA5A341952DC0900B46513 /* Frameworks */,
 				28EA5A331952DC0900B46513 /* Products */,
 			);
@@ -154,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				28EA5A321952DC0900B46513 /* OcvARBasic.app */,
-				28EA5A4D1952DC0900B46513 /* OcvARBasicTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -205,24 +174,6 @@
 				28EA5A3E1952DC0900B46513 /* InfoPlist.strings */,
 				28EA5A411952DC0900B46513 /* main.m */,
 				28EA5A431952DC0900B46513 /* OcvARBasic-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		28EA5A541952DC0900B46513 /* OcvARBasicTests */ = {
-			isa = PBXGroup;
-			children = (
-				28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */,
-				28EA5A551952DC0900B46513 /* Supporting Files */,
-			);
-			path = OcvARBasicTests;
-			sourceTree = "<group>";
-		};
-		28EA5A551952DC0900B46513 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				28EA5A561952DC0900B46513 /* OcvARBasicTests-Info.plist */,
-				28EA5A571952DC0900B46513 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -298,24 +249,6 @@
 			productReference = 28EA5A321952DC0900B46513 /* OcvARBasic.app */;
 			productType = "com.apple.product-type.application";
 		};
-		28EA5A4C1952DC0900B46513 /* OcvARBasicTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 28EA5A611952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicTests" */;
-			buildPhases = (
-				28EA5A491952DC0900B46513 /* Sources */,
-				28EA5A4A1952DC0900B46513 /* Frameworks */,
-				28EA5A4B1952DC0900B46513 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				28EA5A531952DC0900B46513 /* PBXTargetDependency */,
-			);
-			name = OcvARBasicTests;
-			productName = OcvARBasicTests;
-			productReference = 28EA5A4D1952DC0900B46513 /* OcvARBasicTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -324,11 +257,6 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "INKA Research Group";
-				TargetAttributes = {
-					28EA5A4C1952DC0900B46513 = {
-						TestTargetID = 28EA5A311952DC0900B46513;
-					};
-				};
 			};
 			buildConfigurationList = 28EA5A2D1952DC0900B46513 /* Build configuration list for PBXProject "OcvARBasic" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -343,7 +271,6 @@
 			projectRoot = "";
 			targets = (
 				28EA5A311952DC0900B46513 /* OcvARBasic */,
-				28EA5A4C1952DC0900B46513 /* OcvARBasicTests */,
 			);
 		};
 /* End PBXProject section */
@@ -358,14 +285,6 @@
 				28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */,
 				28EA5A481952DC0900B46513 /* Images.xcassets in Resources */,
 				28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		28EA5A4B1952DC0900B46513 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28EA5A591952DC0900B46513 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,37 +310,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		28EA5A491952DC0900B46513 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28EA5A5B1952DC0900B46513 /* OcvARBasicTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		28EA5A531952DC0900B46513 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 28EA5A311952DC0900B46513 /* OcvARBasic */;
-			targetProxy = 28EA5A521952DC0900B46513 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		28EA5A3E1952DC0900B46513 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				28EA5A3F1952DC0900B46513 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		28EA5A571952DC0900B46513 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				28EA5A581952DC0900B46513 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -541,46 +436,6 @@
 			};
 			name = Release;
 		};
-		28EA5A621952DC0900B46513 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OcvARBasic.app/OcvARBasic";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "OcvARBasicTests/OcvARBasicTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		28EA5A631952DC0900B46513 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OcvARBasic.app/OcvARBasic";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
-				INFOPLIST_FILE = "OcvARBasicTests/OcvARBasicTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -598,15 +453,6 @@
 			buildConfigurations = (
 				28EA5A5F1952DC0900B46513 /* Debug */,
 				28EA5A601952DC0900B46513 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		28EA5A611952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				28EA5A621952DC0900B46513 /* Debug */,
-				28EA5A631952DC0900B46513 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

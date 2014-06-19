@@ -3,12 +3,32 @@
 #import "RootViewController.h"
 
 @interface RootViewController(Private)
+/**
+ * initialize camera
+ */
 - (void)initCam;
+
+/**
+ * initialize ocv_ar marker detector
+ */
 - (BOOL)initDetector;
+
+/**
+ * resize the frame view to CGRect in <newFrameRect>
+ */
 - (void)resizeFrameView:(NSValue *)newFrameRect;
+
+/**
+ * handler that is called when a output selection button is pressed
+ */
 - (void)procOutputSelectBtnAction:(UIButton *)sender;
+
+/**
+ * force to redraw views
+ */
 - (void)updateViews;
 @end
+
 
 @implementation RootViewController
 
@@ -18,7 +38,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        useDistCoeff = NO;
+        useDistCoeff = USE_DIST_COEFF;
 
         detector = new Detect(IDENT_TYPE_CODE_7X7,  // marker type
                               MARKER_REAL_SIZE_M,   // real marker size in meters
@@ -96,6 +116,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // init detector
     if ([self initDetector]) {
         NSLog(@"cam intrinsics loaded from file %@", CAM_INTRINSICS_FILE);
     } else {
@@ -115,7 +136,7 @@
 #pragma mark CvVideoCameraDelegate methods
 
 - (void)processImage:(Mat &)image {
-    if (!detector->isPrepared()) {
+    if (!detector->isPrepared()) {  // on first frame: prepare the detector
         detector->prepare(image.cols, image.rows, image.channels());
         
         float frameAspectRatio = (float)image.cols / (float)image.rows;
@@ -138,15 +159,16 @@
         }
     }
     
+    // set the grabbed frame as input
     detector->setInputFrame(&image);
     
+    // process the frame
     detector->processFrame();
 
     // "outFrame" is only set when a processing level for output is selected
     Mat *outFrame = detector->getOutputFrame();
     
-
-    if (outFrame) {
+    if (outFrame) { // display this frame instead of the original camera frame
         outFrame->copyTo(image);
     }
     
@@ -227,6 +249,7 @@
     [frameView setFrame:r];
     [cam start];
     
+    // also calculate a new GL projection matrix and resize the gl view
     float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
     [glView setMarkerProjMat:projMatPtr];
     [glView setFrame:r];
