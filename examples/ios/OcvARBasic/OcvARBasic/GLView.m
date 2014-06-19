@@ -126,12 +126,13 @@ const GLfloat quadVertices[] = {
     glUniformMatrix4fv(shMarkerTransformMat, 1, false, markerScaleMat);
     
     int id = marker->getId();
-    char r = 2 << id;
-    char g = 4 << id;
-    char b = 8 << id;
-    float markerColor[] = { (float)r / 255.0f,
-                            (float)g / 255.0f,
-                            (float)b / 255.0f,
+    float idR = (float) ((id * id) % 1024);
+    float idG = (float) ((id * id * id) % 1024);
+    float idB = (float) ((id * id * id * id) % 1024);
+
+    float markerColor[] = { idR / 1024.0f,
+                            idG / 1024.0f,
+                            idB / 1024.0f,
                             0.75f };
 	glUniform4fv(shMarkerColor, 1, markerColor);
     

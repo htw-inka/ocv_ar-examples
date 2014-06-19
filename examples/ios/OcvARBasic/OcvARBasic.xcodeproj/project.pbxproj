@@ -40,6 +40,7 @@
 		28EA5AC81952E85800B46513 /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC71952E85800B46513 /* GLView.m */; };
 		28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACC1952E93A00B46513 /* marker_f.glsl */; };
 		28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACD1952E93A00B46513 /* marker_v.glsl */; };
+		28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5AD31952EB2100B46513 /* ipad3-front.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		28EA5AC71952E85800B46513 /* GLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLView.m; sourceTree = "<group>"; };
 		28EA5ACC1952E93A00B46513 /* marker_f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_f.glsl; sourceTree = "<group>"; };
 		28EA5ACD1952E93A00B46513 /* marker_v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_v.glsl; sourceTree = "<group>"; };
+		28EA5AD31952EB2100B46513 /* ipad3-front.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ipad3-front.xml"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				28EA5AC61952E85800B46513 /* GLView.h */,
 				28EA5AC71952E85800B46513 /* GLView.m */,
 				28EA5A471952DC0900B46513 /* Images.xcassets */,
+				28EA5AD21952EB2100B46513 /* cam-intrinsics */,
 				28EA5AC91952E93A00B46513 /* shaders */,
 				28EA5A3C1952DC0900B46513 /* Supporting Files */,
 			);
@@ -267,6 +270,14 @@
 			path = shaders;
 			sourceTree = "<group>";
 		};
+		28EA5AD21952EB2100B46513 /* cam-intrinsics */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AD31952EB2100B46513 /* ipad3-front.xml */,
+			);
+			path = "cam-intrinsics";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -342,6 +353,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */,
 				28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */,
 				28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */,
 				28EA5A481952DC0900B46513 /* Images.xcassets in Resources */,

@@ -7,7 +7,7 @@
 #include "../../../../ocv_ar/ocv_ar.h"
 
 #import "Tools.h"
-//#import "GLView.h"
+#import "GLView.h"
 
 
 #define MARKER_REAL_SIZE_M  0.042f
@@ -22,7 +22,7 @@ using namespace ocv_ar;
     
     UIView *baseView;
     UIImageView *frameView;
-//    GLView *glView;
+    GLView *glView;
     
     Detect *detector;
     

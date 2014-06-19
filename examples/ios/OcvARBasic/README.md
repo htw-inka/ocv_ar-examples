@@ -23,3 +23,8 @@
  * `MARKER_REAL_SIZE_M` - set the size of your printed markers in meters
  * `CAM_INTRINSICS_FILE` - select the camera intrinsics file you belonging to your device. you may need to run your own calibration, for example with the tool [cam-intrinsics-db](https://github.com/htw-inka/cam-intrinsics-db)
  * `PROJ_FLIP_MODE` - flip the OpenGL projection (marker display). this might be necessary if you select another default device orientation 
+
+## TODO
+
+* test and adjust for iPad 2
+* test and adjust for iPad 4

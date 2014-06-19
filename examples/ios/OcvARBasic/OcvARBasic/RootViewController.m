@@ -32,7 +32,7 @@
     [cam stop];
     [cam release];
     
-//    [glView release];
+    [glView release];
     [frameView release];
     [baseView release];
     
@@ -62,8 +62,8 @@
     [baseView addSubview:frameView];
     
     // create the GL view
-//    glView = [[GLView alloc] initWithFrame:baseView.frame];
-//    [baseView addSubview:glView];
+    glView = [[GLView alloc] initWithFrame:baseView.frame];
+    [baseView addSubview:glView];
     
     // set a list of buttons for processing output display
     NSArray *btnTitles = [NSArray arrayWithObjects:
@@ -103,7 +103,7 @@
     }
     
     // set the marker scale for the GL view
-//    [glView setMarkerScale:detector->getMarkerScale()];
+    [glView setMarkerScale:detector->getMarkerScale()];
     
     // set up camera
     [self initCam];
@@ -151,7 +151,7 @@
     }
     
     // update gl view
-//    [glView setMarkers:detector->getMarkers()];
+    [glView setMarkers:detector->getMarkers()];
     
     [self performSelectorOnMainThread:@selector(updateViews)
                            withObject:nil
@@ -161,7 +161,7 @@
 #pragma mark private methods
 
 - (void)updateViews {
-//    [glView setNeedsDisplay];
+    [glView setNeedsDisplay];
 }
 
 - (void)initCam {
@@ -227,10 +227,10 @@
     [frameView setFrame:r];
     [cam start];
     
-//    float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
-//    [glView setMarkerProjMat:projMatPtr];
-//    [glView setFrame:r];
-//    [glView resizeView:r.size];
+    float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
+    [glView setMarkerProjMat:projMatPtr];
+    [glView setFrame:r];
+    [glView resizeView:r.size];
     
     NSLog(@"new view size %dx%d, pos %d,%d",
           (int)frameView.frame.size.width, (int)frameView.frame.size.height,
@@ -240,7 +240,7 @@
 - (void)procOutputSelectBtnAction:(UIButton *)sender {
     NSLog(@"proc output selection button pressed: %@ (proc type %d)", [sender titleForState:UIControlStateNormal], sender.tag);
     
-//    [glView setShowMarkers:(sender.tag < 0)];
+    [glView setShowMarkers:(sender.tag < 0)];   // only show markers in "normal" display mode
     
     detector->setFrameOutputLevel((ocv_ar::FrameProcLevel)sender.tag);
 }
