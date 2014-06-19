@@ -28,6 +28,13 @@
 		28EA5A9D1952E21000B46513 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9C1952E21000B46513 /* CoreImage.framework */; };
 		28EA5A9F1952E21700B46513 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9E1952E21700B46513 /* AVFoundation.framework */; };
 		28EA5AA11952E21D00B46513 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */; };
+		28EA5AB41952E26F00B46513 /* detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA41952E26F00B46513 /* detect.cpp */; };
+		28EA5AB51952E26F00B46513 /* ident.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA61952E26F00B46513 /* ident.cpp */; };
+		28EA5AB61952E26F00B46513 /* ident_7bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA81952E26F00B46513 /* ident_7bit.cpp */; };
+		28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAA1952E26F00B46513 /* ident_templ.cpp */; };
+		28EA5AB91952E26F00B46513 /* marker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAD1952E26F00B46513 /* marker.cpp */; };
+		28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AB11952E26F00B46513 /* tools.cpp */; };
+		28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5ABD1952E2CB00B46513 /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +73,23 @@
 		28EA5A9C1952E21000B46513 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		28EA5A9E1952E21700B46513 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		28EA5AA31952E26F00B46513 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
+		28EA5AA41952E26F00B46513 /* detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detect.cpp; sourceTree = "<group>"; };
+		28EA5AA51952E26F00B46513 /* detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detect.h; sourceTree = "<group>"; };
+		28EA5AA61952E26F00B46513 /* ident.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident.cpp; sourceTree = "<group>"; };
+		28EA5AA71952E26F00B46513 /* ident.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident.h; sourceTree = "<group>"; };
+		28EA5AA81952E26F00B46513 /* ident_7bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_7bit.cpp; sourceTree = "<group>"; };
+		28EA5AA91952E26F00B46513 /* ident_7bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_7bit.h; sourceTree = "<group>"; };
+		28EA5AAA1952E26F00B46513 /* ident_templ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_templ.cpp; sourceTree = "<group>"; };
+		28EA5AAB1952E26F00B46513 /* ident_templ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_templ.h; sourceTree = "<group>"; };
+		28EA5AAD1952E26F00B46513 /* marker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = marker.cpp; sourceTree = "<group>"; };
+		28EA5AAE1952E26F00B46513 /* marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = marker.h; sourceTree = "<group>"; };
+		28EA5AAF1952E26F00B46513 /* ocv_ar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocv_ar.h; sourceTree = "<group>"; };
+		28EA5AB11952E26F00B46513 /* tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tools.cpp; sourceTree = "<group>"; };
+		28EA5AB21952E26F00B46513 /* tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tools.h; sourceTree = "<group>"; };
+		28EA5AB31952E26F00B46513 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		28EA5ABC1952E2CB00B46513 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		28EA5ABD1952E2CB00B46513 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,8 +167,11 @@
 		28EA5A3B1952DC0900B46513 /* OcvARBasic */ = {
 			isa = PBXGroup;
 			children = (
+				28EA5AA21952E26F00B46513 /* ocv_ar */,
 				28EA5A441952DC0900B46513 /* AppDelegate.h */,
 				28EA5A451952DC0900B46513 /* AppDelegate.m */,
+				28EA5ABC1952E2CB00B46513 /* RootViewController.h */,
+				28EA5ABD1952E2CB00B46513 /* RootViewController.m */,
 				28EA5A471952DC0900B46513 /* Images.xcassets */,
 				28EA5A3C1952DC0900B46513 /* Supporting Files */,
 			);
@@ -178,6 +205,29 @@
 				28EA5A571952DC0900B46513 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		28EA5AA21952E26F00B46513 /* ocv_ar */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AA31952E26F00B46513 /* conf.h */,
+				28EA5AA41952E26F00B46513 /* detect.cpp */,
+				28EA5AA51952E26F00B46513 /* detect.h */,
+				28EA5AA61952E26F00B46513 /* ident.cpp */,
+				28EA5AA71952E26F00B46513 /* ident.h */,
+				28EA5AA81952E26F00B46513 /* ident_7bit.cpp */,
+				28EA5AA91952E26F00B46513 /* ident_7bit.h */,
+				28EA5AAA1952E26F00B46513 /* ident_templ.cpp */,
+				28EA5AAB1952E26F00B46513 /* ident_templ.h */,
+				28EA5AAD1952E26F00B46513 /* marker.cpp */,
+				28EA5AAE1952E26F00B46513 /* marker.h */,
+				28EA5AAF1952E26F00B46513 /* ocv_ar.h */,
+				28EA5AB11952E26F00B46513 /* tools.cpp */,
+				28EA5AB21952E26F00B46513 /* tools.h */,
+				28EA5AB31952E26F00B46513 /* types.h */,
+			);
+			name = ocv_ar;
+			path = ../../../../ocv_ar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,7 +325,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EA5AB61952E26F00B46513 /* ident_7bit.cpp in Sources */,
+				28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */,
+				28EA5AB41952E26F00B46513 /* detect.cpp in Sources */,
+				28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */,
 				28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */,
+				28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */,
+				28EA5AB51952E26F00B46513 /* ident.cpp in Sources */,
+				28EA5AB91952E26F00B46513 /* marker.cpp in Sources */,
 				28EA5A421952DC0900B46513 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,6 +452,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Volumes/cryptsafe/Development/INKA/open/ocv_ar-examples/opencv-ios",
@@ -414,6 +472,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Volumes/cryptsafe/Development/INKA/open/ocv_ar-examples/opencv-ios",
