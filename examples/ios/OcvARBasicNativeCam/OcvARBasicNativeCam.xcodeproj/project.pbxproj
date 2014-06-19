@@ -1,0 +1,464 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		28EA5A361952DC0900B46513 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A351952DC0900B46513 /* Foundation.framework */; };
+		28EA5A381952DC0900B46513 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A371952DC0900B46513 /* CoreGraphics.framework */; };
+		28EA5A3A1952DC0900B46513 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A391952DC0900B46513 /* UIKit.framework */; };
+		28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A3E1952DC0900B46513 /* InfoPlist.strings */; };
+		28EA5A421952DC0900B46513 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A411952DC0900B46513 /* main.m */; };
+		28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A451952DC0900B46513 /* AppDelegate.m */; };
+		28EA5A481952DC0900B46513 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A471952DC0900B46513 /* Images.xcassets */; };
+		28EA5A911952E1D300B46513 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A901952E1D300B46513 /* opencv2.framework */; };
+		28EA5A941952E1F700B46513 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A921952E1F700B46513 /* GLKit.framework */; };
+		28EA5A951952E1F700B46513 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A931952E1F700B46513 /* OpenGLES.framework */; };
+		28EA5A971952E1FF00B46513 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A961952E1FF00B46513 /* QuartzCore.framework */; };
+		28EA5A991952E20500B46513 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A981952E20500B46513 /* CoreVideo.framework */; };
+		28EA5A9B1952E20B00B46513 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9A1952E20B00B46513 /* CoreMedia.framework */; };
+		28EA5A9D1952E21000B46513 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9C1952E21000B46513 /* CoreImage.framework */; };
+		28EA5A9F1952E21700B46513 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9E1952E21700B46513 /* AVFoundation.framework */; };
+		28EA5AA11952E21D00B46513 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */; };
+		28EA5AB41952E26F00B46513 /* detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA41952E26F00B46513 /* detect.cpp */; };
+		28EA5AB51952E26F00B46513 /* ident.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA61952E26F00B46513 /* ident.cpp */; };
+		28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAA1952E26F00B46513 /* ident_templ.cpp */; };
+		28EA5AB91952E26F00B46513 /* marker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAD1952E26F00B46513 /* marker.cpp */; };
+		28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AB11952E26F00B46513 /* tools.cpp */; };
+		28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5ABD1952E2CB00B46513 /* RootViewController.m */; };
+		28EA5AC41952E76F00B46513 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC01952E76F00B46513 /* shader.cpp */; };
+		28EA5AC51952E76F00B46513 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC31952E76F00B46513 /* Tools.m */; };
+		28EA5AC81952E85800B46513 /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC71952E85800B46513 /* GLView.m */; };
+		28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACC1952E93A00B46513 /* marker_f.glsl */; };
+		28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACD1952E93A00B46513 /* marker_v.glsl */; };
+		28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5AD31952EB2100B46513 /* ipad3-front.xml */; };
+		28EA5AD7195319D200B46513 /* ident_7x7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AD5195319D200B46513 /* ident_7x7.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		28EA5A321952DC0900B46513 /* OcvARBasicNativeCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OcvARBasicNativeCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28EA5A351952DC0900B46513 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		28EA5A371952DC0900B46513 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28EA5A391952DC0900B46513 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28EA5A3D1952DC0900B46513 /* OcvARBasicNativeCam-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OcvARBasicNativeCam-Info.plist"; sourceTree = "<group>"; };
+		28EA5A3F1952DC0900B46513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28EA5A411952DC0900B46513 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		28EA5A431952DC0900B46513 /* OcvARBasicNativeCam-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OcvARBasicNativeCam-Prefix.pch"; sourceTree = "<group>"; };
+		28EA5A441952DC0900B46513 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		28EA5A451952DC0900B46513 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		28EA5A471952DC0900B46513 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		28EA5A4E1952DC0900B46513 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		28EA5A901952E1D300B46513 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "../../../opencv-ios/opencv2.framework"; sourceTree = "<group>"; };
+		28EA5A921952E1F700B46513 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		28EA5A931952E1F700B46513 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		28EA5A961952E1FF00B46513 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		28EA5A981952E20500B46513 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		28EA5A9A1952E20B00B46513 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		28EA5A9C1952E21000B46513 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		28EA5A9E1952E21700B46513 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		28EA5AA31952E26F00B46513 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
+		28EA5AA41952E26F00B46513 /* detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detect.cpp; sourceTree = "<group>"; };
+		28EA5AA51952E26F00B46513 /* detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detect.h; sourceTree = "<group>"; };
+		28EA5AA61952E26F00B46513 /* ident.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident.cpp; sourceTree = "<group>"; };
+		28EA5AA71952E26F00B46513 /* ident.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident.h; sourceTree = "<group>"; };
+		28EA5AAA1952E26F00B46513 /* ident_templ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_templ.cpp; sourceTree = "<group>"; };
+		28EA5AAB1952E26F00B46513 /* ident_templ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_templ.h; sourceTree = "<group>"; };
+		28EA5AAD1952E26F00B46513 /* marker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = marker.cpp; sourceTree = "<group>"; };
+		28EA5AAE1952E26F00B46513 /* marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = marker.h; sourceTree = "<group>"; };
+		28EA5AAF1952E26F00B46513 /* ocv_ar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocv_ar.h; sourceTree = "<group>"; };
+		28EA5AB11952E26F00B46513 /* tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tools.cpp; sourceTree = "<group>"; };
+		28EA5AB21952E26F00B46513 /* tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tools.h; sourceTree = "<group>"; };
+		28EA5AB31952E26F00B46513 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		28EA5ABC1952E2CB00B46513 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		28EA5ABD1952E2CB00B46513 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		28EA5AC01952E76F00B46513 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shader.cpp; sourceTree = "<group>"; };
+		28EA5AC11952E76F00B46513 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shader.h; sourceTree = "<group>"; };
+		28EA5AC21952E76F00B46513 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
+		28EA5AC31952E76F00B46513 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
+		28EA5AC61952E85800B46513 /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
+		28EA5AC71952E85800B46513 /* GLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLView.m; sourceTree = "<group>"; };
+		28EA5ACC1952E93A00B46513 /* marker_f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_f.glsl; sourceTree = "<group>"; };
+		28EA5ACD1952E93A00B46513 /* marker_v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_v.glsl; sourceTree = "<group>"; };
+		28EA5AD31952EB2100B46513 /* ipad3-front.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ipad3-front.xml"; sourceTree = "<group>"; };
+		28EA5AD5195319D200B46513 /* ident_7x7.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_7x7.cpp; sourceTree = "<group>"; };
+		28EA5AD6195319D200B46513 /* ident_7x7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_7x7.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		28EA5A2F1952DC0900B46513 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5AA11952E21D00B46513 /* AssetsLibrary.framework in Frameworks */,
+				28EA5A9F1952E21700B46513 /* AVFoundation.framework in Frameworks */,
+				28EA5A9D1952E21000B46513 /* CoreImage.framework in Frameworks */,
+				28EA5A9B1952E20B00B46513 /* CoreMedia.framework in Frameworks */,
+				28EA5A991952E20500B46513 /* CoreVideo.framework in Frameworks */,
+				28EA5A971952E1FF00B46513 /* QuartzCore.framework in Frameworks */,
+				28EA5A941952E1F700B46513 /* GLKit.framework in Frameworks */,
+				28EA5A951952E1F700B46513 /* OpenGLES.framework in Frameworks */,
+				28EA5A911952E1D300B46513 /* opencv2.framework in Frameworks */,
+				28EA5A381952DC0900B46513 /* CoreGraphics.framework in Frameworks */,
+				28EA5A3A1952DC0900B46513 /* UIKit.framework in Frameworks */,
+				28EA5A361952DC0900B46513 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		28EA5A291952DC0900B46513 = {
+			isa = PBXGroup;
+			children = (
+				28EA5A3B1952DC0900B46513 /* OcvARBasic */,
+				28EA5A341952DC0900B46513 /* Frameworks */,
+				28EA5A331952DC0900B46513 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		28EA5A331952DC0900B46513 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A321952DC0900B46513 /* OcvARBasicNativeCam.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		28EA5A341952DC0900B46513 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */,
+				28EA5A9E1952E21700B46513 /* AVFoundation.framework */,
+				28EA5A9C1952E21000B46513 /* CoreImage.framework */,
+				28EA5A9A1952E20B00B46513 /* CoreMedia.framework */,
+				28EA5A981952E20500B46513 /* CoreVideo.framework */,
+				28EA5A961952E1FF00B46513 /* QuartzCore.framework */,
+				28EA5A921952E1F700B46513 /* GLKit.framework */,
+				28EA5A931952E1F700B46513 /* OpenGLES.framework */,
+				28EA5A901952E1D300B46513 /* opencv2.framework */,
+				28EA5A351952DC0900B46513 /* Foundation.framework */,
+				28EA5A371952DC0900B46513 /* CoreGraphics.framework */,
+				28EA5A391952DC0900B46513 /* UIKit.framework */,
+				28EA5A4E1952DC0900B46513 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		28EA5A3B1952DC0900B46513 /* OcvARBasic */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AA21952E26F00B46513 /* ocv_ar */,
+				28EA5ABF1952E76F00B46513 /* helper */,
+				28EA5A441952DC0900B46513 /* AppDelegate.h */,
+				28EA5A451952DC0900B46513 /* AppDelegate.m */,
+				28EA5ABC1952E2CB00B46513 /* RootViewController.h */,
+				28EA5ABD1952E2CB00B46513 /* RootViewController.m */,
+				28EA5AC61952E85800B46513 /* GLView.h */,
+				28EA5AC71952E85800B46513 /* GLView.m */,
+				28EA5A471952DC0900B46513 /* Images.xcassets */,
+				28EA5AD21952EB2100B46513 /* cam-intrinsics */,
+				28EA5AC91952E93A00B46513 /* shaders */,
+				28EA5A3C1952DC0900B46513 /* Supporting Files */,
+			);
+			name = OcvARBasic;
+			path = OcvARBasicNativeCam;
+			sourceTree = "<group>";
+		};
+		28EA5A3C1952DC0900B46513 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A3D1952DC0900B46513 /* OcvARBasicNativeCam-Info.plist */,
+				28EA5A3E1952DC0900B46513 /* InfoPlist.strings */,
+				28EA5A411952DC0900B46513 /* main.m */,
+				28EA5A431952DC0900B46513 /* OcvARBasicNativeCam-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		28EA5AA21952E26F00B46513 /* ocv_ar */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AA31952E26F00B46513 /* conf.h */,
+				28EA5AA41952E26F00B46513 /* detect.cpp */,
+				28EA5AA51952E26F00B46513 /* detect.h */,
+				28EA5AA61952E26F00B46513 /* ident.cpp */,
+				28EA5AA71952E26F00B46513 /* ident.h */,
+				28EA5AD6195319D200B46513 /* ident_7x7.h */,
+				28EA5AD5195319D200B46513 /* ident_7x7.cpp */,
+				28EA5AAA1952E26F00B46513 /* ident_templ.cpp */,
+				28EA5AAB1952E26F00B46513 /* ident_templ.h */,
+				28EA5AAD1952E26F00B46513 /* marker.cpp */,
+				28EA5AAE1952E26F00B46513 /* marker.h */,
+				28EA5AAF1952E26F00B46513 /* ocv_ar.h */,
+				28EA5AB11952E26F00B46513 /* tools.cpp */,
+				28EA5AB21952E26F00B46513 /* tools.h */,
+				28EA5AB31952E26F00B46513 /* types.h */,
+			);
+			name = ocv_ar;
+			path = ../../../../ocv_ar;
+			sourceTree = "<group>";
+		};
+		28EA5ABF1952E76F00B46513 /* helper */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AC11952E76F00B46513 /* shader.h */,
+				28EA5AC01952E76F00B46513 /* shader.cpp */,
+				28EA5AC21952E76F00B46513 /* Tools.h */,
+				28EA5AC31952E76F00B46513 /* Tools.m */,
+			);
+			path = helper;
+			sourceTree = "<group>";
+		};
+		28EA5AC91952E93A00B46513 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5ACC1952E93A00B46513 /* marker_f.glsl */,
+				28EA5ACD1952E93A00B46513 /* marker_v.glsl */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		28EA5AD21952EB2100B46513 /* cam-intrinsics */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AD31952EB2100B46513 /* ipad3-front.xml */,
+			);
+			path = "cam-intrinsics";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28EA5A311952DC0900B46513 /* OcvARBasicNativeCam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28EA5A5E1952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicNativeCam" */;
+			buildPhases = (
+				28EA5A2E1952DC0900B46513 /* Sources */,
+				28EA5A2F1952DC0900B46513 /* Frameworks */,
+				28EA5A301952DC0900B46513 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OcvARBasicNativeCam;
+			productName = OcvARBasic;
+			productReference = 28EA5A321952DC0900B46513 /* OcvARBasicNativeCam.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		28EA5A2A1952DC0900B46513 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "INKA Research Group";
+			};
+			buildConfigurationList = 28EA5A2D1952DC0900B46513 /* Build configuration list for PBXProject "OcvARBasicNativeCam" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 28EA5A291952DC0900B46513;
+			productRefGroup = 28EA5A331952DC0900B46513 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				28EA5A311952DC0900B46513 /* OcvARBasicNativeCam */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		28EA5A301952DC0900B46513 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */,
+				28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */,
+				28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */,
+				28EA5A481952DC0900B46513 /* Images.xcassets in Resources */,
+				28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		28EA5A2E1952DC0900B46513 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5AC41952E76F00B46513 /* shader.cpp in Sources */,
+				28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */,
+				28EA5AB41952E26F00B46513 /* detect.cpp in Sources */,
+				28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */,
+				28EA5AC81952E85800B46513 /* GLView.m in Sources */,
+				28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */,
+				28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */,
+				28EA5AD7195319D200B46513 /* ident_7x7.cpp in Sources */,
+				28EA5AC51952E76F00B46513 /* Tools.m in Sources */,
+				28EA5AB51952E26F00B46513 /* ident.cpp in Sources */,
+				28EA5AB91952E26F00B46513 /* marker.cpp in Sources */,
+				28EA5A421952DC0900B46513 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		28EA5A3E1952DC0900B46513 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28EA5A3F1952DC0900B46513 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		28EA5A5C1952DC0900B46513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		28EA5A5D1952DC0900B46513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		28EA5A5F1952DC0900B46513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Volumes/cryptsafe/Development/INKA/open/ocv_ar-examples/opencv-ios",
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OcvARBasicNativeCam/OcvARBasicNativeCam-Prefix.pch";
+				INFOPLIST_FILE = "OcvARBasicNativeCam/OcvARBasicNativeCam-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = OcvARBasicNativeCam;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		28EA5A601952DC0900B46513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Volumes/cryptsafe/Development/INKA/open/ocv_ar-examples/opencv-ios",
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OcvARBasicNativeCam/OcvARBasicNativeCam-Prefix.pch";
+				INFOPLIST_FILE = "OcvARBasicNativeCam/OcvARBasicNativeCam-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = OcvARBasicNativeCam;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		28EA5A2D1952DC0900B46513 /* Build configuration list for PBXProject "OcvARBasicNativeCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28EA5A5C1952DC0900B46513 /* Debug */,
+				28EA5A5D1952DC0900B46513 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28EA5A5E1952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicNativeCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28EA5A5F1952DC0900B46513 /* Debug */,
+				28EA5A601952DC0900B46513 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 28EA5A2A1952DC0900B46513 /* Project object */;
+}
