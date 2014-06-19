@@ -1,0 +1,3 @@
+[submodule "ocv_ar"]
+	path = ocv_ar
+	url = git@github.com:htw-inka/ocv_ar.git
