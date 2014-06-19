@@ -1,10 +1,4 @@
-//
-//  AppDelegate.m
-//  OcvARBasic
-//
-//  Created by Markus Konrad on 19.06.14.
-//  Copyright (c) 2014 INKA Research Group. All rights reserved.
-//
+
 
 #import "AppDelegate.h"
 
@@ -13,9 +7,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+
+    // add our custom view controller "RootViewController"
+    UIViewController *rootViewCtrl = [[[RootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    [self.window setRootViewController:rootViewCtrl];
+    
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

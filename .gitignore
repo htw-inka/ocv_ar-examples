@@ -1,6 +1,9 @@
 # exclude opencv lib
 opencv-ios/
 
+#vim noise:
+*.swp
+
 #osx noise:
 .DS_Store
 

@@ -35,6 +35,11 @@
 		28EA5AB91952E26F00B46513 /* marker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAD1952E26F00B46513 /* marker.cpp */; };
 		28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AB11952E26F00B46513 /* tools.cpp */; };
 		28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5ABD1952E2CB00B46513 /* RootViewController.m */; };
+		28EA5AC41952E76F00B46513 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC01952E76F00B46513 /* shader.cpp */; };
+		28EA5AC51952E76F00B46513 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC31952E76F00B46513 /* Tools.m */; };
+		28EA5AC81952E85800B46513 /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AC71952E85800B46513 /* GLView.m */; };
+		28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACC1952E93A00B46513 /* marker_f.glsl */; };
+		28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACD1952E93A00B46513 /* marker_v.glsl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +95,14 @@
 		28EA5AB31952E26F00B46513 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
 		28EA5ABC1952E2CB00B46513 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		28EA5ABD1952E2CB00B46513 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		28EA5AC01952E76F00B46513 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shader.cpp; sourceTree = "<group>"; };
+		28EA5AC11952E76F00B46513 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shader.h; sourceTree = "<group>"; };
+		28EA5AC21952E76F00B46513 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
+		28EA5AC31952E76F00B46513 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
+		28EA5AC61952E85800B46513 /* GLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLView.h; sourceTree = "<group>"; };
+		28EA5AC71952E85800B46513 /* GLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLView.m; sourceTree = "<group>"; };
+		28EA5ACC1952E93A00B46513 /* marker_f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_f.glsl; sourceTree = "<group>"; };
+		28EA5ACD1952E93A00B46513 /* marker_v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_v.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,11 +181,15 @@
 			isa = PBXGroup;
 			children = (
 				28EA5AA21952E26F00B46513 /* ocv_ar */,
+				28EA5ABF1952E76F00B46513 /* helper */,
 				28EA5A441952DC0900B46513 /* AppDelegate.h */,
 				28EA5A451952DC0900B46513 /* AppDelegate.m */,
 				28EA5ABC1952E2CB00B46513 /* RootViewController.h */,
 				28EA5ABD1952E2CB00B46513 /* RootViewController.m */,
+				28EA5AC61952E85800B46513 /* GLView.h */,
+				28EA5AC71952E85800B46513 /* GLView.m */,
 				28EA5A471952DC0900B46513 /* Images.xcassets */,
+				28EA5AC91952E93A00B46513 /* shaders */,
 				28EA5A3C1952DC0900B46513 /* Supporting Files */,
 			);
 			path = OcvARBasic;
@@ -228,6 +245,26 @@
 			);
 			name = ocv_ar;
 			path = ../../../../ocv_ar;
+			sourceTree = "<group>";
+		};
+		28EA5ABF1952E76F00B46513 /* helper */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5AC11952E76F00B46513 /* shader.h */,
+				28EA5AC01952E76F00B46513 /* shader.cpp */,
+				28EA5AC21952E76F00B46513 /* Tools.h */,
+				28EA5AC31952E76F00B46513 /* Tools.m */,
+			);
+			path = helper;
+			sourceTree = "<group>";
+		};
+		28EA5AC91952E93A00B46513 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5ACC1952E93A00B46513 /* marker_f.glsl */,
+				28EA5ACD1952E93A00B46513 /* marker_v.glsl */,
+			);
+			path = shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -305,8 +342,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */,
 				28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */,
 				28EA5A481952DC0900B46513 /* Images.xcassets in Resources */,
+				28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,12 +364,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EA5AC41952E76F00B46513 /* shader.cpp in Sources */,
 				28EA5AB61952E26F00B46513 /* ident_7bit.cpp in Sources */,
 				28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */,
 				28EA5AB41952E26F00B46513 /* detect.cpp in Sources */,
 				28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */,
+				28EA5AC81952E85800B46513 /* GLView.m in Sources */,
 				28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */,
 				28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */,
+				28EA5AC51952E76F00B46513 /* Tools.m in Sources */,
 				28EA5AB51952E26F00B46513 /* ident.cpp in Sources */,
 				28EA5AB91952E26F00B46513 /* marker.cpp in Sources */,
 				28EA5A421952DC0900B46513 /* main.m in Sources */,
