@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		28EA5A361952DC0900B46513 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A351952DC0900B46513 /* Foundation.framework */; };
+		28EA5A381952DC0900B46513 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A371952DC0900B46513 /* CoreGraphics.framework */; };
+		28EA5A3A1952DC0900B46513 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A391952DC0900B46513 /* UIKit.framework */; };
+		28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A3E1952DC0900B46513 /* InfoPlist.strings */; };
+		28EA5A421952DC0900B46513 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A411952DC0900B46513 /* main.m */; };
+		28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A451952DC0900B46513 /* AppDelegate.m */; };
+		28EA5A481952DC0900B46513 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A471952DC0900B46513 /* Images.xcassets */; };
+		28EA5A4F1952DC0900B46513 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A4E1952DC0900B46513 /* XCTest.framework */; };
+		28EA5A501952DC0900B46513 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A351952DC0900B46513 /* Foundation.framework */; };
+		28EA5A511952DC0900B46513 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A391952DC0900B46513 /* UIKit.framework */; };
+		28EA5A591952DC0900B46513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A571952DC0900B46513 /* InfoPlist.strings */; };
+		28EA5A5B1952DC0900B46513 /* OcvARBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28EA5A521952DC0900B46513 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28EA5A2A1952DC0900B46513 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28EA5A311952DC0900B46513;
+			remoteInfo = OcvARBasic;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		28EA5A321952DC0900B46513 /* OcvARBasic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OcvARBasic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28EA5A351952DC0900B46513 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		28EA5A371952DC0900B46513 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28EA5A391952DC0900B46513 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28EA5A3D1952DC0900B46513 /* OcvARBasic-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OcvARBasic-Info.plist"; sourceTree = "<group>"; };
+		28EA5A3F1952DC0900B46513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28EA5A411952DC0900B46513 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		28EA5A431952DC0900B46513 /* OcvARBasic-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OcvARBasic-Prefix.pch"; sourceTree = "<group>"; };
+		28EA5A441952DC0900B46513 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		28EA5A451952DC0900B46513 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		28EA5A471952DC0900B46513 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		28EA5A4D1952DC0900B46513 /* OcvARBasicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OcvARBasicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28EA5A4E1952DC0900B46513 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		28EA5A561952DC0900B46513 /* OcvARBasicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OcvARBasicTests-Info.plist"; sourceTree = "<group>"; };
+		28EA5A581952DC0900B46513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OcvARBasicTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		28EA5A2F1952DC0900B46513 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5A381952DC0900B46513 /* CoreGraphics.framework in Frameworks */,
+				28EA5A3A1952DC0900B46513 /* UIKit.framework in Frameworks */,
+				28EA5A361952DC0900B46513 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28EA5A4A1952DC0900B46513 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5A4F1952DC0900B46513 /* XCTest.framework in Frameworks */,
+				28EA5A511952DC0900B46513 /* UIKit.framework in Frameworks */,
+				28EA5A501952DC0900B46513 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		28EA5A291952DC0900B46513 = {
+			isa = PBXGroup;
+			children = (
+				28EA5A3B1952DC0900B46513 /* OcvARBasic */,
+				28EA5A541952DC0900B46513 /* OcvARBasicTests */,
+				28EA5A341952DC0900B46513 /* Frameworks */,
+				28EA5A331952DC0900B46513 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		28EA5A331952DC0900B46513 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A321952DC0900B46513 /* OcvARBasic.app */,
+				28EA5A4D1952DC0900B46513 /* OcvARBasicTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		28EA5A341952DC0900B46513 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A351952DC0900B46513 /* Foundation.framework */,
+				28EA5A371952DC0900B46513 /* CoreGraphics.framework */,
+				28EA5A391952DC0900B46513 /* UIKit.framework */,
+				28EA5A4E1952DC0900B46513 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		28EA5A3B1952DC0900B46513 /* OcvARBasic */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A441952DC0900B46513 /* AppDelegate.h */,
+				28EA5A451952DC0900B46513 /* AppDelegate.m */,
+				28EA5A471952DC0900B46513 /* Images.xcassets */,
+				28EA5A3C1952DC0900B46513 /* Supporting Files */,
+			);
+			path = OcvARBasic;
+			sourceTree = "<group>";
+		};
+		28EA5A3C1952DC0900B46513 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A3D1952DC0900B46513 /* OcvARBasic-Info.plist */,
+				28EA5A3E1952DC0900B46513 /* InfoPlist.strings */,
+				28EA5A411952DC0900B46513 /* main.m */,
+				28EA5A431952DC0900B46513 /* OcvARBasic-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		28EA5A541952DC0900B46513 /* OcvARBasicTests */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */,
+				28EA5A551952DC0900B46513 /* Supporting Files */,
+			);
+			path = OcvARBasicTests;
+			sourceTree = "<group>";
+		};
+		28EA5A551952DC0900B46513 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28EA5A561952DC0900B46513 /* OcvARBasicTests-Info.plist */,
+				28EA5A571952DC0900B46513 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28EA5A311952DC0900B46513 /* OcvARBasic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28EA5A5E1952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasic" */;
+			buildPhases = (
+				28EA5A2E1952DC0900B46513 /* Sources */,
+				28EA5A2F1952DC0900B46513 /* Frameworks */,
+				28EA5A301952DC0900B46513 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OcvARBasic;
+			productName = OcvARBasic;
+			productReference = 28EA5A321952DC0900B46513 /* OcvARBasic.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28EA5A4C1952DC0900B46513 /* OcvARBasicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28EA5A611952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicTests" */;
+			buildPhases = (
+				28EA5A491952DC0900B46513 /* Sources */,
+				28EA5A4A1952DC0900B46513 /* Frameworks */,
+				28EA5A4B1952DC0900B46513 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28EA5A531952DC0900B46513 /* PBXTargetDependency */,
+			);
+			name = OcvARBasicTests;
+			productName = OcvARBasicTests;
+			productReference = 28EA5A4D1952DC0900B46513 /* OcvARBasicTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		28EA5A2A1952DC0900B46513 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "INKA Research Group";
+				TargetAttributes = {
+					28EA5A4C1952DC0900B46513 = {
+						TestTargetID = 28EA5A311952DC0900B46513;
+					};
+				};
+			};
+			buildConfigurationList = 28EA5A2D1952DC0900B46513 /* Build configuration list for PBXProject "OcvARBasic" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 28EA5A291952DC0900B46513;
+			productRefGroup = 28EA5A331952DC0900B46513 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				28EA5A311952DC0900B46513 /* OcvARBasic */,
+				28EA5A4C1952DC0900B46513 /* OcvARBasicTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		28EA5A301952DC0900B46513 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */,
+				28EA5A481952DC0900B46513 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28EA5A4B1952DC0900B46513 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5A591952DC0900B46513 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		28EA5A2E1952DC0900B46513 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */,
+				28EA5A421952DC0900B46513 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28EA5A491952DC0900B46513 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28EA5A5B1952DC0900B46513 /* OcvARBasicTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28EA5A531952DC0900B46513 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28EA5A311952DC0900B46513 /* OcvARBasic */;
+			targetProxy = 28EA5A521952DC0900B46513 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		28EA5A3E1952DC0900B46513 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28EA5A3F1952DC0900B46513 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		28EA5A571952DC0900B46513 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28EA5A581952DC0900B46513 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		28EA5A5C1952DC0900B46513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		28EA5A5D1952DC0900B46513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		28EA5A5F1952DC0900B46513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
+				INFOPLIST_FILE = "OcvARBasic/OcvARBasic-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		28EA5A601952DC0900B46513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
+				INFOPLIST_FILE = "OcvARBasic/OcvARBasic-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		28EA5A621952DC0900B46513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OcvARBasic.app/OcvARBasic";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "OcvARBasicTests/OcvARBasicTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		28EA5A631952DC0900B46513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OcvARBasic.app/OcvARBasic";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
+				INFOPLIST_FILE = "OcvARBasicTests/OcvARBasicTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		28EA5A2D1952DC0900B46513 /* Build configuration list for PBXProject "OcvARBasic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28EA5A5C1952DC0900B46513 /* Debug */,
+				28EA5A5D1952DC0900B46513 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28EA5A5E1952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28EA5A5F1952DC0900B46513 /* Debug */,
+				28EA5A601952DC0900B46513 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		28EA5A611952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28EA5A621952DC0900B46513 /* Debug */,
+				28EA5A631952DC0900B46513 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 28EA5A2A1952DC0900B46513 /* Project object */;
+}
