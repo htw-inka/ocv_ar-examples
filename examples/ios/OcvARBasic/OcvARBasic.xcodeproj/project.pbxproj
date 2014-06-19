@@ -30,7 +30,6 @@
 		28EA5AA11952E21D00B46513 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */; };
 		28EA5AB41952E26F00B46513 /* detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA41952E26F00B46513 /* detect.cpp */; };
 		28EA5AB51952E26F00B46513 /* ident.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA61952E26F00B46513 /* ident.cpp */; };
-		28EA5AB61952E26F00B46513 /* ident_7bit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AA81952E26F00B46513 /* ident_7bit.cpp */; };
 		28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAA1952E26F00B46513 /* ident_templ.cpp */; };
 		28EA5AB91952E26F00B46513 /* marker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AAD1952E26F00B46513 /* marker.cpp */; };
 		28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AB11952E26F00B46513 /* tools.cpp */; };
@@ -41,6 +40,7 @@
 		28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACC1952E93A00B46513 /* marker_f.glsl */; };
 		28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5ACD1952E93A00B46513 /* marker_v.glsl */; };
 		28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5AD31952EB2100B46513 /* ipad3-front.xml */; };
+		28EA5AD7195319D200B46513 /* ident_7x7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AD5195319D200B46513 /* ident_7x7.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,8 +84,6 @@
 		28EA5AA51952E26F00B46513 /* detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detect.h; sourceTree = "<group>"; };
 		28EA5AA61952E26F00B46513 /* ident.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident.cpp; sourceTree = "<group>"; };
 		28EA5AA71952E26F00B46513 /* ident.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident.h; sourceTree = "<group>"; };
-		28EA5AA81952E26F00B46513 /* ident_7bit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_7bit.cpp; sourceTree = "<group>"; };
-		28EA5AA91952E26F00B46513 /* ident_7bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_7bit.h; sourceTree = "<group>"; };
 		28EA5AAA1952E26F00B46513 /* ident_templ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_templ.cpp; sourceTree = "<group>"; };
 		28EA5AAB1952E26F00B46513 /* ident_templ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_templ.h; sourceTree = "<group>"; };
 		28EA5AAD1952E26F00B46513 /* marker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = marker.cpp; sourceTree = "<group>"; };
@@ -105,6 +103,8 @@
 		28EA5ACC1952E93A00B46513 /* marker_f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_f.glsl; sourceTree = "<group>"; };
 		28EA5ACD1952E93A00B46513 /* marker_v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = marker_v.glsl; sourceTree = "<group>"; };
 		28EA5AD31952EB2100B46513 /* ipad3-front.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ipad3-front.xml"; sourceTree = "<group>"; };
+		28EA5AD5195319D200B46513 /* ident_7x7.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ident_7x7.cpp; sourceTree = "<group>"; };
+		28EA5AD6195319D200B46513 /* ident_7x7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_7x7.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,8 +235,8 @@
 				28EA5AA51952E26F00B46513 /* detect.h */,
 				28EA5AA61952E26F00B46513 /* ident.cpp */,
 				28EA5AA71952E26F00B46513 /* ident.h */,
-				28EA5AA81952E26F00B46513 /* ident_7bit.cpp */,
-				28EA5AA91952E26F00B46513 /* ident_7bit.h */,
+				28EA5AD6195319D200B46513 /* ident_7x7.h */,
+				28EA5AD5195319D200B46513 /* ident_7x7.cpp */,
 				28EA5AAA1952E26F00B46513 /* ident_templ.cpp */,
 				28EA5AAB1952E26F00B46513 /* ident_templ.h */,
 				28EA5AAD1952E26F00B46513 /* marker.cpp */,
@@ -377,13 +377,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				28EA5AC41952E76F00B46513 /* shader.cpp in Sources */,
-				28EA5AB61952E26F00B46513 /* ident_7bit.cpp in Sources */,
 				28EA5AB71952E26F00B46513 /* ident_templ.cpp in Sources */,
 				28EA5AB41952E26F00B46513 /* detect.cpp in Sources */,
 				28EA5ABB1952E26F00B46513 /* tools.cpp in Sources */,
 				28EA5AC81952E85800B46513 /* GLView.m in Sources */,
 				28EA5A461952DC0900B46513 /* AppDelegate.m in Sources */,
 				28EA5ABE1952E2CB00B46513 /* RootViewController.m in Sources */,
+				28EA5AD7195319D200B46513 /* ident_7x7.cpp in Sources */,
 				28EA5AC51952E76F00B46513 /* Tools.m in Sources */,
 				28EA5AB51952E26F00B46513 /* ident.cpp in Sources */,
 				28EA5AB91952E26F00B46513 /* marker.cpp in Sources */,

@@ -20,7 +20,7 @@
     if (self) {
         useDistCoeff = NO;
 
-        detector = new Detect(IDENT_TYPE_CODE_7BIT, // marker type
+        detector = new Detect(IDENT_TYPE_CODE_7X7,  // marker type
                               MARKER_REAL_SIZE_M,   // real marker size in meters
                               PROJ_FLIP_MODE);      // projection flip mode
     }
