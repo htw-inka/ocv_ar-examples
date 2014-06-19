@@ -19,6 +19,15 @@
 		28EA5A511952DC0900B46513 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A391952DC0900B46513 /* UIKit.framework */; };
 		28EA5A591952DC0900B46513 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5A571952DC0900B46513 /* InfoPlist.strings */; };
 		28EA5A5B1952DC0900B46513 /* OcvARBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */; };
+		28EA5A911952E1D300B46513 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A901952E1D300B46513 /* opencv2.framework */; };
+		28EA5A941952E1F700B46513 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A921952E1F700B46513 /* GLKit.framework */; };
+		28EA5A951952E1F700B46513 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A931952E1F700B46513 /* OpenGLES.framework */; };
+		28EA5A971952E1FF00B46513 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A961952E1FF00B46513 /* QuartzCore.framework */; };
+		28EA5A991952E20500B46513 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A981952E20500B46513 /* CoreVideo.framework */; };
+		28EA5A9B1952E20B00B46513 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9A1952E20B00B46513 /* CoreMedia.framework */; };
+		28EA5A9D1952E21000B46513 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9C1952E21000B46513 /* CoreImage.framework */; };
+		28EA5A9F1952E21700B46513 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A9E1952E21700B46513 /* AVFoundation.framework */; };
+		28EA5AA11952E21D00B46513 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +57,15 @@
 		28EA5A561952DC0900B46513 /* OcvARBasicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OcvARBasicTests-Info.plist"; sourceTree = "<group>"; };
 		28EA5A581952DC0900B46513 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		28EA5A5A1952DC0900B46513 /* OcvARBasicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OcvARBasicTests.m; sourceTree = "<group>"; };
+		28EA5A901952E1D300B46513 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "../../../opencv-ios/opencv2.framework"; sourceTree = "<group>"; };
+		28EA5A921952E1F700B46513 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		28EA5A931952E1F700B46513 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		28EA5A961952E1FF00B46513 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		28EA5A981952E20500B46513 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		28EA5A9A1952E20B00B46513 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		28EA5A9C1952E21000B46513 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		28EA5A9E1952E21700B46513 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +73,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EA5AA11952E21D00B46513 /* AssetsLibrary.framework in Frameworks */,
+				28EA5A9F1952E21700B46513 /* AVFoundation.framework in Frameworks */,
+				28EA5A9D1952E21000B46513 /* CoreImage.framework in Frameworks */,
+				28EA5A9B1952E20B00B46513 /* CoreMedia.framework in Frameworks */,
+				28EA5A991952E20500B46513 /* CoreVideo.framework in Frameworks */,
+				28EA5A971952E1FF00B46513 /* QuartzCore.framework in Frameworks */,
+				28EA5A941952E1F700B46513 /* GLKit.framework in Frameworks */,
+				28EA5A951952E1F700B46513 /* OpenGLES.framework in Frameworks */,
+				28EA5A911952E1D300B46513 /* opencv2.framework in Frameworks */,
 				28EA5A381952DC0900B46513 /* CoreGraphics.framework in Frameworks */,
 				28EA5A3A1952DC0900B46513 /* UIKit.framework in Frameworks */,
 				28EA5A361952DC0900B46513 /* Foundation.framework in Frameworks */,
@@ -96,6 +123,15 @@
 		28EA5A341952DC0900B46513 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28EA5AA01952E21D00B46513 /* AssetsLibrary.framework */,
+				28EA5A9E1952E21700B46513 /* AVFoundation.framework */,
+				28EA5A9C1952E21000B46513 /* CoreImage.framework */,
+				28EA5A9A1952E20B00B46513 /* CoreMedia.framework */,
+				28EA5A981952E20500B46513 /* CoreVideo.framework */,
+				28EA5A961952E1FF00B46513 /* QuartzCore.framework */,
+				28EA5A921952E1F700B46513 /* GLKit.framework */,
+				28EA5A931952E1F700B46513 /* OpenGLES.framework */,
+				28EA5A901952E1D300B46513 /* opencv2.framework */,
 				28EA5A351952DC0900B46513 /* Foundation.framework */,
 				28EA5A371952DC0900B46513 /* CoreGraphics.framework */,
 				28EA5A391952DC0900B46513 /* UIKit.framework */,
@@ -359,9 +395,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Volumes/cryptsafe/Development/INKA/open/ocv_ar-examples/opencv-ios",
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
 				INFOPLIST_FILE = "OcvARBasic/OcvARBasic-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -372,9 +414,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Volumes/cryptsafe/Development/INKA/open/ocv_ar-examples/opencv-ios",
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OcvARBasic/OcvARBasic-Prefix.pch";
 				INFOPLIST_FILE = "OcvARBasic/OcvARBasic-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -439,6 +487,7 @@
 				28EA5A601952DC0900B46513 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		28EA5A611952DC0900B46513 /* Build configuration list for PBXNativeTarget "OcvARBasicTests" */ = {
 			isa = XCConfigurationList;
@@ -447,6 +496,7 @@
 				28EA5A631952DC0900B46513 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
