@@ -1,5 +1,5 @@
 /**
- * OcvARBasic - Basic ocv_ar example for iOS
+ * OcvARBasicNativeCam - Basic ocv_ar example for iOS with native camera usage
  *
  * Misc. common functions - implementation file.
  *

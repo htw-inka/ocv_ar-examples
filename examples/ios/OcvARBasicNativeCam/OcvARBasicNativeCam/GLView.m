@@ -1,4 +1,13 @@
-
+/**
+ * OcvARBasicNativeCam - Basic ocv_ar example for iOS with native camera usage
+ *
+ * gl view - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, June 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * BSD licensed (see LICENSE file).
+ */
 
 #import "GLView.h"
 
@@ -8,19 +17,36 @@
 #define QUAD_VERTEX_BUFSIZE 		(QUAD_VERTICES * QUAD_COORDS_PER_VERTEX)
 #define QUAD_TEX_BUFSIZE 			(QUAD_VERTICES * QUAD_TEXCOORDS_PER_VERTEX)
 
+// vertex data for a quad
 const GLfloat quadVertices[] = {
     -1, -1, 0,
-     1, -1, 0,
+    1, -1, 0,
     -1,  1, 0,
-     1,  1, 0 };
+    1,  1, 0 };
 
 
 @interface GLView(Private)
+/**
+ * set up OpenGL
+ */
 - (void)setupGL;
+
+/**
+ * initialize shaders
+ */
 - (void)initShaders;
+
+/**
+ * build a shader <shader> from source <src>
+ */
 - (BOOL)buildShader:(Shader *)shader src:(NSString *)src;
+
+/**
+ * draw a <marker>
+ */
 - (void)drawMarker:(ocv_ar::Marker *)marker;
 @end
+
 
 @implementation GLView
 
@@ -48,7 +74,6 @@ const GLfloat quadVertices[] = {
         
         memset(markerScaleMat, 0, sizeof(GLfloat) * 16);
         [self setMarkerScale:1.0f];
-//        dispFrameTexId = 0;
         
         // configure
         [self setOpaque:NO];
@@ -67,17 +92,20 @@ const GLfloat quadVertices[] = {
     if (!glInitialized) return;
     
     // Clear the framebuffer
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);   // 0.0f for alpha is important for non-opaque gl view!
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glViewport(0, 0, viewportSize.width, viewportSize.height);
     
     if (!showMarkers) return;
     
+    // use the marker shader
     markerDispShader.use();
     
     if (markerProjMat) {
-//        NSLog(@"GLView: drawing %lu markers", markers.size());
+        //        NSLog(@"GLView: drawing %lu markers", markers.size());
+        
+        // draw each marker
         for (vector<ocv_ar::Marker *>::const_iterator it = markers.begin();
              it != markers.end();
              ++it)
@@ -129,11 +157,11 @@ const GLfloat quadVertices[] = {
     float idR = (float) ((id * id) % 1024);
     float idG = (float) ((id * id * id) % 1024);
     float idB = (float) ((id * id * id * id) % 1024);
-
+    
     float markerColor[] = { idR / 1024.0f,
-                            idG / 1024.0f,
-                            idB / 1024.0f,
-                            0.75f };
+        idG / 1024.0f,
+        idB / 1024.0f,
+        0.75f };
 	glUniform4fv(shMarkerColor, 1, markerColor);
     
 	// set geometry

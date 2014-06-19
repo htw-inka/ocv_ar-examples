@@ -1,31 +1,33 @@
-//
-//  CamView.m
-//  OcvARBasicNativeCam
-//
-//  Created by Markus Konrad on 19.06.14.
-//  Copyright (c) 2014 INKA Research Group. All rights reserved.
-//
+/**
+ * OcvARBasicNativeCam - Basic ocv_ar example for iOS with native camera usage
+ *
+ * camera view - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, June 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * BSD licensed (see LICENSE file).
+ */
 
 #import "CamView.h"
 
+#import <AVFoundation/AVFoundation.h>
+
 @implementation CamView
 
-- (id)initWithFrame:(CGRect)frame
++ (Class)layerClass
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+	return [AVCaptureVideoPreviewLayer class];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (AVCaptureSession *)session
 {
-    // Drawing code
+	return [(AVCaptureVideoPreviewLayer *)[self layer] session];
 }
-*/
+
+- (void)setSession:(AVCaptureSession *)session
+{
+	[(AVCaptureVideoPreviewLayer *)[self layer] setSession:session];
+}
 
 @end

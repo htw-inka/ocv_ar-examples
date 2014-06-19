@@ -1,4 +1,13 @@
-
+/**
+ * OcvARBasic - Basic ocv_ar example for iOS
+ *
+ * Main view controller - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, June 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * BSD licensed (see LICENSE file).
+ */
 
 #import "RootViewController.h"
 
