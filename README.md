@@ -1,0 +1,23 @@
+# Example projects for ocv_ar - OpenCV based Augmented Reality library
+
+*Markus Konrad <konrad@htw-berlin.de>, June 2014*
+
+*INKA Research Group / Project MINERVA, HTW Berlin - http://inka.htw-berlin.de/inka/projekte/minerva/*
+
+This repository contains some examples on how to use the OpenCV based Augmented Reality library *[ocv_ar](https://github.com/htw-inka/ocv_ar)*. For now, only iOS based exampels exist, but different platforms will be available in the future.
+
+Please note, that this is still a work in progress.
+
+## How to clone this repository
+
+Please note that *ocv_ar* is included as a submodule in this repository. Therefore, the following command needs to be used to clone the repo:
+
+```
+git clone --recursive git@github.com:htw-inka/ocv_ar-examples.git
+```
+
+## Available projects in folder *examples/*
+
+All projects come with a separate README file for instructions on how to compile and configure the project.
+
+* *ios/OcvARBasic* - basic iOS based ocv_ar showcase that uses OpenGL for display and *CvVideoCamera* for grabbing the video frames from the camera
