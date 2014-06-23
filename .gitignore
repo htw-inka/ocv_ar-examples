@@ -1,3 +1,6 @@
+# exclude object files
+*.o
+
 # exclude opencv lib
 opencv-ios/
 
