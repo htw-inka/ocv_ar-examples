@@ -25,7 +25,7 @@
 #define CAM_INTRINSICS_FILE @"ipad3-front.xml"
 #define CAM_SESSION_PRESET  AVCaptureSessionPresetHigh
 #define USE_DIST_COEFF      NO
-#define PROJ_FLIP_MODE      ocv_ar::FLIP_V
+#define PROJ_FLIP_MODE      ocv_ar::FLIP_H
 
 /**
  * Main view controller.

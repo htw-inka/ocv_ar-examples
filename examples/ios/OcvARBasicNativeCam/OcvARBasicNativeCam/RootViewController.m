@@ -42,9 +42,10 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)prepareForFramesOfSize:(CGSize)size numChannels:(int)chan;
 
 /**
- * resize the proc frame view to CGRect in <newFrameRect>
+ * resize the proc frame view to CGRect in <newFrameRect> and also
+ * set the correct frame for the gl view
  */
-- (void)resizeProcFrameView:(NSValue *)newFrameRect;
+- (void)setCorrectedFrameForViews:(NSValue *)newFrameRect;
 
 /**
  * Notify the video session about the interface orientation change
@@ -201,12 +202,6 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     if (!detector->isPrepared()) {  // on first frame: prepare the detector
         [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows) numChannels:curFrame.channels()];
-        
-//        // also calculate a new GL projection matrix and resize the gl view
-//        float *projMatPtr = detector->getProjMat(camView.frame.size.width, camView.frame.size.height);
-//        [glView setMarkerProjMat:projMatPtr];
-//        [glView setFrame:camView.frame];
-//        [glView resizeView:camView.frame.size];
     }
     
     detector->setInputFrame(&curFrame);
@@ -215,9 +210,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     dispFrame = detector->getOutputFrame();
     
-//    dispFrame = &curFrame;
-    
-//    [glView setMarkers:detector->getMarkers()];
+    [glView setMarkers:detector->getMarkers()];
     
     [self performSelectorOnMainThread:@selector(updateViews)
                            withObject:nil
@@ -392,22 +385,35 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 }
 
 - (void)prepareForFramesOfSize:(CGSize)size numChannels:(int)chan {
+    // WARNING: this method will not be called from the main thead!
+    
     detector->prepare(size.width, size.height, chan);
     
     float frameAspectRatio = size.width / size.height;
     NSLog(@"camera frames are of size %dx%d (aspect %f)", (int)size.width, (int)size.height, frameAspectRatio);
 
+    // update proc frame view size
     float newViewH = procFrameView.frame.size.width / frameAspectRatio;   // calc new height
     float viewYOff = (procFrameView.frame.size.height - newViewH) / 2;
     
-    CGRect newFrameViewRect = CGRectMake(0, viewYOff, procFrameView.frame.size.width, newViewH);
-    [self performSelectorOnMainThread:@selector(resizeProcFrameView:)
-                           withObject:[NSValue valueWithCGRect:newFrameViewRect]
+    CGRect correctedViewRect = CGRectMake(0, viewYOff, procFrameView.frame.size.width, newViewH);
+    [self performSelectorOnMainThread:@selector(setCorrectedFrameForViews:)         // we need to execute this on the main thead
+                           withObject:[NSValue valueWithCGRect:correctedViewRect]   // otherwise it will have no effect
                         waitUntilDone:NO];
 }
 
-- (void)resizeProcFrameView:(NSValue *)newFrameRect {
-    [procFrameView setFrame:[newFrameRect CGRectValue]];
+- (void)setCorrectedFrameForViews:(NSValue *)newFrameRect {
+    // WARNING: this *must* be called on the main thread
+    
+    // set the corrected frame for the proc frame view
+    CGRect r = [newFrameRect CGRectValue];
+    [procFrameView setFrame:r];
+    
+    // also calculate a new GL projection matrix and resize the gl view
+    float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
+    [glView setMarkerProjMat:projMatPtr];
+    [glView setFrame:r];
+    [glView resizeView:r.size];
 }
 
 //- (void)resizeFrameView:(NSValue *)newFrameRect {
