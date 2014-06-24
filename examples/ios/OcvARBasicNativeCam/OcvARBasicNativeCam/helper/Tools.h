@@ -10,14 +10,23 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface Tools : NSObject
 
 // Convert cv::mat image data to UIImage
 // code from Patrick O'Keefe (http://www.patokeefe.com/archives/721)
-+(UIImage *)imageFromCvMat:(cv::Mat *)mat;
++ (UIImage *)imageFromCvMat:(cv::Mat *)mat;
 
 // get a cvMat image from an UIImage
-+(cv::Mat *)cvMatFromImage:(UIImage *)img gray:(BOOL)gray;
++ (cv::Mat *)cvMatFromImage:(UIImage *)img gray:(BOOL)gray;
+
++ (CGImageRef)CGImageFromCvMat:(const cv::Mat &)mat;
+
+/**
+ * Convert a sample buffer <buf> from the camera (YUV pixel format) to an
+ * OpenCV <mat>
+ */
++ (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toMat:(cv::Mat &)mat;
 
 @end

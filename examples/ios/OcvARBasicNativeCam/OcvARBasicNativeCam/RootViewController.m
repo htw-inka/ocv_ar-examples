@@ -10,6 +10,14 @@
  */
 
 #import "RootViewController.h"
+#import "helper/Tools.h"
+
+void fourCCStringFromCode(int code, char fourCC[5]) {
+    for (int i = 0; i < 4; i++) {
+        fourCC[3 - i] = code >> (i * 8);
+    }
+    fourCC[4] = '\0';
+}
 
 @interface RootViewController(Private)
 /**
@@ -25,7 +33,7 @@
 /**
  * resize the frame view to CGRect in <newFrameRect>
  */
-- (void)resizeFrameView:(NSValue *)newFrameRect;
+//- (void)resizeFrameView:(NSValue *)newFrameRect;
 
 /**
  * Notify the video session about the interface orientation change
@@ -54,22 +62,26 @@
     if (self) {
         useDistCoeff = USE_DIST_COEFF;
         
-        detector = new Detect(IDENT_TYPE_CODE_7X7,  // marker type
-                              MARKER_REAL_SIZE_M,   // real marker size in meters
-                              PROJ_FLIP_MODE);      // projection flip mode
+        detector = new ocv_ar::Detect(ocv_ar::IDENT_TYPE_CODE_7X7,  // marker type
+                                      MARKER_REAL_SIZE_M,   // real marker size in meters
+                                      PROJ_FLIP_MODE);      // projection flip mode
     }
     
     return self;
 }
 
 - (void)dealloc {
-    [camSession release];
+    // release camera stuff
+    [vidDataOutput release];
     [camDeviceInput release];
+    [camSession release];
     
+    // release views
     [glView release];
     [CamView release];
     [baseView release];
     
+    // delete marker detection
     if (detector) delete detector;
     
     [super dealloc];
@@ -162,6 +174,38 @@
     [self interfaceOrientationChanged:o];
 }
 
+#pragma mark AVCaptureVideoDataOutputSampleBufferDelegate methods
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection
+{
+    [Tools convertYUVSampleBuffer:sampleBuffer toMat:curFrame];
+    
+    if (!detector->isPrepared()) {  // on first frame: prepare the detector
+        detector->prepare(curFrame.cols, curFrame.rows, curFrame.channels());
+        
+        // also calculate a new GL projection matrix and resize the gl view
+        float *projMatPtr = detector->getProjMat(camView.frame.size.width, camView.frame.size.height);
+        [glView setMarkerProjMat:projMatPtr];
+        [glView setFrame:camView.frame];
+        [glView resizeView:camView.frame.size];
+    }
+    
+    detector->setInputFrame(&curFrame);
+    
+    detector->processFrame();
+    
+    dispFrame = detector->getOutputFrame();
+    
+//    dispFrame = &curFrame;
+    
+    [glView setMarkers:detector->getMarkers()];
+    
+    [self performSelectorOnMainThread:@selector(updateViews)
+                           withObject:nil
+                        waitUntilDone:NO];
+}
+
 //#pragma mark CvVideoCameraDelegate methods
 //
 //- (void)processImage:(Mat &)image {
@@ -212,6 +256,16 @@
 #pragma mark private methods
 
 - (void)updateViews {
+    if (dispFrame) {
+        [camView setSession:NULL];
+        
+        CGImageRef dispCGImg = [Tools CGImageFromCvMat:*dispFrame];
+        [camView.layer setFrame:CGRectMake(0, 0, dispFrame->cols, dispFrame->rows)];
+        [camView.layer setContents:(id)dispCGImg];
+        [camView setNeedsDisplay];
+        CGImageRelease(dispCGImg);
+    }
+    
     [glView setNeedsDisplay];
 }
 
@@ -222,6 +276,7 @@
     
     // set up the camera capture session
     camSession = [[AVCaptureSession alloc] init];
+    [camSession setSessionPreset:CAM_SESSION_PRESET];
     [camView setSession:camSession];
     
     // get the camera device
@@ -250,10 +305,38 @@
         [camSession addInput:camDeviceInput];
         [self interfaceOrientationChanged:self.interfaceOrientation];
     }
+    
+    // create camera output
+    vidDataOutput = [[AVCaptureVideoDataOutput alloc] init];
+    [camSession addOutput:vidDataOutput];
+    
+    // set output delegate to self
+    dispatch_queue_t queue = dispatch_queue_create("vid_output_queue", NULL);
+    [vidDataOutput setSampleBufferDelegate:self queue:queue];
+    dispatch_release(queue);
+    
+    // get best output video format
+    NSArray *outputPixelFormats = vidDataOutput.availableVideoCVPixelFormatTypes;
+    int bestPixelFormatCode = -1;
+    for (NSNumber *format in outputPixelFormats) {
+        int code = [format intValue];
+        if (bestPixelFormatCode == -1) bestPixelFormatCode = code;  // choose the first as best
+        char fourCC[5];
+        fourCCStringFromCode(code, fourCC);
+        NSLog(@"available video output format: %s (code %d)", fourCC, code);
+    }
+    
+    // specify output video format
+    NSDictionary *outputSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:bestPixelFormatCode]
+                                                               forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+    [vidDataOutput setVideoSettings:outputSettings];
+    
+//    // cap to 15 fps
+//    [vidDataOutput setMinFrameDuration:CMTimeMake(1, 15)];
 }
 
 - (BOOL)initDetector {
-    FileStorage fs;
+    cv::FileStorage fs;
     const char *path = [[[NSBundle mainBundle] pathForResource:CAM_INTRINSICS_FILE ofType:NULL]
                         cStringUsingEncoding:NSASCIIStringEncoding];
     
@@ -262,15 +345,15 @@
         return NO;
     }
     
-    fs.open(path, FileStorage::READ);
+    fs.open(path, cv::FileStorage::READ);
     
     if (!fs.isOpened()) {
         NSLog(@"could not load cam intrinsics file %@", CAM_INTRINSICS_FILE);
         return NO;
     }
     
-    Mat camMat;
-    Mat distCoeff;
+    cv::Mat camMat;
+    cv::Mat distCoeff;
     
     fs["Camera_Matrix"]  >> camMat;
     
@@ -289,26 +372,26 @@
     return YES;
 }
 
-- (void)resizeFrameView:(NSValue *)newFrameRect {
-    // running this on the main thread is necessary
-    // stopping and starting again the camera is also necessary
-    
-    const CGRect r = [newFrameRect CGRectValue];
-    
-    [camSession stopRunning];
-    [camView setFrame:r];
-    [camSession startRunning];
-    
-    // also calculate a new GL projection matrix and resize the gl view
-    float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
-    [glView setMarkerProjMat:projMatPtr];
-    [glView setFrame:r];
-    [glView resizeView:r.size];
-    
-    NSLog(@"new view size %dx%d, pos %d,%d",
-          (int)camView.frame.size.width, (int)camView.frame.size.height,
-          (int)camView.frame.origin.x, (int)camView.frame.origin.y);
-}
+//- (void)resizeFrameView:(NSValue *)newFrameRect {
+//    // running this on the main thread is necessary
+//    // stopping and starting again the camera is also necessary
+//    
+//    const CGRect r = [newFrameRect CGRectValue];
+//    
+//    [camSession stopRunning];
+//    [camView setFrame:r];
+//    [camSession startRunning];
+//    
+//    // also calculate a new GL projection matrix and resize the gl view
+//    float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
+//    [glView setMarkerProjMat:projMatPtr];
+//    [glView setFrame:r];
+//    [glView resizeView:r.size];
+//    
+//    NSLog(@"new view size %dx%d, pos %d,%d",
+//          (int)camView.frame.size.width, (int)camView.frame.size.height,
+//          (int)camView.frame.origin.x, (int)camView.frame.origin.y);
+//}
 
 - (void)procOutputSelectBtnAction:(UIButton *)sender {
     NSLog(@"proc output selection button pressed: %@ (proc type %ld)",

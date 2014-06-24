@@ -16,7 +16,6 @@
 
 #include "../../../../ocv_ar/ocv_ar.h"
 
-#import "Tools.h"
 #import "CamView.h"
 #import "GLView.h"
 
@@ -24,25 +23,27 @@
 
 #define MARKER_REAL_SIZE_M  0.042f
 #define CAM_INTRINSICS_FILE @"ipad3-front.xml"
+#define CAM_SESSION_PRESET  AVCaptureSessionPresetHigh
 #define USE_DIST_COEFF      NO
-#define PROJ_FLIP_MODE      FLIP_V
-
-using namespace cv;
-using namespace ocv_ar;
+#define PROJ_FLIP_MODE      ocv_ar::FLIP_V
 
 /**
  * Main view controller.
  * Handles UI initialization and interactions.
  */
-@interface RootViewController : UIViewController {
-    AVCaptureSession *camSession;
-    AVCaptureDeviceInput *camDeviceInput;
+@interface RootViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate> {
+    AVCaptureSession *camSession;               // controlls the camera session
+    AVCaptureDeviceInput *camDeviceInput;       // input device: camera
+    AVCaptureVideoDataOutput *vidDataOutput;    // controlls the video output
+    
+    cv::Mat curFrame;
+    cv::Mat *dispFrame;
     
     UIView *baseView;       // root view
     CamView *camView;       // shows the grabbed video frames
     GLView *glView;         // gl view displays the highlighted markers
     
-    Detect *detector;       // ocv_ar::Detector for marker detection
+    ocv_ar::Detect *detector;       // ocv_ar::Detector for marker detection
     
     BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
 }

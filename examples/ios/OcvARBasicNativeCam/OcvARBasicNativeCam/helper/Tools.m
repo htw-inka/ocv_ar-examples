@@ -13,7 +13,7 @@
 
 @implementation Tools
 
-+(UIImage *)imageFromCvMat:(cv::Mat *)mat {
++ (UIImage *)imageFromCvMat:(cv::Mat *)mat {
     // code from Patrick O'Keefe (http://www.patokeefe.com/archives/721)
     NSData *data = [NSData dataWithBytes:mat->data length:mat->elemSize() * mat->total()];
     
@@ -52,7 +52,7 @@
     
 }
 
-+(cv::Mat *)cvMatFromImage:(UIImage *)img gray:(BOOL)gray {
++ (cv::Mat *)cvMatFromImage:(UIImage *)img gray:(BOOL)gray {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(img.CGImage);
 
     const int w = [img size].width;
@@ -94,5 +94,59 @@
     return mat;
 }
 
++ (CGImageRef)CGImageFromCvMat:(const cv::Mat &)mat {
+    NSData *data = [NSData dataWithBytes:mat.data length:mat.elemSize() * mat.total()];
+    
+    CGColorSpaceRef colorSpace;
+    
+    if (mat.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)data);
+    
+    // Creating CGImage from cv::Mat
+    CGImageRef imageRef = CGImageCreate(mat.cols,                                   //width
+                                        mat.rows,                                   //height
+                                        8,                                          //bits per component
+                                        8 * mat.elemSize(),                         //bits per pixel
+                                        mat.step.p[0],                              //bytesPerRow
+                                        colorSpace,                                 //colorspace
+                                        kCGImageAlphaNone|kCGBitmapByteOrderDefault,//bitmap info
+                                        provider,                                   //CGDataProviderRef
+                                        NULL,                                       //decode
+                                        false,                                      //should interpolate
+                                        kCGRenderingIntentDefault                   //intent
+                                        );
+    
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    return imageRef;
+}
+
++ (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toMat:(cv::Mat &)mat {
+    CVImageBufferRef imgBuf = CMSampleBufferGetImageBuffer(buf);
+    CVPixelBufferLockBaseAddress(imgBuf, 0);
+    
+    // get the address to the image data
+    void *imgBufAddr = CVPixelBufferGetBaseAddress(imgBuf);
+    
+    // get image properties
+//    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imgBuf);
+    size_t w = CVPixelBufferGetWidth(imgBuf);
+    size_t h = CVPixelBufferGetHeight(imgBuf);
+//    size_t bytesPerPx = bytesPerRow / w;
+    
+    //    NSLog(@"converting sample buffer with image of size %zux%zu (%zu bytes per row, %zu bytes per px)",
+    //          w, h, bytesPerRow, bytesPerPx);
+    
+    mat.create(h, w, CV_8UC1);
+    memcpy(mat.data, imgBufAddr, w * h);
+    
+    CVPixelBufferUnlockBaseAddress(imgBuf, 0);
+}
 
 @end
