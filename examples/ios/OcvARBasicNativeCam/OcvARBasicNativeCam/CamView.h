@@ -15,6 +15,6 @@
 
 @interface CamView : UIView
 
-@property (nonatomic) AVCaptureSession *session;
+@property (nonatomic, assign) AVCaptureSession *session;
 
 @end

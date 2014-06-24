@@ -155,61 +155,59 @@
     
     // set up camera
     [self initCam];
-    [cam start];
-    
-    NSLog(@"cam loaded: %d", cam.captureSessionLoaded);
+//    [cam start];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)o duration:(NSTimeInterval)duration {
     [self interfaceOrientationChanged:o];
 }
 
-#pragma mark CvVideoCameraDelegate methods
-
-- (void)processImage:(Mat &)image {
-    if (!detector->isPrepared()) {  // on first frame: prepare the detector
-        detector->prepare(image.cols, image.rows, image.channels());
-        
-        float frameAspectRatio = (float)image.cols / (float)image.rows;
-        NSLog(@"camera frames are of size %dx%d (aspect %f)", image.cols, image.rows, frameAspectRatio);
-        
-        float viewW = frameView.frame.size.width;  // this is for landscape view
-        float viewH = frameView.frame.size.height;   // this is for landscape view
-        NSLog(@"view is of size %dx%d (aspect %f)", (int)viewW, (int)viewH, viewW / viewH);
-        if (frameAspectRatio != viewW / viewH) { // aspect ratio does not fit
-            float newViewH = viewW / frameAspectRatio;   // calc new height
-            float viewYOff = (viewH - newViewH) / 2;
-            NSLog(@"changed view size to %dx%d", (int)viewW, (int)newViewH);
-            CGRect newFrameViewRect = CGRectMake(0, viewYOff, viewW, newViewH);
-            
-            // processImage is not running on the main thread, therefore
-            // calling "setFrame" would have no effect!
-            [self performSelectorOnMainThread:@selector(resizeFrameView:)
-                                   withObject:[NSValue valueWithCGRect:newFrameViewRect]
-                                waitUntilDone:NO];
-        }
-    }
-    
-    // set the grabbed frame as input
-    detector->setInputFrame(&image);
-    
-    // process the frame
-    detector->processFrame();
-    
-    // "outFrame" is only set when a processing level for output is selected
-    Mat *outFrame = detector->getOutputFrame();
-    
-    if (outFrame) { // display this frame instead of the original camera frame
-        outFrame->copyTo(image);
-    }
-    
-    // update gl view
-    [glView setMarkers:detector->getMarkers()];
-    
-    [self performSelectorOnMainThread:@selector(updateViews)
-                           withObject:nil
-                        waitUntilDone:NO];
-}
+//#pragma mark CvVideoCameraDelegate methods
+//
+//- (void)processImage:(Mat &)image {
+//    if (!detector->isPrepared()) {  // on first frame: prepare the detector
+//        detector->prepare(image.cols, image.rows, image.channels());
+//        
+//        float frameAspectRatio = (float)image.cols / (float)image.rows;
+//        NSLog(@"camera frames are of size %dx%d (aspect %f)", image.cols, image.rows, frameAspectRatio);
+//        
+//        float viewW = camView.frame.size.width;  // this is for landscape view
+//        float viewH = camView.frame.size.height;   // this is for landscape view
+//        NSLog(@"view is of size %dx%d (aspect %f)", (int)viewW, (int)viewH, viewW / viewH);
+//        if (frameAspectRatio != viewW / viewH) { // aspect ratio does not fit
+//            float newViewH = viewW / frameAspectRatio;   // calc new height
+//            float viewYOff = (viewH - newViewH) / 2;
+//            NSLog(@"changed view size to %dx%d", (int)viewW, (int)newViewH);
+//            CGRect newFrameViewRect = CGRectMake(0, viewYOff, viewW, newViewH);
+//            
+//            // processImage is not running on the main thread, therefore
+//            // calling "setFrame" would have no effect!
+//            [self performSelectorOnMainThread:@selector(resizeFrameView:)
+//                                   withObject:[NSValue valueWithCGRect:newFrameViewRect]
+//                                waitUntilDone:NO];
+//        }
+//    }
+//    
+//    // set the grabbed frame as input
+//    detector->setInputFrame(&image);
+//    
+//    // process the frame
+//    detector->processFrame();
+//    
+//    // "outFrame" is only set when a processing level for output is selected
+//    Mat *outFrame = detector->getOutputFrame();
+//    
+//    if (outFrame) { // display this frame instead of the original camera frame
+//        outFrame->copyTo(image);
+//    }
+//    
+//    // update gl view
+//    [glView setMarkers:detector->getMarkers()];
+//    
+//    [self performSelectorOnMainThread:@selector(updateViews)
+//                           withObject:nil
+//                        waitUntilDone:NO];
+//}
 
 #pragma mark private methods
 
@@ -238,7 +236,7 @@
 		}
 	}
     
-    camDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:camDevice error:&error];
+    camDeviceInput = [[AVCaptureDeviceInput deviceInputWithDevice:camDevice error:&error] retain];
     
     if (error) {
         NSLog(@"error getting camera device: %@", error);
@@ -297,9 +295,9 @@
     
     const CGRect r = [newFrameRect CGRectValue];
     
-    [cam stop];
-    [frameView setFrame:r];
-    [cam start];
+    [camSession stopRunning];
+    [camView setFrame:r];
+    [camSession startRunning];
     
     // also calculate a new GL projection matrix and resize the gl view
     float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
@@ -308,12 +306,13 @@
     [glView resizeView:r.size];
     
     NSLog(@"new view size %dx%d, pos %d,%d",
-          (int)frameView.frame.size.width, (int)frameView.frame.size.height,
-          (int)frameView.frame.origin.x, (int)frameView.frame.origin.y);
+          (int)camView.frame.size.width, (int)camView.frame.size.height,
+          (int)camView.frame.origin.x, (int)camView.frame.origin.y);
 }
 
 - (void)procOutputSelectBtnAction:(UIButton *)sender {
-    NSLog(@"proc output selection button pressed: %@ (proc type %d)", [sender titleForState:UIControlStateNormal], sender.tag);
+    NSLog(@"proc output selection button pressed: %@ (proc type %ld)",
+          [sender titleForState:UIControlStateNormal], (long)sender.tag);
     
     [glView setShowMarkers:(sender.tag < 0)];   // only show markers in "normal" display mode
     
