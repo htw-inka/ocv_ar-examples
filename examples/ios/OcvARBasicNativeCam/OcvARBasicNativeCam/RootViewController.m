@@ -12,6 +12,10 @@
 #import "RootViewController.h"
 #import "helper/Tools.h"
 
+/**
+ * Small helper function to convert a fourCC <code> to
+ * a character string <fourCC> for printf and the like
+ */
 void fourCCStringFromCode(int code, char fourCC[5]) {
     for (int i = 0; i < 4; i++) {
         fourCC[3 - i] = code >> (i * 8);
@@ -29,11 +33,6 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
  * initialize ocv_ar marker detector
  */
 - (BOOL)initDetector;
-
-/**
- * resize the frame view to CGRect in <newFrameRect>
- */
-//- (void)resizeFrameView:(NSValue *)newFrameRect;
 
 /**
  * Called on the first input frame and prepares everything for the specified
@@ -75,8 +74,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
         useDistCoeff = USE_DIST_COEFF;
         
         detector = new ocv_ar::Detect(ocv_ar::IDENT_TYPE_CODE_7X7,  // marker type
-                                      MARKER_REAL_SIZE_M,   // real marker size in meters
-                                      PROJ_FLIP_MODE);      // projection flip mode
+                                      MARKER_REAL_SIZE_M,           // real marker size in meters
+                                      PROJ_FLIP_MODE);              // projection flip mode
     }
     
     return self;
@@ -119,12 +118,11 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     // create the image view for the camera frames
     camView = [[CamView alloc] initWithFrame:baseFrame];
-    
     [baseView addSubview:camView];
     
     // create view for processed frames
     procFrameView = [[UIImageView alloc] initWithFrame:baseFrame];
-    [procFrameView setHidden:YES];
+    [procFrameView setHidden:YES];  // initially hidden
     [baseView addSubview:procFrameView];
     
     // create the GL view
@@ -186,7 +184,6 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     // set up camera
     [self initCam];
-//    [cam start];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)o duration:(NSTimeInterval)duration {
@@ -198,86 +195,47 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection
 {
+    // convert the incoming YUV camera frame to a grayscale cv mat
     [Tools convertYUVSampleBuffer:sampleBuffer toGrayscaleMat:curFrame];
     
-    if (!detector->isPrepared()) {  // on first frame: prepare the detector
-        [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows) numChannels:curFrame.channels()];
+    if (!detector->isPrepared()) {  // on first frame: prepare for the frames
+        [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows)
+                         numChannels:curFrame.channels()];
     }
     
-    detector->setInputFrame(&curFrame);
+    // set the input frame and do not copy it
+    detector->setInputFrame(&curFrame, true);
     
+    // process the frame
     detector->processFrame();
     
+    // get an output frame. may be NULL if no frame processing output is selected
     dispFrame = detector->getOutputFrame();
     
+    // set the vector of found markers
     [glView setMarkers:detector->getMarkers()];
     
+    // update the views on the main thread
     [self performSelectorOnMainThread:@selector(updateViews)
                            withObject:nil
                         waitUntilDone:NO];
 }
 
-//#pragma mark CvVideoCameraDelegate methods
-//
-//- (void)processImage:(Mat &)image {
-//    if (!detector->isPrepared()) {  // on first frame: prepare the detector
-//        detector->prepare(image.cols, image.rows, image.channels());
-//        
-//        float frameAspectRatio = (float)image.cols / (float)image.rows;
-//        NSLog(@"camera frames are of size %dx%d (aspect %f)", image.cols, image.rows, frameAspectRatio);
-//        
-//        float viewW = camView.frame.size.width;  // this is for landscape view
-//        float viewH = camView.frame.size.height;   // this is for landscape view
-//        NSLog(@"view is of size %dx%d (aspect %f)", (int)viewW, (int)viewH, viewW / viewH);
-//        if (frameAspectRatio != viewW / viewH) { // aspect ratio does not fit
-//            float newViewH = viewW / frameAspectRatio;   // calc new height
-//            float viewYOff = (viewH - newViewH) / 2;
-//            NSLog(@"changed view size to %dx%d", (int)viewW, (int)newViewH);
-//            CGRect newFrameViewRect = CGRectMake(0, viewYOff, viewW, newViewH);
-//            
-//            // processImage is not running on the main thread, therefore
-//            // calling "setFrame" would have no effect!
-//            [self performSelectorOnMainThread:@selector(resizeFrameView:)
-//                                   withObject:[NSValue valueWithCGRect:newFrameViewRect]
-//                                waitUntilDone:NO];
-//        }
-//    }
-//    
-//    // set the grabbed frame as input
-//    detector->setInputFrame(&image);
-//    
-//    // process the frame
-//    detector->processFrame();
-//    
-//    // "outFrame" is only set when a processing level for output is selected
-//    Mat *outFrame = detector->getOutputFrame();
-//    
-//    if (outFrame) { // display this frame instead of the original camera frame
-//        outFrame->copyTo(image);
-//    }
-//    
-//    // update gl view
-//    [glView setMarkers:detector->getMarkers()];
-//    
-//    [self performSelectorOnMainThread:@selector(updateViews)
-//                           withObject:nil
-//                        waitUntilDone:NO];
-//}
-
 #pragma mark private methods
 
 - (void)updateViews {
-    if (dispFrame) {
+    if (dispFrame) {    // when we have a frame to display in "procFrameView" ...
+        // ... convert it to an UIImage
         UIImage *dispUIImage = [Tools imageFromCvMat:dispFrame];
+        
+        // and display it with the UIImageView "procFrameView"
         [procFrameView setImage:dispUIImage];
         [procFrameView setNeedsDisplay];
-//        CGImageRef dispCGImg = [Tools CGImageFromCvMat:*dispFrame];
-//        [camView.layer setFrame:CGRectMake(0, 0, dispFrame->cols, dispFrame->rows)];
-//        [camView.layer setContents:(id)dispCGImg];
-//        [camView setNeedsDisplay];
-//        CGImageRelease(dispCGImg);
+        
+        // (this is slow but it's only for debugging)
     }
     
+    // update the GL view
     [glView setNeedsDisplay];
 }
 
@@ -415,27 +373,6 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     [glView setFrame:r];
     [glView resizeView:r.size];
 }
-
-//- (void)resizeFrameView:(NSValue *)newFrameRect {
-//    // running this on the main thread is necessary
-//    // stopping and starting again the camera is also necessary
-//    
-//    const CGRect r = [newFrameRect CGRectValue];
-//    
-//    [camSession stopRunning];
-//    [camView setFrame:r];
-//    [camSession startRunning];
-//    
-//    // also calculate a new GL projection matrix and resize the gl view
-//    float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
-//    [glView setMarkerProjMat:projMatPtr];
-//    [glView setFrame:r];
-//    [glView resizeView:r.size];
-//    
-//    NSLog(@"new view size %dx%d, pos %d,%d",
-//          (int)camView.frame.size.width, (int)camView.frame.size.height,
-//          (int)camView.frame.origin.x, (int)camView.frame.origin.y);
-//}
 
 - (void)procOutputSelectBtnAction:(UIButton *)sender {
     NSLog(@"proc output selection button pressed: %@ (proc type %ld)",
