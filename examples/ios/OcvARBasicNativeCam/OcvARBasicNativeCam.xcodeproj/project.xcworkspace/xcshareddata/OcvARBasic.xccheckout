@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E54ACC7C-56F6-4597-BA21-1F67CA222FF5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>OcvARBasic</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1EA6DD9D-9E5A-42A2-AD3D-7C961B8E5F84</key>
+		<string>ssh://github.com/htw-inka/ocv_ar.git</string>
+		<key>5C75F632-6382-4743-82F1-0994151A2B7D</key>
+		<string>ssh://github.com/htw-inka/ocv_ar-examples.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>examples/ios/OcvARBasicNativeCam/OcvARBasic.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1EA6DD9D-9E5A-42A2-AD3D-7C961B8E5F84</key>
+		<string>../../../../../ocv_ar</string>
+		<key>5C75F632-6382-4743-82F1-0994151A2B7D</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/htw-inka/ocv_ar-examples.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5C75F632-6382-4743-82F1-0994151A2B7D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1EA6DD9D-9E5A-42A2-AD3D-7C961B8E5F84</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ocv_ar</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5C75F632-6382-4743-82F1-0994151A2B7D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ocv_ar-examples</string>
+		</dict>
+	</array>
+</dict>
+</plist>
