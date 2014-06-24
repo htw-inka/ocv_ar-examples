@@ -36,6 +36,17 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 //- (void)resizeFrameView:(NSValue *)newFrameRect;
 
 /**
+ * Called on the first input frame and prepares everything for the specified
+ * frame size and number of color channels
+ */
+- (void)prepareForFramesOfSize:(CGSize)size numChannels:(int)chan;
+
+/**
+ * resize the proc frame view to CGRect in <newFrameRect>
+ */
+- (void)resizeProcFrameView:(NSValue *)newFrameRect;
+
+/**
  * Notify the video session about the interface orientation change
  */
 - (void)interfaceOrientationChanged:(UIInterfaceOrientation)o;
@@ -78,7 +89,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     // release views
     [glView release];
-    [CamView release];
+    [camView release];
+    [procFrameView release];
     [baseView release];
     
     // delete marker detection
@@ -101,12 +113,18 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     NSLog(@"loading view of size %dx%d", (int)screenRect.size.width, (int)screenRect.size.height);
     
     // create an empty base view
-    baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.height, screenRect.size.width)];
+    CGRect baseFrame = CGRectMake(0, 0, screenRect.size.height, screenRect.size.width);
+    baseView = [[UIView alloc] initWithFrame:baseFrame];
     
     // create the image view for the camera frames
-    camView = [[CamView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.height, screenRect.size.width)];
+    camView = [[CamView alloc] initWithFrame:baseFrame];
     
     [baseView addSubview:camView];
+    
+    // create view for processed frames
+    procFrameView = [[UIImageView alloc] initWithFrame:baseFrame];
+    [procFrameView setHidden:YES];
+    [baseView addSubview:procFrameView];
     
     // create the GL view
     glView = [[GLView alloc] initWithFrame:baseView.frame];
@@ -182,13 +200,13 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     [Tools convertYUVSampleBuffer:sampleBuffer toMat:curFrame];
     
     if (!detector->isPrepared()) {  // on first frame: prepare the detector
-        detector->prepare(curFrame.cols, curFrame.rows, curFrame.channels());
+        [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows) numChannels:curFrame.channels()];
         
-        // also calculate a new GL projection matrix and resize the gl view
-        float *projMatPtr = detector->getProjMat(camView.frame.size.width, camView.frame.size.height);
-        [glView setMarkerProjMat:projMatPtr];
-        [glView setFrame:camView.frame];
-        [glView resizeView:camView.frame.size];
+//        // also calculate a new GL projection matrix and resize the gl view
+//        float *projMatPtr = detector->getProjMat(camView.frame.size.width, camView.frame.size.height);
+//        [glView setMarkerProjMat:projMatPtr];
+//        [glView setFrame:camView.frame];
+//        [glView resizeView:camView.frame.size];
     }
     
     detector->setInputFrame(&curFrame);
@@ -199,7 +217,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
 //    dispFrame = &curFrame;
     
-    [glView setMarkers:detector->getMarkers()];
+//    [glView setMarkers:detector->getMarkers()];
     
     [self performSelectorOnMainThread:@selector(updateViews)
                            withObject:nil
@@ -257,13 +275,14 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 - (void)updateViews {
     if (dispFrame) {
-        [camView setSession:NULL];
-        
-        CGImageRef dispCGImg = [Tools CGImageFromCvMat:*dispFrame];
-        [camView.layer setFrame:CGRectMake(0, 0, dispFrame->cols, dispFrame->rows)];
-        [camView.layer setContents:(id)dispCGImg];
-        [camView setNeedsDisplay];
-        CGImageRelease(dispCGImg);
+        UIImage *dispUIImage = [Tools imageFromCvMat:dispFrame];
+        [procFrameView setImage:dispUIImage];
+        [procFrameView setNeedsDisplay];
+//        CGImageRef dispCGImg = [Tools CGImageFromCvMat:*dispFrame];
+//        [camView.layer setFrame:CGRectMake(0, 0, dispFrame->cols, dispFrame->rows)];
+//        [camView.layer setContents:(id)dispCGImg];
+//        [camView setNeedsDisplay];
+//        CGImageRelease(dispCGImg);
     }
     
     [glView setNeedsDisplay];
@@ -325,7 +344,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
         fourCCStringFromCode(code, fourCC);
         NSLog(@"available video output format: %s (code %d)", fourCC, code);
     }
-    
+
     // specify output video format
     NSDictionary *outputSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:bestPixelFormatCode]
                                                                forKey:(id)kCVPixelBufferPixelFormatTypeKey];
@@ -372,6 +391,25 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     return YES;
 }
 
+- (void)prepareForFramesOfSize:(CGSize)size numChannels:(int)chan {
+    detector->prepare(size.width, size.height, chan);
+    
+    float frameAspectRatio = size.width / size.height;
+    NSLog(@"camera frames are of size %dx%d (aspect %f)", (int)size.width, (int)size.height, frameAspectRatio);
+
+    float newViewH = procFrameView.frame.size.width / frameAspectRatio;   // calc new height
+    float viewYOff = (procFrameView.frame.size.height - newViewH) / 2;
+    
+    CGRect newFrameViewRect = CGRectMake(0, viewYOff, procFrameView.frame.size.width, newViewH);
+    [self performSelectorOnMainThread:@selector(resizeProcFrameView:)
+                           withObject:[NSValue valueWithCGRect:newFrameViewRect]
+                        waitUntilDone:NO];
+}
+
+- (void)resizeProcFrameView:(NSValue *)newFrameRect {
+    [procFrameView setFrame:[newFrameRect CGRectValue]];
+}
+
 //- (void)resizeFrameView:(NSValue *)newFrameRect {
 //    // running this on the main thread is necessary
 //    // stopping and starting again the camera is also necessary
@@ -397,7 +435,10 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     NSLog(@"proc output selection button pressed: %@ (proc type %ld)",
           [sender titleForState:UIControlStateNormal], (long)sender.tag);
     
-    [glView setShowMarkers:(sender.tag < 0)];   // only show markers in "normal" display mode
+    BOOL normalDispMode = (sender.tag < 0);
+    [glView setShowMarkers:normalDispMode];   // only show markers in "normal" display mode
+    [camView setHidden:!normalDispMode];      // only show original camera frames in "normal" display mode
+    [procFrameView setHidden:normalDispMode]; // only show processed frames for other than "normal" display mode
     
     detector->setFrameOutputLevel((ocv_ar::FrameProcLevel)sender.tag);
 }

@@ -16,10 +16,10 @@
 
 // Convert cv::mat image data to UIImage
 // code from Patrick O'Keefe (http://www.patokeefe.com/archives/721)
-+ (UIImage *)imageFromCvMat:(cv::Mat *)mat;
++ (UIImage *)imageFromCvMat:(const cv::Mat *)mat;
 
 // get a cvMat image from an UIImage
-+ (cv::Mat *)cvMatFromImage:(UIImage *)img gray:(BOOL)gray;
++ (cv::Mat *)cvMatFromImage:(const UIImage *)img gray:(BOOL)gray;
 
 + (CGImageRef)CGImageFromCvMat:(const cv::Mat &)mat;
 

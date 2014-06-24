@@ -13,7 +13,7 @@
 
 @implementation Tools
 
-+ (UIImage *)imageFromCvMat:(cv::Mat *)mat {
++ (UIImage *)imageFromCvMat:(const cv::Mat *)mat {
     // code from Patrick O'Keefe (http://www.patokeefe.com/archives/721)
     NSData *data = [NSData dataWithBytes:mat->data length:mat->elemSize() * mat->total()];
     
@@ -52,7 +52,7 @@
     
 }
 
-+ (cv::Mat *)cvMatFromImage:(UIImage *)img gray:(BOOL)gray {
++ (cv::Mat *)cvMatFromImage:(const UIImage *)img gray:(BOOL)gray {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(img.CGImage);
 
     const int w = [img size].width;
@@ -132,7 +132,8 @@
     CVPixelBufferLockBaseAddress(imgBuf, 0);
     
     // get the address to the image data
-    void *imgBufAddr = CVPixelBufferGetBaseAddress(imgBuf);
+//    void *imgBufAddr = CVPixelBufferGetBaseAddress(imgBuf);   // this is wrong! see http://stackoverflow.com/a/4109153
+    void *imgBufAddr = CVPixelBufferGetBaseAddressOfPlane(imgBuf, 0);
     
     // get image properties
 //    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imgBuf);

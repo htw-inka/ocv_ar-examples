@@ -39,9 +39,10 @@
     cv::Mat curFrame;
     cv::Mat *dispFrame;
     
-    UIView *baseView;       // root view
-    CamView *camView;       // shows the grabbed video frames
-    GLView *glView;         // gl view displays the highlighted markers
+    UIView *baseView;           // root view
+    UIImageView *procFrameView; // view for processed frames (only for debugging)
+    CamView *camView;           // shows the grabbed video frames
+    GLView *glView;             // gl view displays the highlighted markers
     
     ocv_ar::Detect *detector;       // ocv_ar::Detector for marker detection
     
