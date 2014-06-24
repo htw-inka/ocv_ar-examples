@@ -21,6 +21,5 @@ git clone --recursive git@github.com:htw-inka/ocv_ar-examples.git
 All projects come with a separate README file for instructions on how to compile and configure the project.
 
 * *ios/OcvARBasic* - basic iOS based ocv_ar showcase that uses OpenGL for display and *CvVideoCamera* for grabbing the video frames from the camera
-* *linux-osx/basic* - basic ocv_ar example that compiles under Linux and Mac OSX
 * *ios/OcvARBasicNativeCam* - iOS based ocv_ar showcase that uses OpenGL for display native iOS camera APIs for grabbing the video frames
 * *linux-osx/basic* - basic ocv_ar example that compiles under Linux and Mac OSX
