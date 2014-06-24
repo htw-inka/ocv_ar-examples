@@ -127,7 +127,7 @@
     return imageRef;
 }
 
-+ (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toMat:(cv::Mat &)mat {
++ (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toGrayscaleMat:(cv::Mat &)mat {
     CVImageBufferRef imgBuf = CMSampleBufferGetImageBuffer(buf);
     
     // lock the buffer

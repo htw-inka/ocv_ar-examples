@@ -197,7 +197,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection
 {
-    [Tools convertYUVSampleBuffer:sampleBuffer toMat:curFrame];
+    [Tools convertYUVSampleBuffer:sampleBuffer toGrayscaleMat:curFrame];
     
     if (!detector->isPrepared()) {  // on first frame: prepare the detector
         [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows) numChannels:curFrame.channels()];
