@@ -129,6 +129,8 @@
 
 + (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toMat:(cv::Mat &)mat {
     CVImageBufferRef imgBuf = CMSampleBufferGetImageBuffer(buf);
+    
+    // lock the buffer
     CVPixelBufferLockBaseAddress(imgBuf, 0);
     
     // get the address to the image data
@@ -136,17 +138,15 @@
     void *imgBufAddr = CVPixelBufferGetBaseAddressOfPlane(imgBuf, 0);
     
     // get image properties
-//    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imgBuf);
     size_t w = CVPixelBufferGetWidth(imgBuf);
     size_t h = CVPixelBufferGetHeight(imgBuf);
-//    size_t bytesPerPx = bytesPerRow / w;
     
-    //    NSLog(@"converting sample buffer with image of size %zux%zu (%zu bytes per row, %zu bytes per px)",
-    //          w, h, bytesPerRow, bytesPerPx);
+    // create the cv mat
+    mat.create(h, w, CV_8UC1);              // 8 bit unsigned chars for grayscale data
+    memcpy(mat.data, imgBufAddr, w * h);    // the first plane contains the grayscale data
+                                            // therefore we use <imgBufAddr> as source
     
-    mat.create(h, w, CV_8UC1);
-    memcpy(mat.data, imgBufAddr, w * h);
-    
+    // unlock again
     CVPixelBufferUnlockBaseAddress(imgBuf, 0);
 }
 
