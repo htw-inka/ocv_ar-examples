@@ -1,7 +1,7 @@
 # Basic ocv_ar example for iOS that uses the native iOS camera API
 
 * shows how to set up ocv_ar for iOS
-* shows how to use the native iOS camera API in conjunction with ocv_ar, which is faster than using `CvVideoCapture`
+* shows how to use the native iOS camera API in conjunction with ocv_ar, which is faster than using `CvVideoCamera`
 * has a simple GUI to switch between the stages of the marker detection process
 * uses OpenGL to display simple colored squares above found markers
 * was tested with an iPad 3 on iOS 7
