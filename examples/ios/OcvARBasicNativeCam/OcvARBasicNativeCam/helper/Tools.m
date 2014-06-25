@@ -80,7 +80,7 @@
     CGContextDrawImage(contextRef, CGRectMake(0, 0, w, h), img.CGImage);
     
     CGContextRelease(contextRef);
-    CGColorSpaceRelease(colorSpace);
+//    CGColorSpaceRelease(colorSpace);  // "colorSpace" is not owned, only referenced
     
     // convert to grayscale data if necessary
     if (gray) {
@@ -138,8 +138,8 @@
     void *imgBufAddr = CVPixelBufferGetBaseAddressOfPlane(imgBuf, 0);
     
     // get image properties
-    size_t w = CVPixelBufferGetWidth(imgBuf);
-    size_t h = CVPixelBufferGetHeight(imgBuf);
+    int w = (int)CVPixelBufferGetWidth(imgBuf);
+    int h = (int)CVPixelBufferGetHeight(imgBuf);
     
     // create the cv mat
     mat.create(h, w, CV_8UC1);              // 8 bit unsigned chars for grayscale data
