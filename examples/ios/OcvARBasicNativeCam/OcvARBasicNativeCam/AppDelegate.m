@@ -19,9 +19,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     // add our custom view controller "RootViewController"
-    UIViewController *rootViewCtrl = [[[RootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    RootViewController *rootViewCtrl = [[[RootViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     [self.window setRootViewController:rootViewCtrl];
     
+    // start the main application window
     [self.window makeKeyAndVisible];
     
     return YES;

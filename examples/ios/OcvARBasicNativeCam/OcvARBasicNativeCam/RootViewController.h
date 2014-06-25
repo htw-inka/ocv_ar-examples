@@ -42,11 +42,12 @@
     UIView *baseView;           // root view
     UIImageView *procFrameView; // view for processed frames
     CamView *camView;           // shows the grabbed video frames ("camera preview")
-    GLView *glView;             // gl view displays the highlighted markers
     
     ocv_ar::Detect *detector;   // ocv_ar::Detector for marker detection
     
     BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
 }
+
+@property (nonatomic,readonly) GLView *glView;  // gl view displays the highlighted markers
 
 @end

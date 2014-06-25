@@ -65,6 +65,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 @implementation RootViewController
 
+@synthesize glView;
+
 #pragma mark init/dealloc
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -236,7 +238,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     }
     
     // update the GL view
-    [glView setNeedsDisplay];
+//    [glView setNeedsDisplay];
 }
 
 - (void)initCam {

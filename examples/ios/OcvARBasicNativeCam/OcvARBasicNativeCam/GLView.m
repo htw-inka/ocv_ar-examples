@@ -75,7 +75,13 @@ const GLfloat quadVertices[] = {
         memset(markerScaleMat, 0, sizeof(GLfloat) * 16);
         [self setMarkerScale:1.0f];
         
+        // add the render method of our GLView to the main run loop in order to
+        // render every frame periodically
+        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
+        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        
         // configure
+        [self setEnableSetNeedsDisplay:NO];
         [self setOpaque:NO];
         
         [self setDrawableColorFormat:GLKViewDrawableColorFormatRGBA8888];
@@ -133,6 +139,10 @@ const GLfloat quadVertices[] = {
 }
 
 #pragma mark public methods
+
+- (void)render:(CADisplayLink *)displayLink {
+    [self display];
+}
 
 - (void)setMarkerScale:(float)s {
     markerScale = s;

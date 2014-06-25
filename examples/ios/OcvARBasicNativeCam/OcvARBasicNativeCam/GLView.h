@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 #include "helper/shader.h"
 #include "../../../../ocv_ar/ocv_ar.h"
@@ -44,11 +45,20 @@ using namespace std;
 @property (nonatomic, assign) float markerScale;                // marker scaling
 @property (nonatomic, assign) BOOL showMarkers;                 // enable/disable marker display
 
-- (void)setMarkerScale:(float)s;    // overwrite 'assign' method
+/**
+ * set a marker scale <s> (real marker side length in meters)
+ * overwrite 'assign' method
+ */
+- (void)setMarkerScale:(float)s;
 
 /**
  * Resize the gl view and adjust gl properties
  */
 - (void)resizeView:(CGSize)size;
+
+/**
+ * redraw the frame (will just call [self display])
+ */
+- (void)render:(CADisplayLink *)displayLink;
 
 @end
