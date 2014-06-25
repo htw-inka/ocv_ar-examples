@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28EA5A311952DC0900B46513"
-               BuildableName = "OcvARBasicNativeCam.app"
-               BlueprintName = "OcvARBasicNativeCam"
-               ReferencedContainer = "container:OcvARBasicNativeCam.xcodeproj">
+               BuildableName = "OcvARBasic.app"
+               BlueprintName = "OcvARBasic"
+               ReferencedContainer = "container:OcvARBasic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28EA5A4C1952DC0900B46513"
-               BuildableName = "OcvARBasicNativeCamTests.xctest"
-               BlueprintName = "OcvARBasicNativeCamTests"
-               ReferencedContainer = "container:OcvARBasicNativeCam.xcodeproj">
+               BuildableName = "OcvARBasicTests.xctest"
+               BlueprintName = "OcvARBasicTests"
+               ReferencedContainer = "container:OcvARBasic.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28EA5A311952DC0900B46513"
-            BuildableName = "OcvARBasicNativeCam.app"
-            BlueprintName = "OcvARBasicNativeCam"
-            ReferencedContainer = "container:OcvARBasicNativeCam.xcodeproj">
+            BuildableName = "OcvARBasic.app"
+            BlueprintName = "OcvARBasic"
+            ReferencedContainer = "container:OcvARBasic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28EA5A311952DC0900B46513"
-            BuildableName = "OcvARBasicNativeCam.app"
-            BlueprintName = "OcvARBasicNativeCam"
-            ReferencedContainer = "container:OcvARBasicNativeCam.xcodeproj">
+            BuildableName = "OcvARBasic.app"
+            BlueprintName = "OcvARBasic"
+            ReferencedContainer = "container:OcvARBasic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28EA5A311952DC0900B46513"
-            BuildableName = "OcvARBasicNativeCam.app"
-            BlueprintName = "OcvARBasicNativeCam"
-            ReferencedContainer = "container:OcvARBasicNativeCam.xcodeproj">
+            BuildableName = "OcvARBasic.app"
+            BlueprintName = "OcvARBasic"
+            ReferencedContainer = "container:OcvARBasic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
