@@ -44,13 +44,14 @@ const GLfloat quadVertices[] = {
 /**
  * draw a <marker>
  */
-- (void)drawMarker:(ocv_ar::Marker *)marker;
+- (void)drawMarker:(const ocv_ar::Marker *)marker;
 @end
 
 
 @implementation GLView
 
-@synthesize markers;
+//@synthesize markers;
+@synthesize tracker;
 @synthesize markerProjMat;
 @synthesize markerScale;
 @synthesize showMarkers;
@@ -112,12 +113,22 @@ const GLfloat quadVertices[] = {
         //        NSLog(@"GLView: drawing %lu markers", markers.size());
         
         // draw each marker
-        for (vector<ocv_ar::Marker *>::const_iterator it = markers.begin();
-             it != markers.end();
+        tracker->lockMarkers();
+        const ocv_ar::MarkerMap *markers = tracker->getMarkers();
+        for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
+             it != markers->end();
              ++it)
         {
-            [self drawMarker:(*it)];
+            [self drawMarker:&(it->second)];
         }
+        tracker->unlockMarkers();
+        
+//        for (vector<ocv_ar::Marker *>::const_iterator it = markers.begin();
+//             it != markers.end();
+//             ++it)
+//        {
+//            [self drawMarker:(*it)];
+//        }
     }
 }
 
@@ -157,7 +168,7 @@ const GLfloat quadVertices[] = {
 
 #pragma mark private methods
 
-- (void)drawMarker:(ocv_ar::Marker *)marker {
+- (void)drawMarker:(const ocv_ar::Marker *)marker {
 	// set matrixes
 	glUniformMatrix4fv(shMarkerProjMat, 1, false, markerProjMat);
 	glUniformMatrix4fv(shMarkerModelViewMat, 1, false, marker->getPoseMatPtr());

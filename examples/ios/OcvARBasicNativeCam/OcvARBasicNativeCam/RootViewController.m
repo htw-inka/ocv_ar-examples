@@ -78,6 +78,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
         detector = new ocv_ar::Detect(ocv_ar::IDENT_TYPE_CODE_7X7,  // marker type
                                       MARKER_REAL_SIZE_M,           // real marker size in meters
                                       PROJ_FLIP_MODE);              // projection flip mode
+        tracker = new ocv_ar::Track(detector);
     }
     
     return self;
@@ -95,8 +96,9 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     [procFrameView release];
     [baseView release];
     
-    // delete marker detection
+    // delete marker detection and tracking objects
     if (detector) delete detector;
+    if (tracker) delete tracker;
     
     [super dealloc];
 }
@@ -129,6 +131,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     // create the GL view
     glView = [[GLView alloc] initWithFrame:baseView.frame];
+    [glView setTracker:tracker];
     [baseView addSubview:glView];
     
     // set a list of buttons for processing output display
@@ -206,16 +209,22 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     }
     
     // set the input frame and do not copy it
-    detector->setInputFrame(&curFrame, true);
+    tracker->detect(&curFrame);
+//    detector->setInputFrame(&curFrame, true);
     
     // process the frame
-    detector->processFrame();
+//    detector->processFrame();
     
     // get an output frame. may be NULL if no frame processing output is selected
     dispFrame = detector->getOutputFrame();
     
+    // update tracker (for now this is in the slow cam frame processing loop but
+    // it should be moved to the GL view when marker movement prediction is
+    // implemented)
+    tracker->update();
+    
     // set the vector of found markers
-    [glView setMarkers:detector->getMarkers()];
+//    [glView setMarkers:detector->getMarkers()];
     
     // update the views on the main thread
     [self performSelectorOnMainThread:@selector(updateViews)

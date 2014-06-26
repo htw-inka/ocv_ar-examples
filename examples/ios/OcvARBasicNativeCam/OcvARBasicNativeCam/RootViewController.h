@@ -44,6 +44,7 @@
     CamView *camView;           // shows the grabbed video frames ("camera preview")
     
     ocv_ar::Detect *detector;   // ocv_ar::Detector for marker detection
+    ocv_ar::Track *tracker;     // ocv_ar::Track for marker tracking and smoothing
     
     BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
 }
