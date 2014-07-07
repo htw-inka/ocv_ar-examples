@@ -38,6 +38,7 @@
 		28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28EA5AD31952EB2100B46513 /* ipad3-front.xml */; };
 		28EA5AD7195319D200B46513 /* ident_7x7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EA5AD5195319D200B46513 /* ident_7x7.cpp */; };
 		28EFDE5E195AFA5600679F04 /* track.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28EFDE5C195AFA5600679F04 /* track.cpp */; };
+		28F6A779196AD1110093478E /* threading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28F6A777196AD1110093478E /* threading.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,8 @@
 		28EA5AD6195319D200B46513 /* ident_7x7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ident_7x7.h; sourceTree = "<group>"; };
 		28EFDE5C195AFA5600679F04 /* track.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = track.cpp; sourceTree = "<group>"; };
 		28EFDE5D195AFA5600679F04 /* track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = track.h; sourceTree = "<group>"; };
+		28F6A777196AD1110093478E /* threading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = threading.cpp; sourceTree = "<group>"; };
+		28F6A778196AD1110093478E /* threading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threading.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +204,8 @@
 				28EA5AAE1952E26F00B46513 /* marker.h */,
 				28EA5AAD1952E26F00B46513 /* marker.cpp */,
 				28EA5AAF1952E26F00B46513 /* ocv_ar.h */,
+				28F6A778196AD1110093478E /* threading.h */,
+				28F6A777196AD1110093478E /* threading.cpp */,
 				28EA5AB21952E26F00B46513 /* tools.h */,
 				28EA5AB11952E26F00B46513 /* tools.cpp */,
 				28EFDE5D195AFA5600679F04 /* track.h */,
@@ -317,6 +322,7 @@
 				28EA5AC51952E76F00B46513 /* Tools.m in Sources */,
 				28EA5AB51952E26F00B46513 /* ident.cpp in Sources */,
 				28EFDE5E195AFA5600679F04 /* track.cpp in Sources */,
+				28F6A779196AD1110093478E /* threading.cpp in Sources */,
 				28EA5AB91952E26F00B46513 /* marker.cpp in Sources */,
 				28EA5A421952DC0900B46513 /* main.m in Sources */,
 			);
