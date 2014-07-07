@@ -98,6 +98,9 @@ const GLfloat quadVertices[] = {
 - (void)drawRect:(CGRect)rect {
     if (!glInitialized) return;
     
+    // update the tracker to smoothly move to new marker positions
+    tracker->update();
+        
     // Clear the framebuffer
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);   // 0.0f for alpha is important for non-opaque gl view!
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -110,10 +113,8 @@ const GLfloat quadVertices[] = {
     markerDispShader.use();
     
     if (markerProjMat) {
-        //        NSLog(@"GLView: drawing %lu markers", markers.size());
-        
         // draw each marker
-        tracker->lockMarkers();
+        tracker->lockMarkers(); // lock the tracked markers, because they might get updated in a different thread
         const ocv_ar::MarkerMap *markers = tracker->getMarkers();
         for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
              it != markers->end();
@@ -121,14 +122,7 @@ const GLfloat quadVertices[] = {
         {
             [self drawMarker:&(it->second)];
         }
-        tracker->unlockMarkers();
-        
-//        for (vector<ocv_ar::Marker *>::const_iterator it = markers.begin();
-//             it != markers.end();
-//             ++it)
-//        {
-//            [self drawMarker:(*it)];
-//        }
+        tracker->unlockMarkers();   // unlock the tracked markers again
     }
 }
 

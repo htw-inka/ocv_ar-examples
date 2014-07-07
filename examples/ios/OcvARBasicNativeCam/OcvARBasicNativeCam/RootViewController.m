@@ -208,23 +208,11 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
                          numChannels:curFrame.channels()];
     }
     
-    // set the input frame and do not copy it
+    // tell the tracked to run the detection on the input frame
     tracker->detect(&curFrame);
-//    detector->setInputFrame(&curFrame, true);
-    
-    // process the frame
-//    detector->processFrame();
     
     // get an output frame. may be NULL if no frame processing output is selected
     dispFrame = detector->getOutputFrame();
-    
-    // update tracker (for now this is in the slow cam frame processing loop but
-    // it should be moved to the GL view when marker movement prediction is
-    // implemented)
-    tracker->update();
-    
-    // set the vector of found markers
-//    [glView setMarkers:detector->getMarkers()];
     
     // update the views on the main thread
     [self performSelectorOnMainThread:@selector(updateViews)
