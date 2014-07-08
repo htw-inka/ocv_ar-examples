@@ -199,8 +199,8 @@
 		282C486D196C20040036CAE2 /* ChipmunkSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 282C486C196C20040036CAE2 /* ChipmunkSpace.m */; };
 		282C486F196C20040036CAE2 /* LICENSE_Chipmunk.txt in Resources */ = {isa = PBXBuildFile; fileRef = 282C486E196C20040036CAE2 /* LICENSE_Chipmunk.txt */; };
 		282C4873196C20040036CAE2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 282C4872196C20040036CAE2 /* main.m */; };
-		282C4877196C20040036CAE2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 282C4876196C20040036CAE2 /* AppDelegate.m */; };
-		282C487D196C20040036CAE2 /* IntroScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 282C487C196C20040036CAE2 /* IntroScene.m */; };
+		282C4877196C20040036CAE2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282C4876196C20040036CAE2 /* AppDelegate.mm */; };
+		282C487D196C20040036CAE2 /* IntroScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 282C487C196C20040036CAE2 /* IntroScene.mm */; };
 		282C48A5196C22350036CAE2 /* detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 282C4889196C22350036CAE2 /* detect.cpp */; };
 		282C48A7196C22350036CAE2 /* ident.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 282C488C196C22350036CAE2 /* ident.cpp */; };
 		282C48A9196C22350036CAE2 /* ident_7x7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 282C488F196C22350036CAE2 /* ident_7x7.cpp */; };
@@ -621,9 +621,9 @@
 		282C4871196C20040036CAE2 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = "Supporting Files/Prefix.pch"; sourceTree = "<group>"; };
 		282C4872196C20040036CAE2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Supporting Files/main.m"; sourceTree = "<group>"; };
 		282C4875196C20040036CAE2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
-		282C4876196C20040036CAE2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		282C4876196C20040036CAE2 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Classes/AppDelegate.mm; sourceTree = "<group>"; };
 		282C487B196C20040036CAE2 /* IntroScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IntroScene.h; path = Classes/IntroScene.h; sourceTree = "<group>"; };
-		282C487C196C20040036CAE2 /* IntroScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IntroScene.m; path = Classes/IntroScene.m; sourceTree = "<group>"; };
+		282C487C196C20040036CAE2 /* IntroScene.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IntroScene.mm; path = Classes/IntroScene.mm; sourceTree = "<group>"; };
 		282C4888196C22350036CAE2 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
 		282C4889196C22350036CAE2 /* detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = detect.cpp; sourceTree = "<group>"; };
 		282C488A196C22350036CAE2 /* detect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detect.h; sourceTree = "<group>"; };
@@ -1472,9 +1472,9 @@
 			isa = PBXGroup;
 			children = (
 				282C4875196C20040036CAE2 /* AppDelegate.h */,
-				282C4876196C20040036CAE2 /* AppDelegate.m */,
+				282C4876196C20040036CAE2 /* AppDelegate.mm */,
 				282C487B196C20040036CAE2 /* IntroScene.h */,
-				282C487C196C20040036CAE2 /* IntroScene.m */,
+				282C487C196C20040036CAE2 /* IntroScene.mm */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1745,12 +1745,12 @@
 				282C468D196C20010036CAE2 /* CCAnimation.m in Sources */,
 				282C47D9196C20030036CAE2 /* CCControlTextureFactory.m in Sources */,
 				282C477D196C20020036CAE2 /* OALAudioActions.m in Sources */,
-				282C4877196C20040036CAE2 /* AppDelegate.m in Sources */,
+				282C4877196C20040036CAE2 /* AppDelegate.mm in Sources */,
 				282C472E196C20020036CAE2 /* CCDirectorIOS.m in Sources */,
 				282C46C8196C20010036CAE2 /* CCParticleBatchNode.m in Sources */,
 				282C4762196C20020036CAE2 /* NSAttributedString+CCAdditions.m in Sources */,
 				282C4873196C20040036CAE2 /* main.m in Sources */,
-				282C487D196C20040036CAE2 /* IntroScene.m in Sources */,
+				282C487D196C20040036CAE2 /* IntroScene.mm in Sources */,
 				282C4660196C20000036CAE2 /* CCEffectStack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1892,6 +1892,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "../../../opencv-ios";
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OcvARCocos2D/Supporting Files/Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1918,6 +1919,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "../../../opencv-ios";
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OcvARCocos2D/Supporting Files/Prefix.pch";
 				HEADER_SEARCH_PATHS = (
