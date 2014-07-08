@@ -173,6 +173,9 @@
     
     // process the frame
     detector->processFrame();
+    
+    // estimate the 3D poses of the marker
+    detector->estimateMarkersPoses();
 
     // "outFrame" is only set when a processing level for output is selected
     Mat *outFrame = detector->getOutputFrame();
