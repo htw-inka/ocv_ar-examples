@@ -91,6 +91,7 @@ int main(int argc, char *argv[]) {
         // set the input frame, process the frame and get an output frame
         detector.setInputFrame(&camFrame);
         detector.processFrame();
+        // detector.estimateMarkersPoses(); // this is not necessary here, because we do not display a marker overlay via OpenGL
         outFrame = detector.getOutputFrame();
         
         // the output frame can be empty when no output frame should be generated
