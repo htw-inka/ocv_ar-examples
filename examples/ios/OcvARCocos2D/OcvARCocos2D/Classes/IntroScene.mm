@@ -61,6 +61,10 @@
         NSLog(@"detector initialization failure");
     }
 
+    // register as delegate to provide a custom projection matrix later
+    [[CCDirector sharedDirector] setDelegate:self];
+    [[CCDirector sharedDirector] setProjection:CCDirectorProjectionCustom];
+    
     // done
 	return self;
 }
@@ -108,5 +112,23 @@
     
     return YES;
 }
+
+#pragma mark CCDirectorDelegate methods
+
+- (GLKMatrix4)updateProjection {
+    NSLog(@"updating projection matrix");
+    
+    CCDirector *director = [CCDirector sharedDirector];
+    CGSize viewSize = [director viewSize];
+    detector->prepare(1920, 1080, 1);
+    float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
+    float s = detector->getMarkerScale();
+    
+    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
+    GLKMatrix4 scaledProjMat = GLKMatrix4Scale(projMat, s, s, s);
+    
+    return scaledProjMat;
+}
+
 
 @end
