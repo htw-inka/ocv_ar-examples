@@ -4,6 +4,7 @@
 * shows how to use the native iOS camera API in conjunction with ocv_ar, which is faster than using `CvVideoCamera`
 * has a simple GUI to switch between the stages of the marker detection process
 * uses OpenGL to display simple colored squares above found markers
+* makes use of the `ocv_ar::Track` class for marker tracking and smooth marker motion via pose interpolation
 * was tested with an iPad 3 on iOS 7
 
 ## Project setup notices
