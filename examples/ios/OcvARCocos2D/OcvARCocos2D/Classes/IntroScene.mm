@@ -9,6 +9,14 @@
 
 #import "IntroScene.h"
 
+@implementation CCNode (ZVertex)
+
+- (void)setZVertex:(float)zVert {
+    _vertexZ = zVert;
+}
+
+@end
+
 @interface IntroScene(Private)
 
 /**
@@ -43,17 +51,6 @@
     // create the tracker and pass it a reference to the detector object
     tracker = new ocv_ar::Track(detector);
     
-    // Create a colored background (Dark Grey)
-    CCNodeColor *background = [CCNodeColor nodeWithColor:[CCColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f]];
-    [self addChild:background];
-    
-    // Hello world
-    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Chalkduster" fontSize:36.0f];
-    label.positionType = CCPositionTypeNormalized;
-    label.color = [CCColor redColor];
-    label.position = ccp(0.5f, 0.5f); // Middle of screen
-    [self addChild:label];
-    
     // init detector
     if ([self initDetector]) {
         NSLog(@"cam intrinsics loaded from file %@", CAM_INTRINSICS_FILE);
@@ -64,6 +61,19 @@
     // register as delegate to provide a custom projection matrix later
     [[CCDirector sharedDirector] setDelegate:self];
     [[CCDirector sharedDirector] setProjection:CCDirectorProjectionCustom];
+    
+//    // Create a colored background (Dark Grey)
+//    CCNodeColor *background = [CCNodeColor nodeWithColor:[CCColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f]];
+//    [self addChild:background];
+    
+    CCSprite *cocosLogo = [CCSprite spriteWithImageNamed:@"Icon.png"];
+//    label.positionType = CCPositionTypeNormalized;
+//    label.color = [CCColor redColor];
+    [cocosLogo setPositionType:CCPositionTypePoints];
+    [cocosLogo setPosition:ccp(1.0f, 1.0f)];
+    [cocosLogo setScale:0.042f];
+    [cocosLogo setZVertex:-10.0f];
+    [self addChild:cocosLogo];
     
     // done
 	return self;

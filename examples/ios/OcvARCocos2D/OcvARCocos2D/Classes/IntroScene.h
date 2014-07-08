@@ -22,7 +22,10 @@
 #define PROJ_FLIP_MODE      ocv_ar::FLIP_H
 
 
-// -----------------------------------------------------------------------
+@interface CCNode(ZVertex)
+-(void)setZVertex:(float)zVert;
+@end
+
 
 /**
  *  The intro scene
