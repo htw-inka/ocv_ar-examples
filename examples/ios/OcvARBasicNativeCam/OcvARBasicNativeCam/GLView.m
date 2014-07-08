@@ -50,7 +50,6 @@ const GLfloat quadVertices[] = {
 
 @implementation GLView
 
-//@synthesize markers;
 @synthesize tracker;
 @synthesize markerProjMat;
 @synthesize markerScale;
@@ -82,8 +81,8 @@ const GLfloat quadVertices[] = {
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         
         // configure
-        [self setEnableSetNeedsDisplay:NO];
-        [self setOpaque:NO];
+        [self setEnableSetNeedsDisplay:NO]; // important to render every frame periodically and not on demand!
+        [self setOpaque:NO];                // we have a transparent overlay
         
         [self setDrawableColorFormat:GLKViewDrawableColorFormatRGBA8888];
         [self setDrawableDepthFormat:GLKViewDrawableDepthFormat24];
@@ -97,9 +96,6 @@ const GLfloat quadVertices[] = {
 
 - (void)drawRect:(CGRect)rect {
     if (!glInitialized) return;
-    
-    // update the tracker to smoothly move to new marker positions
-    tracker->update();
         
     // Clear the framebuffer
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);   // 0.0f for alpha is important for non-opaque gl view!
@@ -107,14 +103,18 @@ const GLfloat quadVertices[] = {
     
     glViewport(0, 0, viewportSize.width, viewportSize.height);
     
-    if (!showMarkers) return;
+    if (!showMarkers) return;   // break here in order not to display markers
+    
+    // update the tracker to smoothly move to new marker positions
+    tracker->update();
     
     // use the marker shader
     markerDispShader.use();
     
     if (markerProjMat) {
+        tracker->lockMarkers();     // lock the tracked markers, because they might get updated in a different thread
+        
         // draw each marker
-        tracker->lockMarkers(); // lock the tracked markers, because they might get updated in a different thread
         const ocv_ar::MarkerMap *markers = tracker->getMarkers();
         for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
              it != markers->end();
@@ -122,6 +122,7 @@ const GLfloat quadVertices[] = {
         {
             [self drawMarker:&(it->second)];
         }
+        
         tracker->unlockMarkers();   // unlock the tracked markers again
     }
 }

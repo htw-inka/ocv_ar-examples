@@ -40,11 +40,10 @@ using namespace std;
     GLfloat markerScaleMat[16]; // global marker transform (scale) matrix
 }
 
-//@property (nonatomic, assign) vector<ocv_ar::Marker *> markers; // found markers
-@property (nonatomic, assign) ocv_ar::Track *tracker;
-@property (nonatomic, assign) float *markerProjMat;             // 4x4 projection matrix
-@property (nonatomic, assign) float markerScale;                // marker scaling
-@property (nonatomic, assign) BOOL showMarkers;                 // enable/disable marker display
+@property (nonatomic, assign) ocv_ar::Track *tracker;   // tracker object that handles marker tracking and motion interpolation
+@property (nonatomic, assign) float *markerProjMat;     // 4x4 projection matrix
+@property (nonatomic, assign) float markerScale;        // marker scaling
+@property (nonatomic, assign) BOOL showMarkers;         // enable/disable marker display
 
 /**
  * set a marker scale <s> (real marker side length in meters)

@@ -57,7 +57,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)procOutputSelectBtnAction:(UIButton *)sender;
 
 /**
- * force to redraw views
+ * force to redraw views. this method is only to display the intermediate
+ * frame processing output for debugging
  */
 - (void)updateViews;
 @end
@@ -75,9 +76,11 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     if (self) {
         useDistCoeff = USE_DIST_COEFF;
         
+        // create the detector
         detector = new ocv_ar::Detect(ocv_ar::IDENT_TYPE_CODE_7X7,  // marker type
                                       MARKER_REAL_SIZE_M,           // real marker size in meters
                                       PROJ_FLIP_MODE);              // projection flip mode
+        // create the tracker and pass it a reference to the detector object
         tracker = new ocv_ar::Track(detector);
     }
     
@@ -97,8 +100,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     [baseView release];
     
     // delete marker detection and tracking objects
-    if (detector) delete detector;
     if (tracker) delete tracker;
+    if (detector) delete detector;
     
     [super dealloc];
 }
@@ -131,7 +134,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     // create the GL view
     glView = [[GLView alloc] initWithFrame:baseView.frame];
-    [glView setTracker:tracker];
+    [glView setTracker:tracker];    // pass the tracker object
     [baseView addSubview:glView];
     
     // set a list of buttons for processing output display
@@ -200,6 +203,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection
 {
+    // note that this method does *not* run in the main thread!
+    
     // convert the incoming YUV camera frame to a grayscale cv mat
     [Tools convertYUVSampleBuffer:sampleBuffer toGrayscaleMat:curFrame];
     
@@ -208,7 +213,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
                          numChannels:curFrame.channels()];
     }
     
-    // tell the tracked to run the detection on the input frame
+    // tell the tracker to run the detection on the input frame
     tracker->detect(&curFrame);
     
     // get an output frame. may be NULL if no frame processing output is selected
@@ -223,19 +228,19 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 #pragma mark private methods
 
 - (void)updateViews {
-    if (dispFrame) {    // when we have a frame to display in "procFrameView" ...
-        // ... convert it to an UIImage
-        UIImage *dispUIImage = [Tools imageFromCvMat:dispFrame];
-        
-        // and display it with the UIImageView "procFrameView"
-        [procFrameView setImage:dispUIImage];
-        [procFrameView setNeedsDisplay];
-        
-        // (this is slow but it's only for debugging)
-    }
+    if (!dispFrame) return;
     
-    // update the GL view
-//    [glView setNeedsDisplay];
+    // this method is only to display the intermediate frame processing
+    // output of the detector.
+    // (it is slow but it's only for debugging)
+    
+    // when we have a frame to display in "procFrameView" ...
+    // ... convert it to an UIImage
+    UIImage *dispUIImage = [Tools imageFromCvMat:dispFrame];
+        
+    // and display it with the UIImageView "procFrameView"
+    [procFrameView setImage:dispUIImage];
+    [procFrameView setNeedsDisplay];
 }
 
 - (void)initCam {
@@ -360,7 +365,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 }
 
 - (void)setCorrectedFrameForViews:(NSValue *)newFrameRect {
-    // WARNING: this *must* be called on the main thread
+    // WARNING: this *must* be executed on the main thread
     
     // set the corrected frame for the proc frame view
     CGRect r = [newFrameRect CGRectValue];
