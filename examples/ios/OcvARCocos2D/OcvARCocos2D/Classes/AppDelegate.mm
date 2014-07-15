@@ -58,6 +58,8 @@
     [baseView addSubview:director.view];
     [self.window.rootViewController setView:baseView];
     
+    [arScene setTracker:[arCtrl tracker]];
+    
 //    UIView *bgView = [[UIView alloc] initWithFrame:window_.frame];
 //    [bgView setBackgroundColor:[UIColor redColor]];
 //    [bgView addSubview:director.view];
@@ -70,7 +72,9 @@
 -(CCScene *)startScene
 {
 	// This method should return the very first scene to be run when your app starts.
-	return [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
+	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
+    
+    return arScene;
 }
 
 // doesnt work:

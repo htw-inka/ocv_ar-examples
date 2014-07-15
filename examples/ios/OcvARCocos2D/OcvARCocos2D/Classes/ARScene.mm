@@ -12,6 +12,8 @@
 
 @implementation ARScene
 
+@synthesize tracker;
+
 #pragma mark init/dealloc
 
 + (ARScene *)sceneWithMarkerScale:(float)s
@@ -25,8 +27,9 @@
     if (!self) return(nil);
 
     markerScale = s;
+    tracker = NULL;
     
-    NSLog(@"initializing AR scene with marker scale %f", markerScale);
+    NSLog(@"ARScene: initializing AR scene with marker scale %f", markerScale);
     
     // this will set the glClearColor
     // it is important to set the alpha channel to zero for the transparent overlay
@@ -50,5 +53,24 @@
 	return self;
 }
 
+- (void)update:(CCTime)delta {
+    if (tracker) {
+        tracker->update();
+        
+        tracker->lockMarkers();     // lock the tracked markers, because they might get updated in a different thread
+        
+        // draw each marker
+        const ocv_ar::MarkerMap *markers = tracker->getMarkers();
+        for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
+             it != markers->end();
+             ++it)
+        {
+            NSLog(@"ARScene: drawing marker #%d", it->second.getId());
+//            [self drawMarker:&(it->second)];
+        }
+        
+        tracker->unlockMarkers();   // unlock the tracked markers again
+    }
+}
 
 @end

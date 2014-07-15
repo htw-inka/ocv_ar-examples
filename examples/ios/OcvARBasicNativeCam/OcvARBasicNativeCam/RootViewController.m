@@ -220,16 +220,16 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     dispFrame = detector->getOutputFrame();
     
     // update the views on the main thread
-    [self performSelectorOnMainThread:@selector(updateViews)
-                           withObject:nil
-                        waitUntilDone:NO];
+    if (dispFrame) {
+        [self performSelectorOnMainThread:@selector(updateViews)
+                               withObject:nil
+                            waitUntilDone:NO];
+    }
 }
 
 #pragma mark private methods
 
 - (void)updateViews {
-    if (!dispFrame) return;
-    
     // this method is only to display the intermediate frame processing
     // output of the detector.
     // (it is slow but it's only for debugging)

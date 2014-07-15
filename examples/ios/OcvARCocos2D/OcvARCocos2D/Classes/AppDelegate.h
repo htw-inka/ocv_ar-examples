@@ -10,9 +10,11 @@
 #import "cocos2d.h"
 
 #import "ARCtrl.h"
+#import "ARScene.h"
 
 @interface AppDelegate : CCAppDelegate {
     ARCtrl *arCtrl;
+    ARScene *arScene;
 }
 
 @end

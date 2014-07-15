@@ -217,6 +217,7 @@
 		282C48C2196C25800036CAE2 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48C1196C25800036CAE2 /* CoreImage.framework */; };
 		285C9D311975555B00A981BA /* CamView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D301975555B00A981BA /* CamView.mm */; };
 		285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D33197555DB00A981BA /* ARCtrl.mm */; };
+		285C9D37197576BE00A981BA /* Tools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D36197576BE00A981BA /* Tools.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -655,6 +656,8 @@
 		285C9D301975555B00A981BA /* CamView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CamView.mm; path = Classes/CamView.mm; sourceTree = "<group>"; };
 		285C9D32197555DB00A981BA /* ARCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARCtrl.h; path = Classes/ARCtrl.h; sourceTree = "<group>"; };
 		285C9D33197555DB00A981BA /* ARCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ARCtrl.mm; path = Classes/ARCtrl.mm; sourceTree = "<group>"; };
+		285C9D35197576BE00A981BA /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Classes/Tools.h; sourceTree = "<group>"; };
+		285C9D36197576BE00A981BA /* Tools.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Tools.mm; path = Classes/Tools.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1485,6 +1488,8 @@
 				282C487C196C20040036CAE2 /* ARScene.mm */,
 				285C9D2F1975555B00A981BA /* CamView.h */,
 				285C9D301975555B00A981BA /* CamView.mm */,
+				285C9D35197576BE00A981BA /* Tools.h */,
+				285C9D36197576BE00A981BA /* Tools.mm */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1698,6 +1703,7 @@
 				282C4755196C20020036CAE2 /* CCProfiling.m in Sources */,
 				282C47B7196C20030036CAE2 /* OALSuspendHandler.m in Sources */,
 				282C47E5196C20030036CAE2 /* CCTextField.m in Sources */,
+				285C9D37197576BE00A981BA /* Tools.mm in Sources */,
 				282C46BD196C20010036CAE2 /* CCNode.m in Sources */,
 				282C47FD196C20030036CAE2 /* CCBLocalizationManager.m in Sources */,
 				282C46DB196C20010036CAE2 /* CCPhysicsJoint.m in Sources */,

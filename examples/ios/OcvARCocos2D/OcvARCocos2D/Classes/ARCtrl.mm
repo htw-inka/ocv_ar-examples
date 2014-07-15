@@ -8,6 +8,8 @@
 
 #import "ARCtrl.h"
 
+#import "Tools.h"
+
 /**
  * Small helper function to convert a fourCC <code> to
  * a character string <fourCC> for printf and the like
@@ -24,6 +26,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 @synthesize camView;
 @synthesize baseView;
+@synthesize detector;
+@synthesize tracker;
 
 
 #pragma mark init/dealloc
@@ -82,7 +86,21 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection
 {
+    // note that this method does *not* run in the main thread!
     
+    // convert the incoming YUV camera frame to a grayscale cv mat
+    [Tools convertYUVSampleBuffer:sampleBuffer toGrayscaleMat:curFrame];
+    
+//    if (!detector->isPrepared()) {  // on first frame: prepare for the frames
+//        [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows)
+//                         numChannels:curFrame.channels()];
+//    }
+    
+    // tell the tracker to run the detection on the input frame
+    tracker->detect(&curFrame);
+    
+    // get an output frame. may be NULL if no frame processing output is selected
+    dispFrame = detector->getOutputFrame();
 }
 
 #pragma mark CCDirectorDelegate methods

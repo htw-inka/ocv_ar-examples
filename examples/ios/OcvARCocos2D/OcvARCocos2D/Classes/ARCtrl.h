@@ -38,13 +38,13 @@
     
     CCDirector *director;
     
-    ocv_ar::Detect *detector;   // ocv_ar::Detector for marker detection
-    ocv_ar::Track *tracker;     // ocv_ar::Track for marker tracking and motion interpolation
     BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
 }
 
 @property (nonatomic, readonly) UIView *baseView;
 @property (nonatomic, readonly) CamView *camView;   // shows the grabbed video frames ("camera preview")
+@property (nonatomic, readonly) ocv_ar::Detect *detector;   // ocv_ar::Detector for marker detection
+@property (nonatomic, readonly) ocv_ar::Track *tracker;     // ocv_ar::Track for marker tracking and motion interpolation
 
 
 - (id)initWithFrame:(CGRect)frame orientation:(UIInterfaceOrientation)o;
