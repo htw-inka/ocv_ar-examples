@@ -29,7 +29,7 @@
 		// (See CCAppDelegate.h for more information)
 		
 		// Use a 16 bit color buffer: 
-//		CCSetupPixelFormat: kEAGLColorFormatRGB565,
+		CCSetupPixelFormat: kEAGLColorFormatRGBA8,  // RGBA8 is needed for transparent overlay
 		// Use a simplified coordinate system that is shared across devices.
 //		CCSetupScreenMode: CCScreenModeFixed,
 		// Run in portrait mode.
@@ -41,6 +41,14 @@
 		// Make iPad's act like they run at a 2x content scale. (iPad retina 4x)
 //		CCSetupTabletScale2X: @(YES),
 	}];
+    
+    CCDirector *director = [CCDirector sharedDirector];
+    [director.view setOpaque:NO];   // needed for transparent overlay
+    
+    UIView *bgView = [[UIView alloc] initWithFrame:self.window.bounds];
+    [bgView setBackgroundColor:[UIColor redColor]];
+    [bgView addSubview:director.view];
+    [self.window.rootViewController setView:bgView];
 	
 	return YES;
 }

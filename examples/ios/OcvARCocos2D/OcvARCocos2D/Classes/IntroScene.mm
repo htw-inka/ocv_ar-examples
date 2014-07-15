@@ -62,6 +62,7 @@
     [[CCDirector sharedDirector] setDelegate:self];
     [[CCDirector sharedDirector] setProjection:CCDirectorProjectionCustom];
     
+    [self setColorRGBA:[CCColor colorWithCcColor4f:ccc4f(0.0f, 0.0f, 0.0f, 0.0f)]];
     [self setScale:detector->getMarkerScale()];
     
 //    // Create a colored background (Dark Grey)
