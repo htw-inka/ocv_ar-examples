@@ -62,6 +62,8 @@
     [[CCDirector sharedDirector] setDelegate:self];
     [[CCDirector sharedDirector] setProjection:CCDirectorProjectionCustom];
     
+    [self setScale:detector->getMarkerScale()];
+    
 //    // Create a colored background (Dark Grey)
 //    CCNodeColor *background = [CCNodeColor nodeWithColor:[CCColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f]];
 //    [self addChild:background];
@@ -70,9 +72,9 @@
 //    label.positionType = CCPositionTypeNormalized;
 //    label.color = [CCColor redColor];
     [cocosLogo setPositionType:CCPositionTypePoints];
-    [cocosLogo setPosition:ccp(1.0f, 1.0f)];
-    [cocosLogo setScale:0.042f];
-    [cocosLogo setZVertex:-10.0f];
+    [cocosLogo setPosition:ccp(0.0f, 0.0f)];
+    [cocosLogo setZVertex:-20.0f];
+    
     [self addChild:cocosLogo];
     
     // done
@@ -126,18 +128,16 @@
 #pragma mark CCDirectorDelegate methods
 
 - (GLKMatrix4)updateProjection {
-    NSLog(@"updating projection matrix");
-    
     CCDirector *director = [CCDirector sharedDirector];
     CGSize viewSize = [director viewSize];
     detector->prepare(1920, 1080, 1);
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
-    float s = detector->getMarkerScale();
     
     GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
-    GLKMatrix4 scaledProjMat = GLKMatrix4Scale(projMat, s, s, s);
     
-    return scaledProjMat;
+    NSLog(@"updating projection matrix");
+    
+    return projMat;
 }
 
 
