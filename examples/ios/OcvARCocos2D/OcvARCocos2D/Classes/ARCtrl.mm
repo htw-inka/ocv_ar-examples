@@ -34,29 +34,41 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     if (self) {
         baseFrame = frame;
         interfOrientation = o;
+        director = [CCDirector sharedDirector];
         
         baseView = [[UIView alloc] initWithFrame:baseFrame];
         
         [self initCam];
+        [self initAR];
+        
+        [director setDelegate:self];
+        [director setProjection:CCDirectorProjectionCustom];
     }
     
     return self;
 }
 
 - (void)dealloc {
+    if (detector) delete detector;
+    if (tracker) delete tracker;
+    
     [self stopCam];
 }
 
 
 #pragma mark public methods
 
++ (float)markerScale {
+    return MARKER_REAL_SIZE_M;
+}
+
 - (void)startCam {
-    NSLog(@"starting camera capture");
+    NSLog(@"ARCtrl: starting camera capture");
     [camSession startRunning];
 }
 
 - (void)stopCam {
-    NSLog(@"stopping camera capture");
+    NSLog(@"ARCtrl: stopping camera capture");
     [camSession stopRunning];
 }
 
@@ -73,10 +85,25 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
 }
 
+#pragma mark CCDirectorDelegate methods
+
+- (GLKMatrix4)updateProjection {
+    director = [CCDirector sharedDirector];
+    CGSize viewSize = [director viewSize];
+    detector->prepare(1920, 1080, 1);   // to do: get this information from the first camera frame
+    float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
+    
+    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
+    
+    NSLog(@"ARCtrl: updating projection matrix");
+    
+    return projMat;
+}
+
 #pragma mark private methods
 
 - (void)initCam {
-    NSLog(@"initializing cam");
+    NSLog(@"ARCtrl: initializing cam");
     
     // init camera view
     camView = [[CamView alloc] initWithFrame:baseFrame];
@@ -92,7 +119,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     // get the camera device
 	NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     if (devices.count <= 0) {
-        NSLog(@"error - no camera found on this device");
+        NSLog(@"ARCtrl: error - no camera found on this device");
         return;
     }
     
@@ -107,7 +134,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     camDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:camDevice error:&error];
     
     if (error || !camDeviceInput) {
-        NSLog(@"error getting camera device: %@", error);
+        NSLog(@"ARCtrl: error getting camera device: %@", error);
         return;
     }
     
@@ -134,7 +161,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
         if (bestPixelFormatCode == -1) bestPixelFormatCode = code;  // choose the first as best
         char fourCC[5];
         fourCCStringFromCode(code, fourCC);
-        NSLog(@"available video output format: %s (code %d)", fourCC, code);
+        NSLog(@"ARCtrl: available video output format: %s (code %d)", fourCC, code);
     }
     
     // specify output video format
@@ -144,7 +171,51 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 }
 
 - (void)initAR {
+    NSLog(@"ARCtrl: initializing AR system");
     
+    assert(!detector && !tracker);
+    
+    useDistCoeff = USE_DIST_COEFF;
+    
+    // create the detector
+    detector = new ocv_ar::Detect(ocv_ar::IDENT_TYPE_CODE_7X7,  // marker type
+                                  MARKER_REAL_SIZE_M,           // real marker size in meters
+                                  PROJ_FLIP_MODE);              // projection flip mode
+    // create the tracker and pass it a reference to the detector object
+    tracker = new ocv_ar::Track(detector);
+    
+    // load the camera intrinsics
+    cv::FileStorage fs;
+    const char *path = [[[NSBundle mainBundle] pathForResource:CAM_INTRINSICS_FILE ofType:NULL]
+                        cStringUsingEncoding:NSASCIIStringEncoding];
+    
+    if (!path) {
+        NSLog(@"ARCtrl: could not find cam intrinsics file %@", CAM_INTRINSICS_FILE);
+        return;
+    }
+    
+    fs.open(path, cv::FileStorage::READ);
+    
+    if (!fs.isOpened()) {
+        NSLog(@"ARCtrl: could not load cam intrinsics file %@", CAM_INTRINSICS_FILE);
+        return;
+    }
+    
+    cv::Mat camMat;
+    cv::Mat distCoeff;
+    
+    fs["Camera_Matrix"]  >> camMat;
+    
+    if (useDistCoeff) {
+        fs["Distortion_Coefficients"]  >> distCoeff;
+    }
+    
+    if (camMat.empty()) {
+        NSLog(@"ARCtrl: could not load cam instrinsics matrix from file %@", CAM_INTRINSICS_FILE);
+        return;
+    }
+    
+    detector->setCamIntrinsics(camMat, distCoeff);
 }
 
 @end

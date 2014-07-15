@@ -8,13 +8,13 @@
 // -----------------------------------------------------------------------
 
 #import "AppDelegate.h"
-#import "IntroScene.h"
+#import "ARScene.h"
 #import "ARCtrl.h"
 
 
 @implementation AppDelegate
 
-// 
+
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// This is the only app delegate method you need to implement when inheriting from CCAppDelegate.
@@ -69,9 +69,8 @@
 
 -(CCScene *)startScene
 {
-    
 	// This method should return the very first scene to be run when your app starts.
-	return [IntroScene scene];
+	return [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
 }
 
 // doesnt work:

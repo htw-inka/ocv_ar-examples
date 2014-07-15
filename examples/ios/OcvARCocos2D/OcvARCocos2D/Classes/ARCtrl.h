@@ -11,11 +11,21 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+#import "cocos2d.h"
+
+#include "../../../../../ocv_ar/ocv_ar.h"
+
 #import "CamView.h"
 
-#define CAM_SESSION_PRESET  AVCaptureSessionPresetHigh
+// change to following lines to adjust to your setting:
 
-@interface ARCtrl : NSObject<AVCaptureVideoDataOutputSampleBufferDelegate> {
+#define MARKER_REAL_SIZE_M  0.042f
+#define CAM_INTRINSICS_FILE @"ipad3-front.xml"
+#define CAM_SESSION_PRESET  AVCaptureSessionPresetHigh
+#define USE_DIST_COEFF      NO
+#define PROJ_FLIP_MODE      ocv_ar::FLIP_H
+
+@interface ARCtrl : NSObject<AVCaptureVideoDataOutputSampleBufferDelegate, CCDirectorDelegate> {
     CGRect baseFrame;
     UIInterfaceOrientation interfOrientation;
     
@@ -25,6 +35,12 @@
     
     cv::Mat curFrame;           // currently grabbed camera frame (grayscale)
     cv::Mat *dispFrame;         // frame to display. is NULL when the "normal" camera preview is displayed
+    
+    CCDirector *director;
+    
+    ocv_ar::Detect *detector;   // ocv_ar::Detector for marker detection
+    ocv_ar::Track *tracker;     // ocv_ar::Track for marker tracking and motion interpolation
+    BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
 }
 
 @property (nonatomic, readonly) UIView *baseView;
@@ -37,5 +53,7 @@
 
 - (void)startCam;
 - (void)stopCam;
+
++ (float)markerScale;
 
 @end
