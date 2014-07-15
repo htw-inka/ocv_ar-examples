@@ -2,8 +2,16 @@
 
 #include "../../../../../ocv_ar/ocv_ar.h"
 
-@interface CCNode(ZVertex)
--(void)setZVertex:(float)zVert;
+@interface CCNodeAR : CCNode {
+    float transformMat[16];
+}
+
+@property (nonatomic, assign) int objectId;
+
+-(void)setTransformMatrix:(const float [16])m;
+
+-(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform;
+
 @end
 
 
