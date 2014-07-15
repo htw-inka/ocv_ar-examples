@@ -215,6 +215,8 @@
 		282C48BE196C25670036CAE2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48BD196C25670036CAE2 /* CoreMedia.framework */; };
 		282C48C0196C257A0036CAE2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48BF196C257A0036CAE2 /* AssetsLibrary.framework */; };
 		282C48C2196C25800036CAE2 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48C1196C25800036CAE2 /* CoreImage.framework */; };
+		285C9D311975555B00A981BA /* CamView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D301975555B00A981BA /* CamView.mm */; };
+		285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D33197555DB00A981BA /* ARCtrl.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -649,6 +651,10 @@
 		282C48BD196C25670036CAE2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		282C48BF196C257A0036CAE2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		282C48C1196C25800036CAE2 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		285C9D2F1975555B00A981BA /* CamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CamView.h; path = Classes/CamView.h; sourceTree = "<group>"; };
+		285C9D301975555B00A981BA /* CamView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CamView.mm; path = Classes/CamView.mm; sourceTree = "<group>"; };
+		285C9D32197555DB00A981BA /* ARCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARCtrl.h; path = Classes/ARCtrl.h; sourceTree = "<group>"; };
+		285C9D33197555DB00A981BA /* ARCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ARCtrl.mm; path = Classes/ARCtrl.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1473,8 +1479,12 @@
 			children = (
 				282C4875196C20040036CAE2 /* AppDelegate.h */,
 				282C4876196C20040036CAE2 /* AppDelegate.mm */,
+				285C9D32197555DB00A981BA /* ARCtrl.h */,
+				285C9D33197555DB00A981BA /* ARCtrl.mm */,
 				282C487B196C20040036CAE2 /* IntroScene.h */,
 				282C487C196C20040036CAE2 /* IntroScene.mm */,
+				285C9D2F1975555B00A981BA /* CamView.h */,
+				285C9D301975555B00A981BA /* CamView.mm */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1705,6 +1715,7 @@
 				282C48B2196C22350036CAE2 /* threading.cpp in Sources */,
 				282C47D5196C20030036CAE2 /* CCControl.m in Sources */,
 				282C46CF196C20010036CAE2 /* CCParticleSystem.m in Sources */,
+				285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */,
 				282C46CB196C20010036CAE2 /* CCParticleExamples.m in Sources */,
 				282C4697196C20010036CAE2 /* CCConfiguration.m in Sources */,
 				282C479C196C20030036CAE2 /* ALContext.m in Sources */,
@@ -1740,6 +1751,7 @@
 				282C4796196C20030036CAE2 /* ALCaptureDevice.m in Sources */,
 				282C471A196C20020036CAE2 /* CCTiledMapLayer.m in Sources */,
 				282C4662196C20000036CAE2 /* CCEffectTexture.m in Sources */,
+				285C9D311975555B00A981BA /* CamView.mm in Sources */,
 				282C4751196C20020036CAE2 /* CCColor.m in Sources */,
 				282C466B196C20000036CAE2 /* CCShader.m in Sources */,
 				282C468D196C20010036CAE2 /* CCAnimation.m in Sources */,
@@ -1957,6 +1969,7 @@
 				282C4882196C20040036CAE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		282C4883196C20040036CAE2 /* Build configuration list for PBXNativeTarget "OcvARCocos2D" */ = {
 			isa = XCConfigurationList;
@@ -1965,6 +1978,7 @@
 				282C4885196C20040036CAE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

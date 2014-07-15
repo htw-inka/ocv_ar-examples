@@ -9,6 +9,8 @@
 
 #import "AppDelegate.h"
 #import "IntroScene.h"
+#import "ARCtrl.h"
+
 
 @implementation AppDelegate
 
@@ -31,9 +33,9 @@
 		// Use a 16 bit color buffer: 
 		CCSetupPixelFormat: kEAGLColorFormatRGBA8,  // RGBA8 is needed for transparent overlay
 		// Use a simplified coordinate system that is shared across devices.
-//		CCSetupScreenMode: CCScreenModeFixed,
+		CCSetupScreenMode: CCScreenModeFixed,
 		// Run in portrait mode.
-//		CCSetupScreenOrientation: CCScreenOrientationPortrait,
+		CCSetupScreenOrientation: CCScreenOrientationLandscape,
 		// Run at a reduced framerate.
 //		CCSetupAnimationInterval: @(1.0/30.0),
 		// Run the fixed timestep extra fast.
@@ -45,18 +47,36 @@
     CCDirector *director = [CCDirector sharedDirector];
     [director.view setOpaque:NO];   // needed for transparent overlay
     
-    UIView *bgView = [[UIView alloc] initWithFrame:self.window.bounds];
-    [bgView setBackgroundColor:[UIColor redColor]];
-    [bgView addSubview:director.view];
-    [self.window.rootViewController setView:bgView];
+    NSLog(@"view size: %dx%d", (int)director.viewSizeInPixels.width, (int)director.viewSizeInPixels.height);
+    
+    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, director.viewSizeInPixels.width / 2.0f, director.viewSizeInPixels.height / 2.0f)
+                               orientation:window_.rootViewController.interfaceOrientation];
+    
+    [arCtrl startCam];  // must be called before the subsequent commands
+    
+    UIView *baseView = arCtrl.baseView;
+    [baseView addSubview:director.view];
+    [self.window.rootViewController setView:baseView];
+    
+//    UIView *bgView = [[UIView alloc] initWithFrame:window_.frame];
+//    [bgView setBackgroundColor:[UIColor redColor]];
+//    [bgView addSubview:director.view];
+//    [self.window.rootViewController setView:bgView];
+//    [(CCNavigationController *)self.window.rootViewController updateProjection];
 	
 	return YES;
 }
 
 -(CCScene *)startScene
 {
+    
 	// This method should return the very first scene to be run when your app starts.
 	return [IntroScene scene];
 }
+
+// doesnt work:
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+//    return interfaceOrientation == UIInterfaceOrientationLandscapeRight;
+//}
 
 @end

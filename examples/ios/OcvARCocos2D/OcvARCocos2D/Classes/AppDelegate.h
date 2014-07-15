@@ -9,5 +9,10 @@
 
 #import "cocos2d.h"
 
-@interface AppDelegate : CCAppDelegate
+#import "ARCtrl.h"
+
+@interface AppDelegate : CCAppDelegate {
+    ARCtrl *arCtrl;
+}
+
 @end
