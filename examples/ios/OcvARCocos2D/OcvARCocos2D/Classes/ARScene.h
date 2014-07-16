@@ -12,6 +12,10 @@
 
 -(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform;
 
+-(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform;
+
+-(void)sortAllChildren;
+
 @end
 
 

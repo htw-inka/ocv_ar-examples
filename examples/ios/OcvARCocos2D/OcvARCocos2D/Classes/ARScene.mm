@@ -17,6 +17,47 @@
     return GLKMatrix4Scale(m, _scaleX, _scaleX, _scaleX);
 }
 
+-(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform
+{
+	// quick return if not visible. children won't be drawn.
+	if (!_visible)
+		return;
+    
+    [self sortAllChildren];
+    
+	GLKMatrix4 transform = [self transform:parentTransform];
+	BOOL drawn = NO;
+    
+	for(CCNode *child in _children){
+		if(!drawn && child.zOrder >= 0){
+			[self draw:renderer transform:&transform];
+			drawn = YES;
+		}
+        
+		[child visit:renderer parentTransform:&transform];
+    }
+    
+	if(!drawn) [self draw:renderer transform:&transform];
+    
+	// reset for next frame
+	_orderOfArrival = 0;
+}
+
+- (void) sortAllChildren
+{
+	if (_isReorderChildDirty)
+	{
+        [_children sortUsingSelector:@selector(compareZOrderToNode:)];
+        
+		//don't need to check children recursively, that's done in visit of each child
+        
+		_isReorderChildDirty = NO;
+        
+        [[[CCDirector sharedDirector] responderManager] markAsDirty];
+        
+	}
+}
+
 @end
 
 
