@@ -4,18 +4,18 @@
 
 @synthesize objectId;
 
--(void)setTransformMatrix:(const float [16])m {
-    memcpy(transformMat, m, 16 * sizeof(float));
+-(void)setARTransformMatrix:(const float [16])m {
+    memcpy(arTransformMat, m, 16 * sizeof(float));
 }
 
--(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform {
-    NSLog(@"CCNodeAR - object id %d, scale %f", objectId, _scaleX);
-    
-    GLKMatrix4 m = GLKMatrix4MakeWithArray(transformMat);
-    
-//    return m;
-    return GLKMatrix4Scale(m, _scaleX, _scaleX, _scaleX);
-}
+//-(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform {
+//    NSLog(@"CCNodeAR - object id %d, scale %f", objectId, _scaleX);
+//    
+//    GLKMatrix4 m = GLKMatrix4MakeWithArray(transformMat);
+//    
+////    return m;
+//    return GLKMatrix4Scale(m, _scaleX, _scaleX, _scaleX);
+//}
 
 -(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform
 {
@@ -25,7 +25,8 @@
     
     [self sortAllChildren];
     
-	GLKMatrix4 transform = [self transform:parentTransform];
+//	GLKMatrix4 transform = [self transform:parentTransform];
+    GLKMatrix4 transform = GLKMatrix4MakeWithArray(arTransformMat);
 	BOOL drawn = NO;
     
 	for(CCNode *child in _children){
@@ -135,9 +136,10 @@
 - (void)drawMarker:(const ocv_ar::Marker *)marker {
     CCNodeAR *markerNode = [CCNodeAR node];
     [markerNode setObjectId:marker->getId()];
-    [markerNode setScale:markerScale];
-    [markerNode setTransformMatrix:marker->getPoseMatPtr()];
+//    [markerNode setScale:markerScale];
+    [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
     CCSprite *cocosLogo = [CCSprite spriteWithImageNamed:@"Icon.png"];
+    [cocosLogo setScale:markerScale * 0.1f];
     [markerNode addChild:cocosLogo];
     
     [self addChild:markerNode];

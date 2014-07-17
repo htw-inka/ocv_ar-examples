@@ -3,14 +3,14 @@
 #include "../../../../../ocv_ar/ocv_ar.h"
 
 @interface CCNodeAR : CCNode {
-    float transformMat[16];
+    float arTransformMat[16];
 }
 
 @property (nonatomic, assign) int objectId;
 
--(void)setTransformMatrix:(const float [16])m;
+-(void)setARTransformMatrix:(const float [16])m;
 
--(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform;
+//-(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform;
 
 -(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform;
 

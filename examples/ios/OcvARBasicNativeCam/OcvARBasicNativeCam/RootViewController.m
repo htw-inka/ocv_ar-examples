@@ -23,6 +23,16 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     fourCC[4] = '\0';
 }
 
+void printFloatMat4x4(const float *m) {
+    for (int y = 0; y < 4; ++y) {
+        for (int x = 0; x < 4; ++x) {
+            printf("%f ", m[y * 4 + x]);
+        }
+        
+        printf("\n");
+    }
+}
+
 @interface RootViewController(Private)
 /**
  * initialize camera
@@ -373,6 +383,9 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     
     // also calculate a new GL projection matrix and resize the gl view
     float *projMatPtr = detector->getProjMat(r.size.width, r.size.height);
+    NSLog(@"projection matrix:");
+    printFloatMat4x4(projMatPtr);
+    NSLog(@"------------------");
     [glView setMarkerProjMat:projMatPtr];
     [glView setFrame:r];
     [glView resizeView:r.size];

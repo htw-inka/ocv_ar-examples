@@ -107,15 +107,20 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 - (GLKMatrix4)updateProjection {
     director = [CCDirector sharedDirector];
-    CGSize viewSize = [director viewSize];
+    CGSize viewSize = [director viewSizeInPixels];
     detector->prepare(1920, 1080, 1);   // to do: get this information from the first camera frame
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
     
     GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
     
-    NSLog(@"ARCtrl: updating projection matrix");
+    NSLog(@"ARCtrl: updating projection matrix for view size %dx%d", (int)viewSize.width, (int)viewSize.height);
     
-    return projMat;
+    return GLKMatrix4Transpose(projMat);
+    
+//    return GLKMatrix4Make( 5.020380,  0.000000,  0.000000,  0.000000,
+//                           0.000000, -8.925120,  0.000000,  0.000000,
+//                          -0.998958,  0.998148, -1.000200, -1.000000,
+//                           0.000000,  0.000000, -0.020002,  0.000000);
 }
 
 #pragma mark private methods
