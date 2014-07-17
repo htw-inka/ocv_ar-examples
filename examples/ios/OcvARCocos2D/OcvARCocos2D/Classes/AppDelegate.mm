@@ -47,6 +47,7 @@
     CCDirector *director = [CCDirector sharedDirector];
     [director.view setOpaque:NO];   // needed for transparent overlay
     
+    // "viewSize" returns the wrong px size (512x384), so we use viewSizeInPixels
     NSLog(@"view size: %dx%d", (int)director.viewSizeInPixels.width, (int)director.viewSizeInPixels.height);
     
     arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, director.viewSizeInPixels.width / 2.0f, director.viewSizeInPixels.height / 2.0f)
@@ -54,17 +55,13 @@
     
     [arCtrl startCam];  // must be called before the subsequent commands
     
+    // the "baseView" contains the camera view
     UIView *baseView = arCtrl.baseView;
-    [baseView addSubview:director.view];
+    [baseView addSubview:director.view];    // add the cocos2d opengl on top of the camera view
+    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
     [self.window.rootViewController setView:baseView];
     
     [arScene setTracker:[arCtrl tracker]];
-    
-//    UIView *bgView = [[UIView alloc] initWithFrame:window_.frame];
-//    [bgView setBackgroundColor:[UIColor redColor]];
-//    [bgView addSubview:director.view];
-//    [self.window.rootViewController setView:bgView];
-//    [(CCNavigationController *)self.window.rootViewController updateProjection];
 	
 	return YES;
 }

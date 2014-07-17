@@ -45,6 +45,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
         [self initCam];
         [self initAR];
         
+        // set projection to "custom projection" and set the CCDirectorDelegate to self
+        // this will cause the CCDirector to call the "updateProjection" on this object
         [director setDelegate:self];
         [director setProjection:CCDirectorProjectionCustom];
     }
@@ -111,16 +113,11 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     detector->prepare(1920, 1080, 1);   // to do: get this information from the first camera frame
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
     
-    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
+    GLKMatrix4 projMat = GLKMatrix4MakeWithArrayAndTranspose(projMatPtr);   // looks like transpose is necessary
     
     NSLog(@"ARCtrl: updating projection matrix for view size %dx%d", (int)viewSize.width, (int)viewSize.height);
     
-    return GLKMatrix4Transpose(projMat);
-    
-//    return GLKMatrix4Make( 5.020380,  0.000000,  0.000000,  0.000000,
-//                           0.000000, -8.925120,  0.000000,  0.000000,
-//                          -0.998958,  0.998148, -1.000200, -1.000000,
-//                           0.000000,  0.000000, -0.020002,  0.000000);
+    return projMat;
 }
 
 #pragma mark private methods

@@ -218,6 +218,7 @@
 		285C9D311975555B00A981BA /* CamView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D301975555B00A981BA /* CamView.mm */; };
 		285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D33197555DB00A981BA /* ARCtrl.mm */; };
 		285C9D37197576BE00A981BA /* Tools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D36197576BE00A981BA /* Tools.mm */; };
+		287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 287EE4371977E4A500072F3A /* CCNodeAR.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -658,6 +659,8 @@
 		285C9D33197555DB00A981BA /* ARCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ARCtrl.mm; path = Classes/ARCtrl.mm; sourceTree = "<group>"; };
 		285C9D35197576BE00A981BA /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Classes/Tools.h; sourceTree = "<group>"; };
 		285C9D36197576BE00A981BA /* Tools.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Tools.mm; path = Classes/Tools.mm; sourceTree = "<group>"; };
+		287EE4361977E4A500072F3A /* CCNodeAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNodeAR.h; path = Classes/CCNodeAR.h; sourceTree = "<group>"; };
+		287EE4371977E4A500072F3A /* CCNodeAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNodeAR.mm; path = Classes/CCNodeAR.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1488,6 +1491,8 @@
 				282C487C196C20040036CAE2 /* ARScene.mm */,
 				285C9D2F1975555B00A981BA /* CamView.h */,
 				285C9D301975555B00A981BA /* CamView.mm */,
+				287EE4361977E4A500072F3A /* CCNodeAR.h */,
+				287EE4371977E4A500072F3A /* CCNodeAR.mm */,
 				285C9D35197576BE00A981BA /* Tools.h */,
 				285C9D36197576BE00A981BA /* Tools.mm */,
 			);
@@ -1751,6 +1756,7 @@
 				282C469B196C20010036CAE2 /* CCDirector.m in Sources */,
 				282C4679196C20000036CAE2 /* CCActionEase.m in Sources */,
 				282C465A196C20000036CAE2 /* CCEffectGlow.m in Sources */,
+				287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */,
 				282C47A6196C20030036CAE2 /* ALSoundSourcePool.m in Sources */,
 				282C47F1196C20030036CAE2 /* CCBKeyframe.m in Sources */,
 				282C46A7196C20010036CAE2 /* CCLabelBMFont.m in Sources */,

@@ -1,66 +1,6 @@
 #import "ARScene.h"
 
-@implementation CCNodeAR
-
-@synthesize objectId;
-
--(void)setARTransformMatrix:(const float [16])m {
-    memcpy(arTransformMat, m, 16 * sizeof(float));
-}
-
-//-(GLKMatrix4)transform:(const GLKMatrix4 *)parentTransform {
-//    NSLog(@"CCNodeAR - object id %d, scale %f", objectId, _scaleX);
-//    
-//    GLKMatrix4 m = GLKMatrix4MakeWithArray(transformMat);
-//    
-////    return m;
-//    return GLKMatrix4Scale(m, _scaleX, _scaleX, _scaleX);
-//}
-
--(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform
-{
-	// quick return if not visible. children won't be drawn.
-	if (!_visible)
-		return;
-    
-    [self sortAllChildren];
-    
-//	GLKMatrix4 transform = [self transform:parentTransform];
-    GLKMatrix4 transform = GLKMatrix4MakeWithArray(arTransformMat);
-	BOOL drawn = NO;
-    
-	for(CCNode *child in _children){
-		if(!drawn && child.zOrder >= 0){
-			[self draw:renderer transform:&transform];
-			drawn = YES;
-		}
-        
-		[child visit:renderer parentTransform:&transform];
-    }
-    
-	if(!drawn) [self draw:renderer transform:&transform];
-    
-	// reset for next frame
-	_orderOfArrival = 0;
-}
-
-- (void) sortAllChildren
-{
-	if (_isReorderChildDirty)
-	{
-        [_children sortUsingSelector:@selector(compareZOrderToNode:)];
-        
-		//don't need to check children recursively, that's done in visit of each child
-        
-		_isReorderChildDirty = NO;
-        
-        [[[CCDirector sharedDirector] responderManager] markAsDirty];
-        
-	}
-}
-
-@end
-
+#import "CCNodeAR.h"
 
 @interface ARScene (Private)
 - (void)drawMarker:(const ocv_ar::Marker *)marker;
@@ -78,7 +18,6 @@
 }
 
 - (id)initWithMarkerScale:(float)s {
-    // Apple recommend assigning self with supers return value
     self = [super init];
     if (!self) return(nil);
 
@@ -90,20 +29,6 @@
     // this will set the glClearColor
     // it is important to set the alpha channel to zero for the transparent overlay
     [self setColorRGBA:[CCColor colorWithCcColor4f:ccc4f(0.0f, 0.0f, 0.0f, 0.0f)]];
-//    [self setScale:markerScale];
-    
-//    // Create a colored background (Dark Grey)
-//    CCNodeColor *background = [CCNodeColor nodeWithColor:[CCColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f]];
-//    [self addChild:background];
-    
-//    CCSprite *cocosLogo = [CCSprite spriteWithImageNamed:@"Icon.png"];
-////    label.positionType = CCPositionTypeNormalized;
-////    label.color = [CCColor redColor];
-//    [cocosLogo setPositionType:CCPositionTypePoints];
-//    [cocosLogo setPosition:ccp(0.0f, 0.0f)];
-////    [cocosLogo setZVertex:-20.0f];
-    
-//    [self addChild:cocosLogo];
     
     // done
 	return self;
@@ -113,7 +38,9 @@
     if (tracker) {
         tracker->update();
         
-        [self removeAllChildren];   // todo: don't do this allways
+        // we'll do it like this for now and re-add the sprite for each marker on each update
+        // in the future, check for added and lost markers and keep the others
+        [self removeAllChildren];
         
         tracker->lockMarkers();     // lock the tracked markers, because they might get updated in a different thread
         
@@ -134,12 +61,19 @@
 #pragma mark private methods
 
 - (void)drawMarker:(const ocv_ar::Marker *)marker {
+    // create a "AR" node
     CCNodeAR *markerNode = [CCNodeAR node];
     [markerNode setObjectId:marker->getId()];
 //    [markerNode setScale:markerScale];
+    
+    // set the 3D transform matrix for the marker
     [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
+    
+    // use the cocos logo as sprite for a marker
     CCSprite *cocosLogo = [CCSprite spriteWithImageNamed:@"Icon.png"];
-    [cocosLogo setScale:markerScale * 0.1f];
+    [cocosLogo setScale:markerScale * 0.1f];    // "0.1f" shouldn't be necessary.
+                                                // markerScale scales down the coord. system so that 1 opengl unit
+                                                // is 1 marker side length
     [markerNode addChild:cocosLogo];
     
     [self addChild:markerNode];
