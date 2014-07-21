@@ -113,7 +113,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     detector->prepare(1920, 1080, 1);   // to do: get this information from the first camera frame
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
     
-    GLKMatrix4 projMat = GLKMatrix4MakeWithArrayAndTranspose(projMatPtr);   // looks like transpose is necessary
+    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);   // looks like transpose is necessary
     
     NSLog(@"ARCtrl: updating projection matrix for view size %dx%d", (int)viewSize.width, (int)viewSize.height);
     

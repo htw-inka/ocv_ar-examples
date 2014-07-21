@@ -1,8 +1,10 @@
 #import "cocos2d.h"
 
+#import "CCSceneAR.h"
+
 #include "../../../../../ocv_ar/ocv_ar.h"
 
-@interface ARScene : CCScene {
+@interface ARScene : CCSceneAR {
     float markerScale;  // real marker size in meters
 }
 

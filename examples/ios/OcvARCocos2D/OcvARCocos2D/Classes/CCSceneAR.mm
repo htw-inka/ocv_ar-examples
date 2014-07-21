@@ -1,31 +1,25 @@
-#import "CCNodeAR.h"
+#import "CCSceneAR.h"
 
+#import "CCDirector.h"
 #import "Tools.h"
 
-@implementation CCNodeAR
+@implementation CCSceneAR
 
-@synthesize objectId;
-
--(void)setARTransformMatrix:(const float [16])m {
-    memcpy(arTransformMat, m, 16 * sizeof(float));
-}
-
--(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform
-{
+-(void)visit:(CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform {
+    // override CCNode's visit:parentTransform:
+    
 	// quick return if not visible. children won't be drawn.
 	if (!_visible)
 		return;
     
     [self sortAllChildren];
     
-    // just use the AR transform matrix directly for this node
-    GLKMatrix4 transform = GLKMatrix4MakeWithArray(arTransformMat); // transpose necessary, too?
+    NSLog(@"CCSceneAR - parentTransform:");
+    [Tools printGLKMat4x4:parentTransform];
     
-    transform = GLKMatrix4Multiply(*parentTransform, transform);
-    
-    NSLog(@"CCNodeAR - transform:");
-    [Tools printGLKMat4x4:&transform];
-    
+    float s = 1.0f;
+	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(s, s, s);
+    GLKMatrix4 transform = GLKMatrix4Multiply(*parentTransform, scaleMat);
 	BOOL drawn = NO;
     
 	for(CCNode *child in _children){
@@ -45,9 +39,6 @@
 
 - (void) sortAllChildren
 {
-    // copy&paste from CCNode. necessary because this method was private and is called from
-    // visit:parentTransform:
-    
 	if (_isReorderChildDirty)
 	{
         [_children sortUsingSelector:@selector(compareZOrderToNode:)];
