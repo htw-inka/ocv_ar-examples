@@ -57,19 +57,27 @@
 {
     const CCSpriteVertexes *verts = [self vertexes];
     
-    CCVertex vBL { GLKVector4Make(0.0f, 0.0f, 0.0f, 1.0f),
+    // vertex corners from anchor point
+    float aL = -_anchorPoint.x;
+    float aR =  _anchorPoint.x;
+    float aB = -_anchorPoint.y;
+    float aT =  _anchorPoint.y;
+    
+    // set the vertices
+    CCVertex vBL { GLKVector4Make(aL, aB, _vertexZ, 1.0f),
                    verts->bl.texCoord1, verts->bl.texCoord2,
                    verts->bl.color };
-    CCVertex vBR { GLKVector4Make(1.0f, 0.0f, 0.0f, 1.0f),
+    CCVertex vBR { GLKVector4Make(aR, aB, _vertexZ, 1.0f),
         verts->br.texCoord1, verts->br.texCoord2,
         verts->br.color };
-    CCVertex vTR { GLKVector4Make(1.0f, 1.0f, 0.0f, 1.0f),
+    CCVertex vTR { GLKVector4Make(aR, aT, _vertexZ, 1.0f),
         verts->tr.texCoord1, verts->tr.texCoord2,
         verts->tr.color };
-    CCVertex vTL { GLKVector4Make(0.0f, 1.0f, 0.0f, 1.0f),
+    CCVertex vTL { GLKVector4Make(aL, aT, _vertexZ, 1.0f),
         verts->tl.texCoord1, verts->tl.texCoord2,
         verts->tl.color };
     
+    // set the vertices in the buffer
 	CCRenderBuffer buffer = [renderer enqueueTriangles:2 andVertexes:4 withState:self.renderState globalSortOrder:0];
 	CCRenderBufferSetVertex(buffer, 0, CCVertexApplyTransform(vBL, transform));
 	CCRenderBufferSetVertex(buffer, 1, CCVertexApplyTransform(vBR, transform));
