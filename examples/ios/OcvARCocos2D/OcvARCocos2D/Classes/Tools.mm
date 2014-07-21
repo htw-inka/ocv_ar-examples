@@ -25,4 +25,14 @@
     CVPixelBufferUnlockBaseAddress(imgBuf, 0);
 }
 
++ (void)printGLKMat4x4:(const GLKMatrix4 *)mat {
+    for (int y = 0; y < 4; ++y) {
+        for (int x = 0; x < 4; ++x) {
+            printf("%f ", mat->m[y * 4 + x]);
+        }
+        
+        printf("\n");
+    }
+}
+
 @end

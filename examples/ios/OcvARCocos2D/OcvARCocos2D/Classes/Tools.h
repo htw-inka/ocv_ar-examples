@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <GLKit/GLKit.h>
 
 @interface Tools : NSObject
 
@@ -10,5 +11,8 @@
  * for details about the pixel format
  */
 + (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toGrayscaleMat:(cv::Mat &)mat;
+
+
++ (void)printGLKMat4x4:(const GLKMatrix4 *)mat;
 
 @end

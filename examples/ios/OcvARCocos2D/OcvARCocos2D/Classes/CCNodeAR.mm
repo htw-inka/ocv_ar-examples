@@ -1,5 +1,7 @@
 #import "CCNodeAR.h"
 
+#import "Tools.h"
+
 @implementation CCNodeAR
 
 @synthesize objectId;
@@ -18,6 +20,10 @@
     
     // just use the AR transform matrix directly for this node
     GLKMatrix4 transform = GLKMatrix4MakeWithArray(arTransformMat); // transpose necessary, too?
+    
+    NSLog(@"CCNodeAR - transform:");
+    [Tools printGLKMat4x4:&transform];
+    
 	BOOL drawn = NO;
     
 	for(CCNode *child in _children){

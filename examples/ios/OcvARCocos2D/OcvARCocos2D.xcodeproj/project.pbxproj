@@ -218,6 +218,7 @@
 		285C9D311975555B00A981BA /* CamView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D301975555B00A981BA /* CamView.mm */; };
 		285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D33197555DB00A981BA /* ARCtrl.mm */; };
 		285C9D37197576BE00A981BA /* Tools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D36197576BE00A981BA /* Tools.mm */; };
+		28657243197D286600774E01 /* CCSpriteAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28657242197D286600774E01 /* CCSpriteAR.mm */; };
 		287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 287EE4371977E4A500072F3A /* CCNodeAR.mm */; };
 /* End PBXBuildFile section */
 
@@ -659,6 +660,8 @@
 		285C9D33197555DB00A981BA /* ARCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ARCtrl.mm; path = Classes/ARCtrl.mm; sourceTree = "<group>"; };
 		285C9D35197576BE00A981BA /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Classes/Tools.h; sourceTree = "<group>"; };
 		285C9D36197576BE00A981BA /* Tools.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Tools.mm; path = Classes/Tools.mm; sourceTree = "<group>"; };
+		28657241197D286600774E01 /* CCSpriteAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSpriteAR.h; path = Classes/CCSpriteAR.h; sourceTree = "<group>"; };
+		28657242197D286600774E01 /* CCSpriteAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCSpriteAR.mm; path = Classes/CCSpriteAR.mm; sourceTree = "<group>"; };
 		287EE4361977E4A500072F3A /* CCNodeAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNodeAR.h; path = Classes/CCNodeAR.h; sourceTree = "<group>"; };
 		287EE4371977E4A500072F3A /* CCNodeAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNodeAR.mm; path = Classes/CCNodeAR.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1493,6 +1496,8 @@
 				285C9D301975555B00A981BA /* CamView.mm */,
 				287EE4361977E4A500072F3A /* CCNodeAR.h */,
 				287EE4371977E4A500072F3A /* CCNodeAR.mm */,
+				28657241197D286600774E01 /* CCSpriteAR.h */,
+				28657242197D286600774E01 /* CCSpriteAR.mm */,
 				285C9D35197576BE00A981BA /* Tools.h */,
 				285C9D36197576BE00A981BA /* Tools.mm */,
 			);
@@ -1686,6 +1691,7 @@
 				282C4673196C20000036CAE2 /* CCAction.m in Sources */,
 				282C48AB196C22350036CAE2 /* ident_templ.cpp in Sources */,
 				282C47AD196C20030036CAE2 /* ALWrapper.m in Sources */,
+				28657243197D286600774E01 /* CCSpriteAR.mm in Sources */,
 				282C47F7196C20030036CAE2 /* CCBsequence.m in Sources */,
 				282C47E2196C20030036CAE2 /* CCTableView.m in Sources */,
 				282C46B1196C20010036CAE2 /* CCLayout.m in Sources */,

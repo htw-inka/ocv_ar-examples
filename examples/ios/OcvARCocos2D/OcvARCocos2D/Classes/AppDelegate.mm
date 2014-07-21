@@ -32,6 +32,7 @@
 		
 		// Use a 16 bit color buffer: 
 		CCSetupPixelFormat: kEAGLColorFormatRGBA8,  // RGBA8 is needed for transparent overlay
+        CCSetupDepthFormat: @GL_DEPTH_COMPONENT24_OES,
 		// Use a simplified coordinate system that is shared across devices.
 		CCSetupScreenMode: CCScreenModeFixed,
 		// Run in portrait mode.

@@ -1,6 +1,7 @@
 #import "ARScene.h"
 
 #import "CCNodeAR.h"
+#import "CCSpriteAR.h"
 
 @interface ARScene (Private)
 - (void)drawMarker:(const ocv_ar::Marker *)marker;
@@ -70,8 +71,8 @@
     [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
     
     // use the cocos logo as sprite for a marker
-    CCSprite *cocosLogo = [CCSprite spriteWithImageNamed:@"Icon.png"];
-    [cocosLogo setScale:markerScale * 0.1f];    // "0.1f" shouldn't be necessary.
+    CCSpriteAR *cocosLogo = [CCSpriteAR spriteWithImageNamed:@"Icon.png"];
+    [cocosLogo setScale:markerScale];
                                                 // markerScale scales down the coord. system so that 1 opengl unit
                                                 // is 1 marker side length
     [markerNode addChild:cocosLogo];
