@@ -5,6 +5,22 @@
 
 @implementation CCSpriteAR
 
+-(id)init {
+    self = [super init];
+    if (self) {
+        _scaleZ = 1.0f;
+    }
+    
+    return self;
+}
+
+@synthesize scaleZ = _scaleZ;
+
+-(void)setScale:(float)scale {
+    _scaleZ = scale;
+    [super setScale:scale];
+}
+
 -(void)visit:(CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform {
     // override CCNode's visit:parentTransform:
     
@@ -14,11 +30,11 @@
     
     [self sortAllChildren];
     
-    NSLog(@"CCSpriteAR - parentTransform:");
-    [Tools printGLKMat4x4:parentTransform];
+//    NSLog(@"CCSpriteAR - parentTransform:");
+//    [Tools printGLKMat4x4:parentTransform];
     
     
-	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(_scaleX, _scaleX, _scaleX);
+	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(_scaleX, _scaleY, _scaleZ);
     GLKMatrix4 transform = GLKMatrix4Multiply(*parentTransform, scaleMat);
 	BOOL drawn = NO;
     

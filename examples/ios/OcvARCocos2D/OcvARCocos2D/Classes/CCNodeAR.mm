@@ -23,8 +23,8 @@
     
     transform = GLKMatrix4Multiply(*parentTransform, transform);
     
-    NSLog(@"CCNodeAR - transform:");
-    [Tools printGLKMat4x4:&transform];
+//    NSLog(@"CCNodeAR - transform:");
+//    [Tools printGLKMat4x4:&transform];
     
 	BOOL drawn = NO;
     

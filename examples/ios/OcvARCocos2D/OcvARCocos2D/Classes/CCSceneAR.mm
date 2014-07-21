@@ -5,6 +5,22 @@
 
 @implementation CCSceneAR
 
+@synthesize scaleZ = _scaleZ;
+
+-(id)init {
+    self = [super init];
+    if (self) {
+        _scaleZ = 1.0f;
+    }
+    
+    return self;
+}
+
+-(void)setScale:(float)scale {
+    _scaleZ = scale;
+    [super setScale:scale];
+}
+
 -(void)visit:(CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform {
     // override CCNode's visit:parentTransform:
     
@@ -14,11 +30,10 @@
     
     [self sortAllChildren];
     
-    NSLog(@"CCSceneAR - parentTransform:");
-    [Tools printGLKMat4x4:parentTransform];
+//    NSLog(@"CCSceneAR - parentTransform:");
+//    [Tools printGLKMat4x4:parentTransform];
     
-    float s = 1.0f;
-	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(s, s, s);
+	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(_scaleX, _scaleY, _scaleZ);
     GLKMatrix4 transform = GLKMatrix4Multiply(*parentTransform, scaleMat);
 	BOOL drawn = NO;
     
