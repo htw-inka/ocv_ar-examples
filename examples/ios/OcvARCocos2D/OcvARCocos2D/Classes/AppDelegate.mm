@@ -108,7 +108,7 @@
 	// make main window visible
 	[window_ makeKeyAndVisible];
     
-//    [director runWithScene: arScene];
+    [director startAnimation];
 	
 	return YES;
 }
