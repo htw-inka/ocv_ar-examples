@@ -33,11 +33,18 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 @implementation ARCtrl
 
+static GLKMatrix4 *_arProjMat = NULL;
+
 @synthesize camView;
 @synthesize baseView;
 @synthesize detector;
 @synthesize tracker;
 
+#pragma mark static methods
+
++ (const GLKMatrix4 *)arProjectionMatrix {
+    return _arProjMat;
+}
 
 #pragma mark init/dealloc
 
@@ -66,6 +73,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (void)dealloc {
     if (detector) delete detector;
     if (tracker) delete tracker;
+    
+    if (_arProjMat) delete _arProjMat;
     
     [self stopCam];
 }
@@ -124,8 +133,11 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 #pragma mark CCDirectorDelegate methods
 
 - (GLKMatrix4)updateProjection {
-    director = [CCDirector sharedDirector];
-    CGSize viewSize = [director viewSizeInPixels];
+    CGSize viewSize = [[CCDirector sharedDirector] viewSizeInPixels];
+    
+    if (viewSize.width < viewSize.height) {
+        CC_SWAP(viewSize.width, viewSize.height);
+    }
 
     NSLog(@"ARCtrl: updating projection matrix for view size %dx%d", (int)viewSize.width, (int)viewSize.height);
     
@@ -134,6 +146,12 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
     
     GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
+    
+    if (!_arProjMat) {
+        _arProjMat = new GLKMatrix4;
+    }
+    
+    memcpy(_arProjMat, &projMat, sizeof(GLKMatrix4));
     
     NSLog(@"ARCtrl: updating projection matrix done");
     

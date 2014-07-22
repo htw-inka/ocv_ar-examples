@@ -43,8 +43,6 @@
     
     CGFloat scaleFactor = size.width / fixed.width;
     
-    NSLog(@"size %dx%d, scale factor %f", (int)size.width, (int)size.height, scaleFactor);
-    
     director.contentScaleFactor = scaleFactor;
     director.UIScaleFactor = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 1.0 : 0.5);
     

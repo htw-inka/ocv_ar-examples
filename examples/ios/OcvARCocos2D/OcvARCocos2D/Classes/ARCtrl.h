@@ -59,4 +59,6 @@
 
 + (float)markerScale;
 
++ (const GLKMatrix4 *)arProjectionMatrix;
+
 @end

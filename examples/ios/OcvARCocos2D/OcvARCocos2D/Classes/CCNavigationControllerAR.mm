@@ -45,6 +45,10 @@
 // Projection delegate is only used if the fixed resolution mode is enabled
 -(GLKMatrix4)updateProjection
 {
+    if ([ARCtrl arProjectionMatrix]) {
+        return (*[ARCtrl arProjectionMatrix]);
+    }
+    
 	CGSize sizePoint = [CCDirector sharedDirector].viewSize;
 	CGSize fixed = [CCDirector sharedDirector].designSize;
 	

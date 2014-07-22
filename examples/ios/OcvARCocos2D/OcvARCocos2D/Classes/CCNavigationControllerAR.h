@@ -2,6 +2,7 @@
 
 #import "CCDirector.h"
 #import "CCAppDelegate.h"
+#import "ARCtrl.h"
 
 @interface CCNavigationControllerAR : CCNavigationController {
     CCAppDelegate* __weak _appDelegateAR;
