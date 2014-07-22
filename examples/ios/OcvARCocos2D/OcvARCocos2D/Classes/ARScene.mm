@@ -29,7 +29,7 @@
     
     // this will set the glClearColor
     // it is important to set the alpha channel to zero for the transparent overlay
-    [self setColorRGBA:[CCColor colorWithCcColor4f:ccc4f(0.0f, 0.0f, 0.0f, 0.0f)]];
+    [self setColorRGBA:[CCColor colorWithCcColor4f:ccc4f(1.0f, 0.0f, 0.0f, 0.1f)]];
     
     // done
 	return self;
@@ -47,6 +47,7 @@
         
         // draw each marker
         const ocv_ar::MarkerMap *markers = tracker->getMarkers();
+//        NSLog(@"ARScene: got %lu markers", markers->size());
         for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
              it != markers->end();
              ++it)

@@ -11,10 +11,15 @@
 
 #import "ARCtrl.h"
 #import "ARScene.h"
+#import "RootViewCtrl.h"
 
 @interface AppDelegate : CCAppDelegate {
     ARCtrl *arCtrl;
     ARScene *arScene;
+    
+    RootViewCtrl *rootViewCtrl;
+    
+    CCGLView *glView;
 }
 
 @end

@@ -10,74 +10,129 @@
 #import "AppDelegate.h"
 #import "ARScene.h"
 #import "ARCtrl.h"
+#import "CCNavigationControllerAR.h"
 
+@interface AppDelegate (Private)
+- (void)createGLViewWithFrame:(CGRect)frame;
+@end
 
 @implementation AppDelegate
 
 
--(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-	// This is the only app delegate method you need to implement when inheriting from CCAppDelegate.
-	// This method is a good place to add one time setup code that only runs when your app is first launched.
+-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Custom AppDelegate launch method
+    // We need full power over how the view hiearchy is created, that's why this method does not use cocos2d's
+    // default setup function
+    
+    // create the window
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    // create a custom root view controller
+    // this will be the root view controller instead of CCDirector!
+    rootViewCtrl = [[RootViewCtrl alloc] init];
+    
+    // create the gl view
+	[self createGLViewWithFrame:self.window.bounds];
+    
+    // create the director
+    CCDirectorIOS *director = (CCDirectorIOS*) [CCDirector sharedDirector];
+    [director setWantsFullScreenLayout:YES];
+    
+    // set its gl view
+    [director setView:glView];
+    
+#ifdef DEBUG
+    [director setDisplayStats:YES];
+#endif
+    
+    // calculate screen size and content scaling
+    NSLog(@"view size in units: %dx%d, scale factor: %f",
+          (int)glView.frame.size.width, (int)glView.frame.size.height,  director.UIScaleFactor);
+    
+    CGSize size = glView.frame.size;
+    CGSize fixed = {568, 384};
+    if (size.width < size.height) CC_SWAP(fixed.width, fixed.height);
+    
+    CGFloat scaleFactor = size.width / fixed.width;
+    
+    director.contentScaleFactor = scaleFactor;
+    director.UIScaleFactor = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 1.0 : 0.5);
+    
+    // Let CCFileUtils know that "-ipad" textures should be treated as having a contentScale of 2.0.
+    [[CCFileUtils sharedFileUtils] setiPadContentScaleFactor: 2.0];
+    
+    director.designSize = fixed;
+    
+	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
+	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
+	// You can change this setting at any time.
+	[CCTexture setDefaultAlphaPixelFormat:CCTexturePixelFormat_RGBA8888];
+    
+    // Initialise OpenAL
+    [OALSimpleAudio sharedInstance];
 	
-	// Setup Cocos2D with reasonable defaults for everything.
-	// There are a number of simple options you can change.
-	// If you want more flexibility, you can configure Cocos2D yourself instead of calling setupCocos2dWithOptions:.
-	[self setupCocos2dWithOptions:@{
-		// Show the FPS and draw call label.
-		CCSetupShowDebugStats: @(YES),
-		
-		// More examples of options you might want to fiddle with:
-		// (See CCAppDelegate.h for more information)
-		
-		// Use a 16 bit color buffer: 
-		CCSetupPixelFormat: kEAGLColorFormatRGBA8,  // RGBA8 is needed for transparent overlay
-        CCSetupDepthFormat: @GL_DEPTH_COMPONENT24_OES,
-		// Use a simplified coordinate system that is shared across devices.
-		CCSetupScreenMode: CCScreenModeFixed,
-		// Run in portrait mode.
-		CCSetupScreenOrientation: CCScreenOrientationLandscape,
-		// Run at a reduced framerate.
-//		CCSetupAnimationInterval: @(1.0/30.0),
-		// Run the fixed timestep extra fast.
-//		CCSetupFixedUpdateInterval: @(1.0/180.0),
-		// Make iPad's act like they run at a 2x content scale. (iPad retina 4x)
-//		CCSetupTabletScale2X: @(YES),
-	}];
+    // create the AR controller which will also create the base view and camera view
+    CGFloat arFrameW = size.width;
+    CGFloat arFrameH = size.height;
+    if (arFrameW < arFrameH) CC_SWAP(arFrameW, arFrameH);
     
-    CCDirector *director = [CCDirector sharedDirector];
-    [director.view setOpaque:NO];   // needed for transparent overlay
+    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, arFrameW, arFrameH)
+                               orientation:UIInterfaceOrientationLandscapeRight];
     
-    // "viewSize" returns the wrong px size (512x384), so we use viewSizeInPixels
-    NSLog(@"view size: %dx%d", (int)director.viewSizeInPixels.width, (int)director.viewSizeInPixels.height);
-    
-    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, director.viewSizeInPixels.width / 2.0f, director.viewSizeInPixels.height / 2.0f)
-                               orientation:window_.rootViewController.interfaceOrientation];
-    
-    [arCtrl startCam];  // must be called before the subsequent commands
+    [arCtrl startCam];  // MUST be called before [arCtrl setupProjection]
     
     // the "baseView" contains the camera view
     UIView *baseView = arCtrl.baseView;
-    [baseView addSubview:director.view];    // add the cocos2d opengl on top of the camera view
-    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
-    [self.window.rootViewController setView:baseView];
-    
+    [baseView addSubview:glView];    // add the cocos2d opengl on top of the camera view
+
+    [rootViewCtrl setView:baseView];
+
+    // create the AR start scene
+	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
     [arScene setTracker:[arCtrl tracker]];
+    
+    // calculate the AR projection matrix
+    [arCtrl setupProjection];
+
+	// Create a Navigation Controller with the custom root view controller
+	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:rootViewCtrl];
+    [navCtrl setNavigationBarHidden:YES];
+    [navCtrl setAppDelegateAR:self];
+    [navCtrl setScreenOrientationAR:CCScreenOrientationLandscape];
+    navController_ = navCtrl;
+    
+	// for rotation and other messages
+	[director setDelegate:navController_];
+    
+	// set the Navigation Controller as the root view controller
+	[window_ setRootViewController:navController_];
+	
+	// make main window visible
+	[window_ makeKeyAndVisible];
+    
+    // somehow, this is necessary here
+    [director startAnimation];
 	
 	return YES;
 }
 
+
+
 -(CCScene *)startScene
 {
-	// This method should return the very first scene to be run when your app starts.
-	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
-    
     return arScene;
 }
 
-// doesnt work:
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-//    return interfaceOrientation == UIInterfaceOrientationLandscapeRight;
-//}
+- (void)createGLViewWithFrame:(CGRect)frame {
+	glView = [CCGLView viewWithFrame:frame
+                         pixelFormat:kEAGLColorFormatRGBA8
+                         depthFormat:GL_DEPTH_COMPONENT24_OES
+                  preserveBackbuffer:NO
+                          sharegroup:nil
+                       multiSampling:NO
+                     numberOfSamples:0 ];
+
+    [glView setOpaque:NO];   // needed for transparent overlay
+}
 
 @end
