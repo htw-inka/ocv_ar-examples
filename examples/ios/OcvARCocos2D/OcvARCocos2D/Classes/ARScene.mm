@@ -47,6 +47,7 @@
         
         // draw each marker
         const ocv_ar::MarkerMap *markers = tracker->getMarkers();
+//        NSLog(@"ARScene: got %lu markers", markers->size());
         for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
              it != markers->end();
              ++it)

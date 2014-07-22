@@ -11,6 +11,7 @@
 #import "ARScene.h"
 #import "ARCtrl.h"
 #import "CCNavigationControllerAR.h"
+#import "CCDirectorAR.h"
 
 @interface AppDelegate (Private)
 - (void)createGLViewWithFrame:(CGRect)frame;
@@ -22,15 +23,16 @@
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    rootViewCtrl = [[RootViewCtrl alloc] init];
+    
 	[self createGLViewWithFrame:self.window.bounds];
     
     [glView setOpaque:NO];   // needed for transparent overlay
     
-#undef CC_DIRECTOR_DEFAULT
-#define CC_DIRECTOR_DEFAULT CCDirectorAR
-    
     CCDirectorIOS *director = (CCDirectorIOS*) [CCDirector sharedDirector];
     [director setWantsFullScreenLayout:YES];
+    
+    [director setView:glView];
     
 #ifdef DEBUG
     [director setDisplayStats:YES];
@@ -61,11 +63,11 @@
 	
     
     // "viewSize" returns the wrong px size (512x384), so we use viewSizeInPixels
-    NSLog(@"view size in px: %dx%d, scale factor: %f",
+    NSLog(@"view size in units: %dx%d, scale factor: %f",
           (int)glView.frame.size.width, (int)glView.frame.size.height,  director.UIScaleFactor);
-    int viewWUnits = glView.frame.size.width * director.UIScaleFactor;
-    int viewHUnits = glView.frame.size.height * director.UIScaleFactor;
-    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, viewWUnits, viewHUnits)
+//    int viewWUnits = glView.frame.size.width * director.UIScaleFactor;
+//    int viewHUnits = glView.frame.size.height * director.UIScaleFactor;
+    arCtrl = [[ARCtrl alloc] initWithFrame:glView.frame
                                orientation:UIInterfaceOrientationLandscapeRight];
     
     [arCtrl startCam];  // must be called before the subsequent commands
@@ -74,32 +76,39 @@
     UIView *baseView = arCtrl.baseView;
     [baseView addSubview:glView];    // add the cocos2d opengl on top of the camera view
     
-    [director setView:glView];
 //    [((UIViewController *)director) setView:baseView];
+    
+//    [rootViewCtrl addChildViewController:director];
+    [rootViewCtrl setView:baseView];
+    
+	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
+    
+    [arScene setTracker:[arCtrl tracker]];
+    
+    [arCtrl setupProjection];
 
 	// Create a Navigation Controller with the Director
-	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:director];
+	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:rootViewCtrl];
     [navCtrl setNavigationBarHidden:YES];
     [navCtrl setAppDelegateAR:self];
     [navCtrl setScreenOrientationAR:CCScreenOrientationLandscape];
     navController_ = navCtrl;
     
-    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
-    [navController_ setView:baseView];
-    
 	// for rotation and other messages
 	[director setDelegate:navController_];
-	   
-    
-    [arScene setTracker:[arCtrl tracker]];
-    
-    [arCtrl setupProjection];
+
+//    [navController_ setView:baseView];
     
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
+    
+//    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
+//    [window_.rootViewController setView:baseView];
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
+    
+//    [director runWithScene: arScene];
 	
 	return YES;
 }
@@ -108,9 +117,6 @@
 
 -(CCScene *)startScene
 {
-	// This method should return the very first scene to be run when your app starts.
-	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
-    
     return arScene;
 }
 

@@ -10,4 +10,6 @@
 
 @interface CCDirectorAR : CCDirectorDisplayLink
 
+//-(void)setBaseView:(UIView *)baseView glView:(CCGLView *)glView;
+
 @end
