@@ -222,7 +222,6 @@
 		28657246197D32F200774E01 /* CCSceneAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28657245197D32F200774E01 /* CCSceneAR.mm */; };
 		287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 287EE4371977E4A500072F3A /* CCNodeAR.mm */; };
 		28F98574197E8345000BCA51 /* CCNavigationControllerAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */; };
-		28F9857A197E8E13000BCA51 /* CCDirectorAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28F98579197E8E13000BCA51 /* CCDirectorAR.mm */; };
 		28F9857D197E9D44000BCA51 /* RootViewCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28F9857C197E9D44000BCA51 /* RootViewCtrl.mm */; };
 /* End PBXBuildFile section */
 
@@ -672,8 +671,6 @@
 		287EE4371977E4A500072F3A /* CCNodeAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNodeAR.mm; path = Classes/CCNodeAR.mm; sourceTree = "<group>"; };
 		28F98572197E8345000BCA51 /* CCNavigationControllerAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNavigationControllerAR.h; path = Classes/CCNavigationControllerAR.h; sourceTree = "<group>"; };
 		28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNavigationControllerAR.mm; path = Classes/CCNavigationControllerAR.mm; sourceTree = "<group>"; };
-		28F98578197E8E13000BCA51 /* CCDirectorAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCDirectorAR.h; path = Classes/CCDirectorAR.h; sourceTree = "<group>"; };
-		28F98579197E8E13000BCA51 /* CCDirectorAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCDirectorAR.mm; path = Classes/CCDirectorAR.mm; sourceTree = "<group>"; };
 		28F9857B197E9D44000BCA51 /* RootViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewCtrl.h; path = Classes/RootViewCtrl.h; sourceTree = "<group>"; };
 		28F9857C197E9D44000BCA51 /* RootViewCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RootViewCtrl.mm; path = Classes/RootViewCtrl.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1506,8 +1503,6 @@
 				282C487C196C20040036CAE2 /* ARScene.mm */,
 				285C9D2F1975555B00A981BA /* CamView.h */,
 				285C9D301975555B00A981BA /* CamView.mm */,
-				28F98578197E8E13000BCA51 /* CCDirectorAR.h */,
-				28F98579197E8E13000BCA51 /* CCDirectorAR.mm */,
 				28F98572197E8345000BCA51 /* CCNavigationControllerAR.h */,
 				28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */,
 				287EE4361977E4A500072F3A /* CCNodeAR.h */,
@@ -1756,7 +1751,6 @@
 				282C47D5196C20030036CAE2 /* CCControl.m in Sources */,
 				282C46CF196C20010036CAE2 /* CCParticleSystem.m in Sources */,
 				285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */,
-				28F9857A197E8E13000BCA51 /* CCDirectorAR.mm in Sources */,
 				282C46CB196C20010036CAE2 /* CCParticleExamples.m in Sources */,
 				282C4697196C20010036CAE2 /* CCConfiguration.m in Sources */,
 				282C479C196C20030036CAE2 /* ALContext.m in Sources */,

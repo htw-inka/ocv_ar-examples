@@ -11,7 +11,6 @@
 #import "ARScene.h"
 #import "ARCtrl.h"
 #import "CCNavigationControllerAR.h"
-#import "CCDirectorAR.h"
 
 @interface AppDelegate (Private)
 - (void)createGLViewWithFrame:(CGRect)frame;
@@ -21,25 +20,40 @@
 
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Custom AppDelegate launch method
+    // We need full power over how the view hiearchy is created, that's why this method does not use cocos2d's
+    // default setup function
+    
+    // create the window
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    // create a custom root view controller
+    // this will be the root view controller instead of CCDirector!
     rootViewCtrl = [[RootViewCtrl alloc] init];
     
+    // create the gl view
 	[self createGLViewWithFrame:self.window.bounds];
     
-    [glView setOpaque:NO];   // needed for transparent overlay
-    
+    // create the director
     CCDirectorIOS *director = (CCDirectorIOS*) [CCDirector sharedDirector];
     [director setWantsFullScreenLayout:YES];
     
+    // set its gl view
     [director setView:glView];
     
 #ifdef DEBUG
     [director setDisplayStats:YES];
 #endif
     
+    // calculate screen size and content scaling
+    NSLog(@"view size in units: %dx%d, scale factor: %f",
+          (int)glView.frame.size.width, (int)glView.frame.size.height,  director.UIScaleFactor);
+    
     CGSize size = glView.frame.size;
-    CGSize fixed = {384, 568};
+    CGSize fixed = {568, 384};
+    if (size.width < size.height) {
+        CC_SWAP(fixed.width, fixed.height);
+    }
     
     CGFloat scaleFactor = size.width / fixed.width;
     
@@ -59,33 +73,26 @@
     // Initialise OpenAL
     [OALSimpleAudio sharedInstance];
 	
-    
-    // "viewSize" returns the wrong px size (512x384), so we use viewSizeInPixels
-    NSLog(@"view size in units: %dx%d, scale factor: %f",
-          (int)glView.frame.size.width, (int)glView.frame.size.height,  director.UIScaleFactor);
-//    int viewWUnits = glView.frame.size.width * director.UIScaleFactor;
-//    int viewHUnits = glView.frame.size.height * director.UIScaleFactor;
+    // create the AR controller which will also create the base view and camera view
     arCtrl = [[ARCtrl alloc] initWithFrame:glView.frame
                                orientation:UIInterfaceOrientationLandscapeRight];
     
-    [arCtrl startCam];  // must be called before the subsequent commands
+    [arCtrl startCam];  // MUST be called before [arCtrl setupProjection]
     
     // the "baseView" contains the camera view
     UIView *baseView = arCtrl.baseView;
     [baseView addSubview:glView];    // add the cocos2d opengl on top of the camera view
-    
-//    [((UIViewController *)director) setView:baseView];
-    
-//    [rootViewCtrl addChildViewController:director];
+
     [rootViewCtrl setView:baseView];
-    
+
+    // create the AR start scene
 	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
-    
     [arScene setTracker:[arCtrl tracker]];
     
+    // calculate the AR projection matrix
     [arCtrl setupProjection];
 
-	// Create a Navigation Controller with the Director
+	// Create a Navigation Controller with the custom root view controller
 	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:rootViewCtrl];
     [navCtrl setNavigationBarHidden:YES];
     [navCtrl setAppDelegateAR:self];
@@ -94,18 +101,14 @@
     
 	// for rotation and other messages
 	[director setDelegate:navController_];
-
-//    [navController_ setView:baseView];
     
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
-    
-//    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
-//    [window_.rootViewController setView:baseView];
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
     
+    // somehow, this is necessary here
     [director startAnimation];
 	
 	return YES;
@@ -118,11 +121,6 @@
     return arScene;
 }
 
-// doesnt work:
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-//    return interfaceOrientation == UIInterfaceOrientationLandscapeRight;
-//}
-
 - (void)createGLViewWithFrame:(CGRect)frame {
 	glView = [CCGLView viewWithFrame:frame
                          pixelFormat:kEAGLColorFormatRGBA8
@@ -132,6 +130,7 @@
                        multiSampling:NO
                      numberOfSamples:0 ];
 
+    [glView setOpaque:NO];   // needed for transparent overlay
 }
 
 @end
