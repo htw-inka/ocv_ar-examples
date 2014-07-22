@@ -36,6 +36,8 @@
     cv::Mat curFrame;           // currently grabbed camera frame (grayscale)
     cv::Mat *dispFrame;         // frame to display. is NULL when the "normal" camera preview is displayed
     
+    float vidFrameAspRatio;     // video frame aspect ratio
+    
     CCDirector *director;
     
     BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
@@ -60,5 +62,6 @@
 + (float)markerScale;
 
 + (const GLKMatrix4 *)arProjectionMatrix;
++ (CGRect)correctedGLViewFrame;
 
 @end

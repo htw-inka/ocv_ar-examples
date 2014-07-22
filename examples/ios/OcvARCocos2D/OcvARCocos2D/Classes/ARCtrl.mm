@@ -34,6 +34,7 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 @implementation ARCtrl
 
 static GLKMatrix4 *_arProjMat = NULL;
+static CGRect _correctedGLViewFrame;
 
 @synthesize camView;
 @synthesize baseView;
@@ -46,13 +47,17 @@ static GLKMatrix4 *_arProjMat = NULL;
     return _arProjMat;
 }
 
++ (CGRect)correctedGLViewFrame {
+    return _correctedGLViewFrame;
+}
+
 #pragma mark init/dealloc
 
 -(id)initWithFrame:(CGRect)frame orientation:(UIInterfaceOrientation)o {
     self = [super init];
     
     if (self) {
-        NSLog(@"ARCtrl: init with orientation %ld", (long)o);
+//        NSLog(@"ARCtrl: init with orientation %ld", (long)o);
         
         interfOrientation = o;
         baseFrame = frame;
@@ -63,8 +68,6 @@ static GLKMatrix4 *_arProjMat = NULL;
         
         [self initCam];
         [self initAR];
-        
-        [self interfaceOrientationChanged:o];
     }
     
     return self;
@@ -143,8 +146,8 @@ static GLKMatrix4 *_arProjMat = NULL;
     
     while (!arSysReady) { } // wait until prepareForFramesOfSize:numChannels: is called!
     
+    // get the AR projection matrix
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
-    
     GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
     
     if (!_arProjMat) {
@@ -153,7 +156,15 @@ static GLKMatrix4 *_arProjMat = NULL;
     
     memcpy(_arProjMat, &projMat, sizeof(GLKMatrix4));
     
-    NSLog(@"ARCtrl: updating projection matrix done");
+    // update the gl view frame to reflect the video aspect ratio
+    CGFloat glFrameW = viewSize.width;
+    CGFloat glFrameH = viewSize.width / vidFrameAspRatio;
+    CGFloat glFrameOffset = (viewSize.height - glFrameH) / 2.0f;
+    _correctedGLViewFrame = CGRectMake(0.0f, glFrameOffset, glFrameW, glFrameH);
+    
+    NSLog(@"ARCtrl: updating gl view frame to %dx%d @ %d, %d",
+          (int)_correctedGLViewFrame.size.width, (int)_correctedGLViewFrame.size.height,
+          (int)_correctedGLViewFrame.origin.x, (int)_correctedGLViewFrame.origin.y);
     
     return projMat;
 }
@@ -277,7 +288,12 @@ static GLKMatrix4 *_arProjMat = NULL;
 }
 
 -(void)prepareForFramesOfSize:(CGSize)frameSize numChannels:(int)channels {
-    detector->prepare(frameSize.width, frameSize.height, channels);   // to do: get this information from the first camera frame
+    detector->prepare(frameSize.width, frameSize.height, channels);
+    vidFrameAspRatio = frameSize.width / frameSize.height;
+    
+    NSLog(@"ARCtrl: prepared for frames of size %dx%d (asp. ratio %f)",
+          (int)frameSize.width, (int)frameSize.height, vidFrameAspRatio);
+    
     arSysReady = YES;
 }
 
