@@ -22,6 +22,15 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 }
 
 
+@interface ARCtrl (Private)
+
+- (void)initCam;
+- (void)initAR;
+- (void)prepareForFramesOfSize:(CGSize)frameSize numChannels:(int)channels;
+
+@end
+
+
 @implementation ARCtrl
 
 @synthesize camView;
@@ -36,19 +45,19 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     self = [super init];
     
     if (self) {
-        baseFrame = frame;
+        NSLog(@"ARCtrl: init with orientation %ld", (long)o);
+        
         interfOrientation = o;
+        baseFrame = frame;
         director = [CCDirector sharedDirector];
+        arSysReady = NO;
         
         baseView = [[UIView alloc] initWithFrame:baseFrame];
         
         [self initCam];
         [self initAR];
         
-        // set projection to "custom projection" and set the CCDirectorDelegate to self
-        // this will cause the CCDirector to call the "updateProjection" on this object
-        [director setDelegate:self];
-        [director setProjection:CCDirectorProjectionCustom];
+        [self interfaceOrientationChanged:o];
     }
     
     return self;
@@ -63,6 +72,13 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 
 #pragma mark public methods
+
+- (void)setupProjection {
+    // set projection to "custom projection" and set the CCDirectorDelegate to self
+    // this will cause the CCDirector to call the "updateProjection" on this object
+    [director setDelegate:self];
+    [director setProjection:CCDirectorProjectionCustom];
+}
 
 + (float)markerScale {
     return MARKER_REAL_SIZE_M;
@@ -93,10 +109,10 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     // convert the incoming YUV camera frame to a grayscale cv mat
     [Tools convertYUVSampleBuffer:sampleBuffer toGrayscaleMat:curFrame];
     
-//    if (!detector->isPrepared()) {  // on first frame: prepare for the frames
-//        [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows)
-//                         numChannels:curFrame.channels()];
-//    }
+    if (!detector->isPrepared()) {  // on first frame: prepare for the frames
+        [self prepareForFramesOfSize:CGSizeMake(curFrame.cols, curFrame.rows)
+                         numChannels:curFrame.channels()];
+    }
     
     // tell the tracker to run the detection on the input frame
     tracker->detect(&curFrame);
@@ -110,12 +126,16 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 - (GLKMatrix4)updateProjection {
     director = [CCDirector sharedDirector];
     CGSize viewSize = [director viewSizeInPixels];
-    detector->prepare(1920, 1080, 1);   // to do: get this information from the first camera frame
+
+    NSLog(@"ARCtrl: updating projection matrix for view size %dx%d", (int)viewSize.width, (int)viewSize.height);
+    
+    while (!arSysReady) { } // wait until prepareForFramesOfSize:numChannels: is called!
+    
     float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
     
-    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);   // looks like transpose is necessary
+    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
     
-    NSLog(@"ARCtrl: updating projection matrix for view size %dx%d", (int)viewSize.width, (int)viewSize.height);
+    NSLog(@"ARCtrl: updating projection matrix done");
     
     return projMat;
 }
@@ -236,6 +256,11 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
     }
     
     detector->setCamIntrinsics(camMat, distCoeff);
+}
+
+-(void)prepareForFramesOfSize:(CGSize)frameSize numChannels:(int)channels {
+    detector->prepare(frameSize.width, frameSize.height, channels);   // to do: get this information from the first camera frame
+    arSysReady = YES;
 }
 
 @end

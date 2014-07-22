@@ -15,6 +15,8 @@
 @interface AppDelegate : CCAppDelegate {
     ARCtrl *arCtrl;
     ARScene *arScene;
+    
+    CCGLView *glView;
 }
 
 @end

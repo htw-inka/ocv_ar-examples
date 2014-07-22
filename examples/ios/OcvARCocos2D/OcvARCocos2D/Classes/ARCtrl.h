@@ -39,6 +39,7 @@
     CCDirector *director;
     
     BOOL useDistCoeff;      // use distortion coefficients in camera intrinsics?
+    BOOL arSysReady;
 }
 
 @property (nonatomic, readonly) UIView *baseView;
@@ -48,6 +49,8 @@
 
 
 - (id)initWithFrame:(CGRect)frame orientation:(UIInterfaceOrientation)o;
+
+- (void)setupProjection;
 
 - (void)interfaceOrientationChanged:(UIInterfaceOrientation)o;
 
