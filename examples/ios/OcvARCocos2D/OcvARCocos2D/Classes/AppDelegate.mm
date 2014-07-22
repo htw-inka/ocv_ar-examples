@@ -24,6 +24,11 @@
     
 	[self createGLViewWithFrame:self.window.bounds];
     
+    [glView setOpaque:NO];   // needed for transparent overlay
+    
+#undef CC_DIRECTOR_DEFAULT
+#define CC_DIRECTOR_DEFAULT CCDirectorAR
+    
     CCDirectorIOS *director = (CCDirectorIOS*) [CCDirector sharedDirector];
     [director setWantsFullScreenLayout:YES];
     
@@ -31,9 +36,7 @@
     [director setDisplayStats:YES];
 #endif
     
-    [director setView:glView];
-    
-    CGSize size = [CCDirector sharedDirector].viewSizeInPixels;
+    CGSize size = glView.frame.size;
     CGSize fixed = {384, 568};
     
     CGFloat scaleFactor = size.width / fixed.width;
@@ -56,6 +59,24 @@
     // Initialise OpenAL
     [OALSimpleAudio sharedInstance];
 	
+    
+    // "viewSize" returns the wrong px size (512x384), so we use viewSizeInPixels
+    NSLog(@"view size in px: %dx%d, scale factor: %f",
+          (int)glView.frame.size.width, (int)glView.frame.size.height,  director.UIScaleFactor);
+    int viewWUnits = glView.frame.size.width * director.UIScaleFactor;
+    int viewHUnits = glView.frame.size.height * director.UIScaleFactor;
+    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, viewWUnits, viewHUnits)
+                               orientation:UIInterfaceOrientationLandscapeRight];
+    
+    [arCtrl startCam];  // must be called before the subsequent commands
+    
+    // the "baseView" contains the camera view
+    UIView *baseView = arCtrl.baseView;
+    [baseView addSubview:glView];    // add the cocos2d opengl on top of the camera view
+    
+    [director setView:glView];
+//    [((UIViewController *)director) setView:baseView];
+
 	// Create a Navigation Controller with the Director
 	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:director];
     [navCtrl setNavigationBarHidden:YES];
@@ -63,36 +84,22 @@
     [navCtrl setScreenOrientationAR:CCScreenOrientationLandscape];
     navController_ = navCtrl;
     
+    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
+    [navController_ setView:baseView];
+    
 	// for rotation and other messages
 	[director setDelegate:navController_];
-	
+	   
+    
+    [arScene setTracker:[arCtrl tracker]];
+    
+    [arCtrl setupProjection];
+    
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
-    
-    [director.view setOpaque:NO];   // needed for transparent overlay
-    
-    // "viewSize" returns the wrong px size (512x384), so we use viewSizeInPixels
-    NSLog(@"view size in px: %dx%d, scale factor: %f",
-          (int)director.viewSizeInPixels.width, (int)director.viewSizeInPixels.height,  director.UIScaleFactor);
-    int viewWUnits = director.viewSizeInPixels.width * director.UIScaleFactor;
-    int viewHUnits = director.viewSizeInPixels.height * director.UIScaleFactor;
-    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, viewWUnits, viewHUnits)
-                               orientation:window_.rootViewController.interfaceOrientation];
-    
-    [arCtrl startCam];  // must be called before the subsequent commands
-    
-    // the "baseView" contains the camera view
-    UIView *baseView = arCtrl.baseView;
-    [baseView addSubview:director.view];    // add the cocos2d opengl on top of the camera view
-    // replace cocos2d opengl view by "baseView" with camera view and opengl overlay
-    [self.window.rootViewController setView:baseView];
-    
-    [arScene setTracker:[arCtrl tracker]];
-    
-    [arCtrl setupProjection];
 	
 	return YES;
 }
