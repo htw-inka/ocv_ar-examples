@@ -51,9 +51,7 @@
     
     CGSize size = glView.frame.size;
     CGSize fixed = {568, 384};
-    if (size.width < size.height) {
-        CC_SWAP(fixed.width, fixed.height);
-    }
+    if (size.width < size.height) CC_SWAP(fixed.width, fixed.height);
     
     CGFloat scaleFactor = size.width / fixed.width;
     
@@ -74,7 +72,11 @@
     [OALSimpleAudio sharedInstance];
 	
     // create the AR controller which will also create the base view and camera view
-    arCtrl = [[ARCtrl alloc] initWithFrame:glView.frame
+    CGFloat arFrameW = size.width;
+    CGFloat arFrameH = size.height;
+    if (arFrameW < arFrameH) CC_SWAP(arFrameW, arFrameH);
+    
+    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, arFrameW, arFrameH)
                                orientation:UIInterfaceOrientationLandscapeRight];
     
     [arCtrl startCam];  // MUST be called before [arCtrl setupProjection]
