@@ -25,9 +25,37 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 
 @interface ARCtrl (Private)
 
+/**
+ * Init base view
+ */
+- (void)initBase;
+
+/**
+ * Init camera and camera preview
+ */
 - (void)initCam;
+
+/**
+ * Init AR system
+ */
 - (void)initAR;
+
+/**
+ * Called on the first input frame and prepares everything for the specified
+ * frame size and number of color channels
+ */
 - (void)prepareForFramesOfSize:(CGSize)frameSize numChannels:(int)channels;
+
+/**
+ * force to redraw views. this method is only to display the intermediate
+ * frame processing output for debugging
+ */
+- (void)updateViews;
+
+/**
+ * handler that is called when a output selection button is pressed
+ */
+- (void)procOutputSelectBtnAction:(UIButton *)sender;
 
 @end
 
@@ -37,10 +65,10 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 static GLKMatrix4 *_arProjMat = NULL;
 static CGRect _correctedGLViewFrame;
 
-@synthesize camView;
 @synthesize baseView;
 @synthesize detector;
 @synthesize tracker;
+@synthesize mainScene;
 
 #pragma mark static methods
 
@@ -85,8 +113,7 @@ static CGRect _correctedGLViewFrame;
         director = [CCDirector sharedDirector];
         arSysReady = NO;
         
-        baseView = [[UIView alloc] initWithFrame:baseFrame];
-        
+        [self initBase];
         [self initCam];
         [self initAR];
     }
@@ -152,6 +179,13 @@ static CGRect _correctedGLViewFrame;
     
     // get an output frame. may be NULL if no frame processing output is selected
     dispFrame = detector->getOutputFrame();
+    
+    // update the views on the main thread
+    if (dispFrame) {
+        [self performSelectorOnMainThread:@selector(updateViews)
+                               withObject:nil
+                            waitUntilDone:NO];
+    }
 }
 
 #pragma mark CCDirectorDelegate methods
@@ -167,16 +201,6 @@ static CGRect _correctedGLViewFrame;
     
     while (!arSysReady) { } // wait until prepareForFramesOfSize:numChannels: is called!
     
-    // get the AR projection matrix
-    float *projMatPtr = detector->getProjMat(viewSize.width, viewSize.height);  // retina scale?
-    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
-    
-    if (!_arProjMat) {
-        _arProjMat = new GLKMatrix4;
-    }
-    
-    memcpy(_arProjMat, &projMat, sizeof(GLKMatrix4));
-    
     // update the gl view frame to reflect the video aspect ratio
     CGFloat glFrameW = viewSize.width;
     CGFloat glFrameH = viewSize.width / vidFrameAspRatio;
@@ -187,17 +211,63 @@ static CGRect _correctedGLViewFrame;
           (int)_correctedGLViewFrame.size.width, (int)_correctedGLViewFrame.size.height,
           (int)_correctedGLViewFrame.origin.x, (int)_correctedGLViewFrame.origin.y);
     
+    // also resize the processing frame view
+    [procFrameView setFrame:_correctedGLViewFrame];
+    
+    // get the AR projection matrix
+    float *projMatPtr = detector->getProjMat(glFrameW, glFrameH);
+    GLKMatrix4 projMat = GLKMatrix4MakeWithArray(projMatPtr);
+    
+    if (!_arProjMat) {
+        _arProjMat = new GLKMatrix4;
+    }
+    
+    memcpy(_arProjMat, &projMat, sizeof(GLKMatrix4));
+    
     return projMat;
 }
 
 #pragma mark private methods
+
+- (void)initBase {
+    baseView = [[UIView alloc] initWithFrame:baseFrame];
+    
+    // create view for processed frames
+    procFrameView = [[UIImageView alloc] initWithFrame:baseFrame];
+    [procFrameView setHidden:YES];  // initially hidden
+    [baseView addSubview:procFrameView];
+    
+    // set a list of buttons for processing output display
+    NSArray *btnTitles = [NSArray arrayWithObjects:
+                          @"Normal",
+                          @"Preproc",
+                          @"Thresh",
+                          @"Contours",
+                          @"Candidates",
+                          @"Detected",
+                          nil];
+    for (int btnIdx = 0; btnIdx < btnTitles.count; btnIdx++) {
+        UIButton *procOutputSelectBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [procOutputSelectBtn setTag:btnIdx - 1];
+        [procOutputSelectBtn setTitle:[btnTitles objectAtIndex:btnIdx]
+                             forState:UIControlStateNormal];
+        int btnW = 120;
+        [procOutputSelectBtn setFrame:CGRectMake(10 + (btnW + 20) * btnIdx, 10, btnW, 35)];
+        [procOutputSelectBtn setOpaque:YES];
+        [procOutputSelectBtn addTarget:self
+                                action:@selector(procOutputSelectBtnAction:)
+                      forControlEvents:UIControlEventTouchUpInside];
+        
+        [baseView addSubview:procOutputSelectBtn];
+    }
+}
 
 - (void)initCam {
     NSLog(@"ARCtrl: initializing cam");
     
     // init camera view
     camView = [[CamView alloc] initWithFrame:baseFrame];
-    [baseView addSubview:camView];
+    [baseView insertSubview:camView belowSubview:procFrameView];
     
     NSError *error = nil;
     
@@ -316,6 +386,32 @@ static CGRect _correctedGLViewFrame;
           (int)frameSize.width, (int)frameSize.height, vidFrameAspRatio);
     
     arSysReady = YES;
+}
+
+- (void)updateViews {
+    // this method is only to display the intermediate frame processing
+    // output of the detector.
+    // (it is slow but it's only for debugging)
+    
+    // when we have a frame to display in "procFrameView" ...
+    // ... convert it to an UIImage
+    UIImage *dispUIImage = [Tools imageFromCvMat:dispFrame];
+    
+    // and display it with the UIImageView "procFrameView"
+    [procFrameView setImage:dispUIImage];
+    [procFrameView setNeedsDisplay];
+}
+
+- (void)procOutputSelectBtnAction:(UIButton *)sender {
+    NSLog(@"proc output selection button pressed: %@ (proc type %ld)",
+          [sender titleForState:UIControlStateNormal], (long)sender.tag);
+    
+    BOOL normalDispMode = (sender.tag < 0);
+    [mainScene setVisible:normalDispMode];    // only show markers in "normal" display mode
+    [camView setHidden:!normalDispMode];      // only show original camera frames in "normal" display mode
+    [procFrameView setHidden:normalDispMode]; // only show processed frames for other than "normal" display mode
+    
+    detector->setFrameOutputLevel((ocv_ar::FrameProcLevel)sender.tag);
 }
 
 @end

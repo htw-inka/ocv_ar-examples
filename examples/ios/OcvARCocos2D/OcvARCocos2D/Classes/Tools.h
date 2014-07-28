@@ -12,6 +12,11 @@
  */
 + (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toGrayscaleMat:(cv::Mat &)mat;
 
+/**
+ * Convert cv::mat image data to UIImage
+ * code from Patrick O'Keefe (http://www.patokeefe.com/archives/721)
+ */
++ (UIImage *)imageFromCvMat:(const cv::Mat *)mat;
 
 + (void)printGLKMat4x4:(const GLKMatrix4 *)mat;
 

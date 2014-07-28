@@ -94,9 +94,18 @@
     // create the AR start scene
 	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
     [arScene setTracker:[arCtrl tracker]];
+    [arCtrl setMainScene:arScene];
     
     // calculate the AR projection matrix
     [arCtrl setupProjection];
+    
+    float sf = 1.0f;
+    CGRect glViewFramePx = [ARCtrl correctedGLViewFrame];
+    CGRect glViewFrameUnits = CGRectMake(glViewFramePx.origin.x * sf,
+                                         glViewFramePx.origin.y * sf,
+                                         glViewFramePx.size.width * sf,
+                                         glViewFramePx.size.height * sf);
+    [glView setFrame:glViewFrameUnits];
 
 	// Create a Navigation Controller with the custom root view controller
 	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:rootViewCtrl];
@@ -110,13 +119,15 @@
     
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
-	
+	   
 	// make main window visible
 	[window_ makeKeyAndVisible];
     
     // somehow, this is necessary here
     [director startAnimation];
-	
+    
+    CGRect glViewFrame = glView.frame;
+    
 	return YES;
 }
 

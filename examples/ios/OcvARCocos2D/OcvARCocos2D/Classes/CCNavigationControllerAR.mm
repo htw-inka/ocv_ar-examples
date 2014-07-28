@@ -47,8 +47,7 @@
 {
     if ([ARCtrl arProjectionMatrix]) {
         CGRect viewportFrame = [ARCtrl correctedGLViewFrame];
-        glViewport(viewportFrame.origin.x, viewportFrame.origin.y,
-                   viewportFrame.size.width, viewportFrame.size.height);
+        glViewport(0.0f, 0.0f, viewportFrame.size.width, viewportFrame.size.height);
         
         return (*[ARCtrl arProjectionMatrix]);
     }

@@ -30,6 +30,9 @@
     
     NSString *camIntrinsicsFile;
     
+    CamView *camView;           // shows the grabbed video frames ("camera preview")
+    UIImageView *procFrameView; // view for processed frames
+    
     AVCaptureSession *camSession;               // controlls the camera session
     AVCaptureDeviceInput *camDeviceInput;       // input device: camera
     AVCaptureVideoDataOutput *vidDataOutput;    // controlls the video output
@@ -45,10 +48,10 @@
     BOOL arSysReady;
 }
 
-@property (nonatomic, readonly) UIView *baseView;
-@property (nonatomic, readonly) CamView *camView;   // shows the grabbed video frames ("camera preview")
+@property (nonatomic, readonly) UIView *baseView;           // root view for camera view, proc. frame view and gl view
 @property (nonatomic, readonly) ocv_ar::Detect *detector;   // ocv_ar::Detector for marker detection
 @property (nonatomic, readonly) ocv_ar::Track *tracker;     // ocv_ar::Track for marker tracking and motion interpolation
+@property (nonatomic, weak) CCScene *mainScene;
 
 
 - (id)initWithFrame:(CGRect)frame orientation:(UIInterfaceOrientation)o;
