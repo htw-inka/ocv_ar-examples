@@ -11,6 +11,7 @@
 
 #import "RootViewController.h"
 #import "helper/Tools.h"
+#import <sys/utsname.h>
 
 /**
  * Small helper function to convert a fourCC <code> to
@@ -84,6 +85,27 @@ void printFloatMat4x4(const float *m) {
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        // find out the ipad model
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        NSString *machineInfo = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];
+        NSString *machineInfoShort = [[machineInfo substringToIndex:5] lowercaseString];
+        
+        NSLog(@"RootViewController: device model (short) is %@", machineInfoShort);
+        
+        int machineModelVersion = 0;
+        if ([machineInfoShort isEqualToString:@"ipad2"]) {
+            machineModelVersion = 2;
+        } else if ([machineInfoShort isEqualToString:@"ipad3"]) {
+            machineModelVersion = 3;
+        } else {
+            NSLog(@"RootViewController: no camera intrinsics available for this model!");
+            machineModelVersion = 2;    // default. might not work!
+        }
+        
+        camIntrinsicsFile = [NSString stringWithFormat:@"ipad%d-front.xml", machineModelVersion];
+        
         useDistCoeff = USE_DIST_COEFF;
         
         // create the detector
@@ -98,6 +120,8 @@ void printFloatMat4x4(const float *m) {
 }
 
 - (void)dealloc {
+    [camIntrinsicsFile release];
+    
     // release camera stuff
     [vidDataOutput release];
     [camDeviceInput release];
@@ -192,7 +216,7 @@ void printFloatMat4x4(const float *m) {
     
     // init detector
     if ([self initDetector]) {
-        NSLog(@"cam intrinsics loaded from file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"cam intrinsics loaded from file %@", camIntrinsicsFile);
     } else {
         NSLog(@"detector initialization failure");
     }
@@ -321,18 +345,18 @@ void printFloatMat4x4(const float *m) {
 
 - (BOOL)initDetector {
     cv::FileStorage fs;
-    const char *path = [[[NSBundle mainBundle] pathForResource:CAM_INTRINSICS_FILE ofType:NULL]
+    const char *path = [[[NSBundle mainBundle] pathForResource:camIntrinsicsFile ofType:NULL]
                         cStringUsingEncoding:NSASCIIStringEncoding];
     
     if (!path) {
-        NSLog(@"could not find cam intrinsics file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"could not find cam intrinsics file %@", camIntrinsicsFile);
         return NO;
     }
     
     fs.open(path, cv::FileStorage::READ);
     
     if (!fs.isOpened()) {
-        NSLog(@"could not load cam intrinsics file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"could not load cam intrinsics file %@", camIntrinsicsFile);
         return NO;
     }
     
@@ -346,7 +370,7 @@ void printFloatMat4x4(const float *m) {
     }
     
     if (camMat.empty()) {
-        NSLog(@"could not load cam instrinsics matrix from file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"could not load cam instrinsics matrix from file %@", camIntrinsicsFile);
         
         return NO;
     }

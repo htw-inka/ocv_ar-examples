@@ -27,5 +27,4 @@
 
 ## TODO
 
-* test and adjust for iPad 2
 * test and adjust for iPad 4
