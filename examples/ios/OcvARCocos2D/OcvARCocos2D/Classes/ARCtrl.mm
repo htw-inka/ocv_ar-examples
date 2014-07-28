@@ -8,6 +8,7 @@
 
 #import "ARCtrl.h"
 
+#import <sys/utsname.h>
 #import "Tools.h"
 
 /**
@@ -57,7 +58,27 @@ static CGRect _correctedGLViewFrame;
     self = [super init];
     
     if (self) {
-//        NSLog(@"ARCtrl: init with orientation %ld", (long)o);
+        // find out the ipad model
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        NSString *machineInfo = [NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding];
+        NSString *machineInfoShort = [[machineInfo substringToIndex:5] lowercaseString];
+        
+        NSLog(@"ARCtrl: device model (short) is %@", machineInfoShort);
+        
+        int machineModelVersion = 0;
+        if ([machineInfoShort isEqualToString:@"ipad2"]) {
+            machineModelVersion = 2;
+        } else if ([machineInfoShort isEqualToString:@"ipad3"]) {
+            machineModelVersion = 3;
+        } else {
+            NSLog(@"RootViewController: no camera intrinsics available for this model!");
+            machineModelVersion = 2;    // default. might not work!
+        }
+        
+        camIntrinsicsFile = [NSString stringWithFormat:@"ipad%d-front.xml", machineModelVersion];
+
         
         interfOrientation = o;
         baseFrame = frame;
@@ -240,7 +261,7 @@ static CGRect _correctedGLViewFrame;
 }
 
 - (void)initAR {
-    NSLog(@"ARCtrl: initializing AR system");
+    NSLog(@"ARCtrl: initializing AR system, using cam intrinsics from file %@", camIntrinsicsFile);
     
     assert(!detector && !tracker);
     
@@ -255,18 +276,18 @@ static CGRect _correctedGLViewFrame;
     
     // load the camera intrinsics
     cv::FileStorage fs;
-    const char *path = [[[NSBundle mainBundle] pathForResource:CAM_INTRINSICS_FILE ofType:NULL]
+    const char *path = [[[NSBundle mainBundle] pathForResource:camIntrinsicsFile ofType:NULL]
                         cStringUsingEncoding:NSASCIIStringEncoding];
     
     if (!path) {
-        NSLog(@"ARCtrl: could not find cam intrinsics file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"ARCtrl: could not find cam intrinsics file %@", camIntrinsicsFile);
         return;
     }
     
     fs.open(path, cv::FileStorage::READ);
     
     if (!fs.isOpened()) {
-        NSLog(@"ARCtrl: could not load cam intrinsics file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"ARCtrl: could not load cam intrinsics file %@", camIntrinsicsFile);
         return;
     }
     
@@ -280,7 +301,7 @@ static CGRect _correctedGLViewFrame;
     }
     
     if (camMat.empty()) {
-        NSLog(@"ARCtrl: could not load cam instrinsics matrix from file %@", CAM_INTRINSICS_FILE);
+        NSLog(@"ARCtrl: could not load cam instrinsics matrix from file %@", camIntrinsicsFile);
         return;
     }
     

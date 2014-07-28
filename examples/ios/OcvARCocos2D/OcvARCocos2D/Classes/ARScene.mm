@@ -29,7 +29,7 @@
     
     // this will set the glClearColor
     // it is important to set the alpha channel to zero for the transparent overlay
-    [self setColorRGBA:[CCColor colorWithCcColor4f:ccc4f(1.0f, 0.0f, 0.0f, 0.1f)]];
+    [self setColorRGBA:[CCColor colorWithCcColor4f:ccc4f(0.0f, 0.0f, 0.0f, 0.0f)]];
     
     // done
 	return self;

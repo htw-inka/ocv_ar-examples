@@ -25,7 +25,11 @@
     // default setup function
     
     // create the window
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    NSLog(@"screen bounds: %dx%d", (int)screenSize.width, (int)screenSize.height);
+    if (screenSize.width < screenSize.height) CC_SWAP(screenSize.width, screenSize.height);
+    CGRect customBounds = CGRectMake(0, 0, screenSize.width, screenSize.height);
+    self.window = [[UIWindow alloc] initWithFrame:customBounds];
     
     // create a custom root view controller
     // this will be the root view controller instead of CCDirector!

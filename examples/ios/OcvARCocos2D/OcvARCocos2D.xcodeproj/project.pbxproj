@@ -221,6 +221,7 @@
 		28657243197D286600774E01 /* CCSpriteAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28657242197D286600774E01 /* CCSpriteAR.mm */; };
 		28657246197D32F200774E01 /* CCSceneAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28657245197D32F200774E01 /* CCSceneAR.mm */; };
 		287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 287EE4371977E4A500072F3A /* CCNodeAR.mm */; };
+		28ADFAE819868569006F71C0 /* ipad2-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28ADFAE719868569006F71C0 /* ipad2-front.xml */; };
 		28F98574197E8345000BCA51 /* CCNavigationControllerAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */; };
 		28F9857D197E9D44000BCA51 /* RootViewCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28F9857C197E9D44000BCA51 /* RootViewCtrl.mm */; };
 /* End PBXBuildFile section */
@@ -669,6 +670,7 @@
 		28657245197D32F200774E01 /* CCSceneAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCSceneAR.mm; path = Classes/CCSceneAR.mm; sourceTree = "<group>"; };
 		287EE4361977E4A500072F3A /* CCNodeAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNodeAR.h; path = Classes/CCNodeAR.h; sourceTree = "<group>"; };
 		287EE4371977E4A500072F3A /* CCNodeAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNodeAR.mm; path = Classes/CCNodeAR.mm; sourceTree = "<group>"; };
+		28ADFAE719868569006F71C0 /* ipad2-front.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ipad2-front.xml"; sourceTree = "<group>"; };
 		28F98572197E8345000BCA51 /* CCNavigationControllerAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNavigationControllerAR.h; path = Classes/CCNavigationControllerAR.h; sourceTree = "<group>"; };
 		28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNavigationControllerAR.mm; path = Classes/CCNavigationControllerAR.mm; sourceTree = "<group>"; };
 		28F9857B197E9D44000BCA51 /* RootViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewCtrl.h; path = Classes/RootViewCtrl.h; sourceTree = "<group>"; };
@@ -1549,6 +1551,7 @@
 		282C48B6196C22E00036CAE2 /* cam-intrinsics */ = {
 			isa = PBXGroup;
 			children = (
+				28ADFAE719868569006F71C0 /* ipad2-front.xml */,
 				282C48B7196C22E00036CAE2 /* ipad3-front.xml */,
 			);
 			name = "cam-intrinsics";
@@ -1643,6 +1646,7 @@
 				282C463C196C20000036CAE2 /* iTunesArtwork in Resources */,
 				282C4637196C20000036CAE2 /* Icon-Spotlight-iOS7.png in Resources */,
 				282C462B196C20000036CAE2 /* Icon-76@2x.png in Resources */,
+				28ADFAE819868569006F71C0 /* ipad2-front.xml in Resources */,
 				282C4639196C20000036CAE2 /* Icon-Spotlight-iOS7@2x.png in Resources */,
 				282C4629196C20000036CAE2 /* Icon-76.png in Resources */,
 				282C463E196C20000036CAE2 /* iTunesArtwork@2x in Resources */,
