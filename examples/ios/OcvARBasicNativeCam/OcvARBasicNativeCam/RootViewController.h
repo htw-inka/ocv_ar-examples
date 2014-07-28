@@ -22,7 +22,6 @@
 // change to following lines to adjust to your setting:
 
 #define MARKER_REAL_SIZE_M  0.042f
-#define CAM_INTRINSICS_FILE @"ipad3-front.xml"
 #define CAM_SESSION_PRESET  AVCaptureSessionPresetHigh
 #define USE_DIST_COEFF      NO
 #define PROJ_FLIP_MODE      ocv_ar::FLIP_H
@@ -32,6 +31,7 @@
  * Handles UI initialization and interactions. Handles camera frame input.
  */
 @interface RootViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate> {
+    NSString *camIntrinsicsFile;                // camera intrinsics file to use
     AVCaptureSession *camSession;               // controlls the camera session
     AVCaptureDeviceInput *camDeviceInput;       // input device: camera
     AVCaptureVideoDataOutput *vidDataOutput;    // controlls the video output

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		283B34EF19866B3E00A04796 /* ipad2-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 283B34EE19866B3E00A04796 /* ipad2-front.xml */; };
 		2885239E195327610001D473 /* CamView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2885239D195327610001D473 /* CamView.m */; };
 		28EA5A361952DC0900B46513 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A351952DC0900B46513 /* Foundation.framework */; };
 		28EA5A381952DC0900B46513 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EA5A371952DC0900B46513 /* CoreGraphics.framework */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		283B34EE19866B3E00A04796 /* ipad2-front.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ipad2-front.xml"; sourceTree = "<group>"; };
 		2885239C195327610001D473 /* CamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamView.h; sourceTree = "<group>"; };
 		2885239D195327610001D473 /* CamView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamView.m; sourceTree = "<group>"; };
 		28EA5A321952DC0900B46513 /* OcvARBasicNativeCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OcvARBasicNativeCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +241,7 @@
 		28EA5AD21952EB2100B46513 /* cam-intrinsics */ = {
 			isa = PBXGroup;
 			children = (
+				283B34EE19866B3E00A04796 /* ipad2-front.xml */,
 				28EA5AD31952EB2100B46513 /* ipad3-front.xml */,
 			);
 			path = "cam-intrinsics";
@@ -297,6 +300,7 @@
 			files = (
 				28EA5AD41952EB2100B46513 /* ipad3-front.xml in Resources */,
 				28EA5AD01952E93A00B46513 /* marker_f.glsl in Resources */,
+				283B34EF19866B3E00A04796 /* ipad2-front.xml in Resources */,
 				28EA5A401952DC0900B46513 /* InfoPlist.strings in Resources */,
 				28EA5A481952DC0900B46513 /* Images.xcassets in Resources */,
 				28EA5AD11952E93A00B46513 /* marker_v.glsl in Resources */,
