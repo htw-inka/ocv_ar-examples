@@ -11,6 +11,7 @@
 
 @property (nonatomic, weak) CCAppDelegate* appDelegateAR;
 @property (nonatomic, strong) NSString* screenOrientationAR;
+@property (nonatomic, readonly) GLKVector4 glViewportSpecs;
 
 @end
 

@@ -1,7 +1,7 @@
 #import "ARScene.h"
 
 #import "CCNodeAR.h"
-#import "CCSpriteAR.h"
+#import "ARTouchableSprite.h"
 
 @interface ARScene (Private)
 - (void)drawMarker:(const ocv_ar::Marker *)marker;
@@ -52,7 +52,7 @@
              it != markers->end();
              ++it)
         {
-            NSLog(@"ARScene: drawing marker #%d", it->second.getId());
+//            NSLog(@"ARScene: drawing marker #%d", it->second.getId());
             [self drawMarker:&(it->second)];
         }
         
@@ -70,9 +70,12 @@
     
     // set the 3D transform matrix for the marker
     [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
+    const float *tVecData = marker->getTVec().ptr<float>(0);
+    [markerNode setArTranslationVec:GLKVector3Make(tVecData[0], tVecData[1], tVecData[2])];
     
     // use the cocos logo as sprite for a marker
-    CCSpriteAR *cocosLogo = [CCSpriteAR spriteWithImageNamed:@"Icon.png"];
+    ARTouchableSprite *cocosLogo = [ARTouchableSprite spriteWithImageNamed:@"Icon.png"];
+    [cocosLogo setUserInteractionEnabled:YES];
     [cocosLogo setScale:markerScale];
                                                 // markerScale scales down the coord. system so that 1 opengl unit
                                                 // is 1 marker side length

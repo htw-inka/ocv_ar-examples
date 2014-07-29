@@ -215,6 +215,7 @@
 		282C48BE196C25670036CAE2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48BD196C25670036CAE2 /* CoreMedia.framework */; };
 		282C48C0196C257A0036CAE2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48BF196C257A0036CAE2 /* AssetsLibrary.framework */; };
 		282C48C2196C25800036CAE2 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 282C48C1196C25800036CAE2 /* CoreImage.framework */; };
+		285A2F661987B5BB00969A64 /* ARTouchableSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285A2F651987B5BB00969A64 /* ARTouchableSprite.mm */; };
 		285C9D311975555B00A981BA /* CamView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D301975555B00A981BA /* CamView.mm */; };
 		285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D33197555DB00A981BA /* ARCtrl.mm */; };
 		285C9D37197576BE00A981BA /* Tools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D36197576BE00A981BA /* Tools.mm */; };
@@ -658,6 +659,8 @@
 		282C48BD196C25670036CAE2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		282C48BF196C257A0036CAE2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		282C48C1196C25800036CAE2 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		285A2F641987B5BB00969A64 /* ARTouchableSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARTouchableSprite.h; path = Classes/ARTouchableSprite.h; sourceTree = "<group>"; };
+		285A2F651987B5BB00969A64 /* ARTouchableSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ARTouchableSprite.mm; path = Classes/ARTouchableSprite.mm; sourceTree = "<group>"; };
 		285C9D2F1975555B00A981BA /* CamView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CamView.h; path = Classes/CamView.h; sourceTree = "<group>"; };
 		285C9D301975555B00A981BA /* CamView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CamView.mm; path = Classes/CamView.mm; sourceTree = "<group>"; };
 		285C9D32197555DB00A981BA /* ARCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARCtrl.h; path = Classes/ARCtrl.h; sourceTree = "<group>"; };
@@ -1503,6 +1506,8 @@
 				285C9D33197555DB00A981BA /* ARCtrl.mm */,
 				282C487B196C20040036CAE2 /* ARScene.h */,
 				282C487C196C20040036CAE2 /* ARScene.mm */,
+				285A2F641987B5BB00969A64 /* ARTouchableSprite.h */,
+				285A2F651987B5BB00969A64 /* ARTouchableSprite.mm */,
 				285C9D2F1975555B00A981BA /* CamView.h */,
 				285C9D301975555B00A981BA /* CamView.mm */,
 				28F98572197E8345000BCA51 /* CCNavigationControllerAR.h */,
@@ -1735,6 +1740,7 @@
 				282C4720196C20020036CAE2 /* CCTMXXMLParser.m in Sources */,
 				282C4755196C20020036CAE2 /* CCProfiling.m in Sources */,
 				282C47B7196C20030036CAE2 /* OALSuspendHandler.m in Sources */,
+				285A2F661987B5BB00969A64 /* ARTouchableSprite.mm in Sources */,
 				282C47E5196C20030036CAE2 /* CCTextField.m in Sources */,
 				285C9D37197576BE00A981BA /* Tools.mm in Sources */,
 				282C46BD196C20010036CAE2 /* CCNode.m in Sources */,

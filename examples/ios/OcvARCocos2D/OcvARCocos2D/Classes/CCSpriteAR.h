@@ -7,4 +7,6 @@
 // necessary override because it is private in CCNode
 -(void) sortAllChildren;
 
+- (BOOL)arHitTestWithTouchPoint:(CGPoint)pos;
+
 @end

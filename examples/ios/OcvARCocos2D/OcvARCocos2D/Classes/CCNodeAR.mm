@@ -5,9 +5,15 @@
 @implementation CCNodeAR
 
 @synthesize objectId;
+@synthesize arTranslationVec;
 
 -(void)setARTransformMatrix:(const float [16])m {
     memcpy(arTransformMat, m, 16 * sizeof(float));
+    arTransformGLKMat = GLKMatrix4MakeWithArray(arTransformMat);
+}
+
+-(const GLKMatrix4 *)arTransformMatrixPtr {
+    return &arTransformGLKMat;
 }
 
 -(void)visit:(__unsafe_unretained CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform
@@ -19,9 +25,7 @@
     [self sortAllChildren];
     
     // just use the AR transform matrix directly for this node
-    GLKMatrix4 transform = GLKMatrix4MakeWithArray(arTransformMat); // transpose necessary, too?
-    
-    transform = GLKMatrix4Multiply(*parentTransform, transform);
+    GLKMatrix4 transform = GLKMatrix4Multiply(*parentTransform, arTransformGLKMat);
     
 //    NSLog(@"CCNodeAR - transform:");
 //    [Tools printGLKMat4x4:&transform];

@@ -121,8 +121,6 @@
     // somehow, this is necessary here
     [director startAnimation];
     
-    CGRect glViewFrame = glView.frame;
-    
 	return YES;
 }
 

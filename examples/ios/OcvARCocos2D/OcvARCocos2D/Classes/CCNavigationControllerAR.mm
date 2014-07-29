@@ -2,6 +2,7 @@
 
 @implementation CCNavigationControllerAR
 
+@synthesize glViewportSpecs = _glViewportSpecs;
 @synthesize appDelegateAR = _appDelegateAR;
 @synthesize screenOrientationAR = _screenOrientationAR;
 
@@ -48,6 +49,7 @@
     if ([ARCtrl arProjectionMatrix]) {
         CGRect viewportFrame = [ARCtrl correctedGLViewFramePx];
         glViewport(0.0f, 0.0f, viewportFrame.size.width, viewportFrame.size.height);
+        _glViewportSpecs = GLKVector4Make(0.0f, 0.0f, viewportFrame.size.width, viewportFrame.size.height);
         
         return (*[ARCtrl arProjectionMatrix]);
     }
