@@ -63,7 +63,8 @@ void fourCCStringFromCode(int code, char fourCC[5]) {
 @implementation ARCtrl
 
 static GLKMatrix4 *_arProjMat = NULL;
-static CGRect _correctedGLViewFrame;
+static CGRect _correctedGLViewFramePx;
+static CGRect _correctedGLViewFrameUnits;
 
 @synthesize baseView;
 @synthesize detector;
@@ -76,8 +77,12 @@ static CGRect _correctedGLViewFrame;
     return _arProjMat;
 }
 
-+ (CGRect)correctedGLViewFrame {
-    return _correctedGLViewFrame;
++ (CGRect)correctedGLViewFramePx {
+    return _correctedGLViewFramePx;
+}
+
++ (CGRect)correctedGLViewFrameUnits {
+    return _correctedGLViewFrameUnits;
 }
 
 #pragma mark init/dealloc
@@ -205,14 +210,26 @@ static CGRect _correctedGLViewFrame;
     CGFloat glFrameW = viewSize.width;
     CGFloat glFrameH = viewSize.width / vidFrameAspRatio;
     CGFloat glFrameOffset = (viewSize.height - glFrameH) / 2.0f;
-    _correctedGLViewFrame = CGRectMake(0.0f, glFrameOffset, glFrameW, glFrameH);
+    _correctedGLViewFramePx = CGRectMake(0.0f, glFrameOffset, glFrameW, glFrameH);
     
-    NSLog(@"ARCtrl: updating gl view frame to %dx%d @ %d, %d",
-          (int)_correctedGLViewFrame.size.width, (int)_correctedGLViewFrame.size.height,
-          (int)_correctedGLViewFrame.origin.x, (int)_correctedGLViewFrame.origin.y);
+    NSLog(@"ARCtrl: updating gl view frame to %dx%d px @ %d, %d px",
+          (int)_correctedGLViewFramePx.size.width, (int)_correctedGLViewFramePx.size.height,
+          (int)_correctedGLViewFramePx.origin.x, (int)_correctedGLViewFramePx.origin.y);
+    
+    float sf;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
+        sf = 1.0f / [UIScreen mainScreen].scale;
+    } else {
+        sf = 1.0f;
+    }
+    
+    _correctedGLViewFrameUnits = CGRectMake(_correctedGLViewFramePx.origin.x * sf,
+                                            _correctedGLViewFramePx.origin.y * sf,
+                                            _correctedGLViewFramePx.size.width * sf,
+                                            _correctedGLViewFramePx.size.height * sf);
     
     // also resize the processing frame view
-    [procFrameView setFrame:_correctedGLViewFrame];
+    [procFrameView setFrame:_correctedGLViewFrameUnits];
     
     // get the AR projection matrix
     float *projMatPtr = detector->getProjMat(glFrameW, glFrameH);

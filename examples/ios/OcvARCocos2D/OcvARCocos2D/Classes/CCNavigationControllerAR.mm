@@ -46,7 +46,7 @@
 -(GLKMatrix4)updateProjection
 {
     if ([ARCtrl arProjectionMatrix]) {
-        CGRect viewportFrame = [ARCtrl correctedGLViewFrame];
+        CGRect viewportFrame = [ARCtrl correctedGLViewFramePx];
         glViewport(0.0f, 0.0f, viewportFrame.size.width, viewportFrame.size.height);
         
         return (*[ARCtrl arProjectionMatrix]);

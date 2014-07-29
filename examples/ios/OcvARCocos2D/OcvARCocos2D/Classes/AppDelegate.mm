@@ -99,13 +99,8 @@
     // calculate the AR projection matrix
     [arCtrl setupProjection];
     
-    float sf = 1.0f;
-    CGRect glViewFramePx = [ARCtrl correctedGLViewFrame];
-    CGRect glViewFrameUnits = CGRectMake(glViewFramePx.origin.x * sf,
-                                         glViewFramePx.origin.y * sf,
-                                         glViewFramePx.size.width * sf,
-                                         glViewFramePx.size.height * sf);
-    [glView setFrame:glViewFrameUnits];
+    // gl view frame must fit the video's aspect ratio, so resize it
+    [glView setFrame:[ARCtrl correctedGLViewFrameUnits]];
 
 	// Create a Navigation Controller with the custom root view controller
 	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:rootViewCtrl];

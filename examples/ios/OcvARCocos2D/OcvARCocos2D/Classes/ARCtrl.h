@@ -66,6 +66,7 @@
 + (float)markerScale;
 
 + (const GLKMatrix4 *)arProjectionMatrix;
-+ (CGRect)correctedGLViewFrame;
++ (CGRect)correctedGLViewFramePx;
++ (CGRect)correctedGLViewFrameUnits;
 
 @end
