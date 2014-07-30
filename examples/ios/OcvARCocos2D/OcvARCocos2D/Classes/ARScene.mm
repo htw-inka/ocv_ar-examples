@@ -73,6 +73,10 @@
     const float *tVecData = marker->getTVec().ptr<float>(0);
     [markerNode setArTranslationVec:GLKVector3Make(tVecData[0], tVecData[1], tVecData[2])];
     
+//    CCDrawNode *drawNode = [CCDrawNode node];
+//    [drawNode drawDot:ccp(0.0f, 0.0f) radius:(markerScale * 0.6667f) color:[CCColor redColor]];
+//    [markerNode addChild:drawNode z:0];
+    
     // use the cocos logo as sprite for a marker
     ARTouchableSprite *cocosLogo = [ARTouchableSprite spriteWithImageNamed:@"Icon.png"];
     [cocosLogo setUserInteractionEnabled:YES];
