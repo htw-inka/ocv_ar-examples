@@ -190,26 +190,6 @@
         return NO;
     }
     
-//    // calculate the ray
-//    GLKVector4 rayDest = GLKMatrix4MultiplyVector4(mvpInvMat, normPosVec);
-//    GLKVector4 rayOrig = GLKMatrix4GetColumn(mvMatInv, 4);
-//    GLKVector4 rayDir = GLKVector4Normalize(GLKVector4Subtract(rayDest, rayOrig));
-//    
-//    NSLog(@"CCSpriteAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
-//          rayOrig.x, rayOrig.y, rayOrig.z,
-//          rayDir.x, rayDir.y, rayDir.z);
-//    
-//    return [self intersectionOfRayOriginVec4:&rayOrig direction:&rayDir sphereRadius:0.5f
-//                                      foundT:NULL];
-    
-    //
-//    GLKVector3 rayPt1 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 0.0f)
-//                                        projInverse:&projMatInv
-//                                           viewport:&viewport];
-//    GLKVector3 rayPt2 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 1.0f)
-//                                        projInverse:&projMatInv
-//                                           viewport:&viewport];
-    
     // construct a ray into the 3D scene
     GLKVector3 rayPt1 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 0.0f)
                                          mvpInverse:&mvpInvMat
@@ -234,24 +214,6 @@
     NSLog(@"CCSpriteAR: distance = %f", dist);
     
     return (dist <= (self.scale / 2.0f));
-//
-////    NSLog(@"CCSpriteAR: projected picking ray: %f, %f, %f", ray.x, ray.y, ray.z);
-//    
-//    return [self intersectionOfRayOrigin:&rayPt1 direction:&rayDir
-//                            sphereRadius:self.scale/2.0f foundT:NULL];
-    
-//    GLKVector3 objTVec = arParent.arTranslationVec;
-//    
-////    CCDrawNode *dbgRay = [CCDrawNode node];
-////    CGPoint dbgRayPts[2];
-////    dbgRayPts[0] =
-////    [dbgRay drawPolyWithVerts:dbgRayPts count:2 fillColor:[CCColor redColor] borderWidth:1.0f borderColor:[CCColor redColor]];
-////    [director.runningScene addChild:dbgRay];
-//
-//    return [self intersectionOfRayOrigin:&rayPt1
-//                               direction:&rayDir
-//                            sphereCenter:&objTVec
-//                                  radius:self.scale / 2.0f];
 }
 
 #pragma mark private methods

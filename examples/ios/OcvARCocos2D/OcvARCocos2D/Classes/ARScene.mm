@@ -72,6 +72,8 @@
     [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
     const float *tVecData = marker->getTVec().ptr<float>(0);
     [markerNode setArTranslationVec:GLKVector3Make(tVecData[0], tVecData[1], tVecData[2])];
+    [markerNode setScale:markerScale]; // markerScale scales down the coord. system so that 1 opengl unit
+                                       // is 1 marker side length
     
 //    CCDrawNode *drawNode = [CCDrawNode node];
 //    [drawNode drawDot:ccp(0.0f, 0.0f) radius:(markerScale * 0.6667f) color:[CCColor redColor]];
@@ -80,9 +82,8 @@
     // use the cocos logo as sprite for a marker
     ARTouchableSprite *cocosLogo = [ARTouchableSprite spriteWithImageNamed:@"Icon.png"];
     [cocosLogo setUserInteractionEnabled:YES];
-    [cocosLogo setScale:markerScale];
-                                                // markerScale scales down the coord. system so that 1 opengl unit
-                                                // is 1 marker side length
+//    [cocosLogo setScale:markerScale];
+    
     [markerNode addChild:cocosLogo];
     
     [self addChild:markerNode];
