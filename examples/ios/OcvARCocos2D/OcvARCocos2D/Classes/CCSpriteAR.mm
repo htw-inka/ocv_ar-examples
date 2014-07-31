@@ -1,3 +1,9 @@
+// http://www.opengl.org/archives/resources/faq/technical/selection.htm#sele0010
+// http://stackoverflow.com/questions/2093096/implementing-ray-picking
+// http://nehe.gamedev.net/article/using_gluunproject/16013/
+// http://wiki.cgsociety.org/index.php/Ray_Sphere_Intersection
+// https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
+
 #import "CCSpriteAR.h"
 
 #import "CCDirector.h"
@@ -6,6 +12,8 @@
 #import "Tools.h"
 
 @interface CCSpriteAR (Private)
+-(CGPoint)normalizePoint:(CGPoint)p usingViewport:(const GLKVector4 *)viewport;
+
 -(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
                         mvpInverse:(const GLKMatrix4 *)mvpInvMat
                           viewport:(const GLKVector4 *)viewport;
@@ -16,6 +24,9 @@
 
 -(BOOL)intersectionOfRayOrigin:(const GLKVector3 *)o direction:(const GLKVector3 *)d
                   sphereRadius:(float)r foundT:(float *)t;
+
+-(BOOL)intersectionOfRayOriginVec4:(const GLKVector4 *)o direction:(const GLKVector4 *)d
+                      sphereRadius:(float)r foundT:(float *)t;
 
 -(BOOL)intersectionOfRayOrigin:(const GLKVector3 *)o direction:(const GLKVector3 *)l    // <l> must be unit vector
                   sphereCenter:(const GLKVector3 *)c radius:(float)r;
@@ -155,65 +166,98 @@
     
     GLKMatrix4 projMat = director.projectionMatrix;
     GLKVector4 viewport = navCtrl.glViewportSpecs;
-    GLKMatrix4 projMatInv = GLKMatrix4Invert(projMat, NULL);
+
+    CGPoint normPos = [self normalizePoint:pos usingViewport:&viewport];
+    GLKVector4 normPosVec = GLKVector4Make(normPos.x, normPos.y, 0.0f, 1.0f);
     
-//    // get current transform matrix
+    NSLog(@"CCSpriteAR: normalized touch point at %f, %f", normPos.x, normPos.y);
+    
+//    GLKMatrix4 projMatInv = GLKMatrix4Invert(projMat, NULL);
+    
+    // get current transform matrix
 //	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(_scaleX, _scaleY, _scaleZ);
 //    GLKMatrix4 mvMat = GLKMatrix4Multiply(*arParent.arTransformMatrixPtr, scaleMat);
-//    
-//    // get the inverse of the model-view-projection matrix
+    GLKMatrix4 mvMat = *arParent.arTransformMatrixPtr;
+//    GLKMatrix4 mvMatInv = GLKMatrix4Invert(mvMat, NULL);
+    
+    // get the inverse of the model-view-projection matrix
 //    bool isInv;
 //    GLKMatrix4 mvpInvMat = GLKMatrix4Invert(GLKMatrix4Multiply(projMat, mvMat), &isInv);
 //    if (!isInv) {
 //        NSLog(@"CCSpriteAR: Could not invert MVP matrix for hit test");
 //        return NO;
 //    }
+
+    GLKMatrix4 mvpM
+    
+    GLKMatrix4 mvpInvMat = GLKMatrix4Multiply(mvMatInv, projMatInv);
+    
+//    // calculate the ray
+//    GLKVector4 rayDest = GLKMatrix4MultiplyVector4(mvpInvMat, normPosVec);
+//    GLKVector4 rayOrig = GLKMatrix4GetColumn(mvMatInv, 4);
+//    GLKVector4 rayDir = GLKVector4Normalize(GLKVector4Subtract(rayDest, rayOrig));
+//    
+//    NSLog(@"CCSpriteAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
+//          rayOrig.x, rayOrig.y, rayOrig.z,
+//          rayDir.x, rayDir.y, rayDir.z);
+//    
+//    return [self intersectionOfRayOriginVec4:&rayOrig direction:&rayDir sphereRadius:0.5f
+//                                      foundT:NULL];
     
     //
-    GLKVector3 rayPt1 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 0.0f)
-                                        projInverse:&projMatInv
-                                           viewport:&viewport];
-    GLKVector3 rayPt2 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 1.0f)
-                                        projInverse:&projMatInv
-                                           viewport:&viewport];
-    
-    // construct a ray into the 3D scene
 //    GLKVector3 rayPt1 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 0.0f)
-//                                         mvpInverse:&mvpInvMat
+//                                        projInverse:&projMatInv
 //                                           viewport:&viewport];
 //    GLKVector3 rayPt2 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 1.0f)
-//                                         mvpInverse:&mvpInvMat
+//                                        projInverse:&projMatInv
 //                                           viewport:&viewport];
     
-    // transform the ray origin to object space for intersection test
-//    GLKVector3 rayOrig = GLKVector3Add(rayPt1, arParent.arTranslationVec);
-    
-    GLKVector3 rayDir = GLKVector3Normalize(GLKVector3Subtract(rayPt1, rayPt2));
-
+    // construct a ray into the 3D scene
+    GLKVector3 rayPt1 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 0.0f)
+                                         mvpInverse:&mvpInvMat
+                                           viewport:&viewport];
+    GLKVector3 rayPt2 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 1.0f)
+                                         mvpInverse:&mvpInvMat
+                                           viewport:&viewport];
+//
+//    // transform the ray origin to object space for intersection test
+////    GLKVector3 rayOrig = GLKVector3Add(rayPt1, arParent.arTranslationVec);
+//    
+    GLKVector3 rayDir = GLKVector3Normalize(GLKVector3Subtract(rayPt2, rayPt1));
+//
     NSLog(@"CCSpriteAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
           rayPt1.x, rayPt1.y, rayPt1.z,
           rayDir.x, rayDir.y, rayDir.z);
+//
+////    NSLog(@"CCSpriteAR: projected picking ray: %f, %f, %f", ray.x, ray.y, ray.z);
+//    
+    return [self intersectionOfRayOrigin:&rayPt1 direction:&rayDir
+                            sphereRadius:self.scale/2.0f foundT:NULL];
     
-//    NSLog(@"CCSpriteAR: projected picking ray: %f, %f, %f", ray.x, ray.y, ray.z);
-    
-//    return [self intersectionOfRayOrigin:&rayPt1 direction:&rayDir
-//                            sphereRadius:self.scale foundT:NULL];
-    
-    GLKVector3 objTVec = arParent.arTranslationVec;
-    
-//    CCDrawNode *dbgRay = [CCDrawNode node];
-//    CGPoint dbgRayPts[2];
-//    dbgRayPts[0] =
-//    [dbgRay drawPolyWithVerts:dbgRayPts count:2 fillColor:[CCColor redColor] borderWidth:1.0f borderColor:[CCColor redColor]];
-//    [director.runningScene addChild:dbgRay];
-
-    return [self intersectionOfRayOrigin:&rayPt1
-                               direction:&rayDir
-                            sphereCenter:&objTVec
-                                  radius:self.scale / 2.0f];
+//    GLKVector3 objTVec = arParent.arTranslationVec;
+//    
+////    CCDrawNode *dbgRay = [CCDrawNode node];
+////    CGPoint dbgRayPts[2];
+////    dbgRayPts[0] =
+////    [dbgRay drawPolyWithVerts:dbgRayPts count:2 fillColor:[CCColor redColor] borderWidth:1.0f borderColor:[CCColor redColor]];
+////    [director.runningScene addChild:dbgRay];
+//
+//    return [self intersectionOfRayOrigin:&rayPt1
+//                               direction:&rayDir
+//                            sphereCenter:&objTVec
+//                                  radius:self.scale / 2.0f];
 }
 
 #pragma mark private methods
+
+-(CGPoint)normalizePoint:(CGPoint)p usingViewport:(const GLKVector4 *)viewport {
+    CGPoint n = CGPointMake(
+        2.0f * ((p.x - viewport->v[0]) / viewport->v[2]) - 1.0f,
+        1.0f - 2.0f * ((p.y - viewport->v[1]) / viewport->v[3])
+    );
+    
+    return n;
+}
 
 -(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
                         mvpInverse:(const GLKMatrix4 *)mvpInvMat
@@ -226,7 +270,10 @@
     tmp.y = (tmp.y - viewport->v[1]) / viewport->v[3];
     tmp = GLKVector4MultiplyScalar(tmp, 2.0f);
     tmp = GLKVector4AddScalar(tmp, -1.0f);
+    tmp.y *= -1.0f;
     
+    NSLog(@"CCSpriteAR: unproject tmp = [%f, %f, %f, %f]",
+          tmp.x, tmp.y, tmp.z, tmp.w);
     tmp = GLKMatrix4MultiplyVector4(*mvpInvMat, tmp);
     
     return GLKVector3Make(tmp.x / tmp.w, tmp.y / tmp.w, tmp.z / tmp.w);
@@ -243,6 +290,8 @@
     tmp.y = (tmp.y - viewport->v[1]) / viewport->v[3];
     tmp = GLKVector4MultiplyScalar(tmp, 2.0f);
     tmp = GLKVector4AddScalar(tmp, -1.0f);
+    tmp.y *= -1.0f;
+    
 //    NSLog(@"CCSpriteAR: unproject tmp = [%f, %f, %f, %f]",
 //          tmp.x, tmp.y, tmp.z, tmp.w);
     tmp = GLKMatrix4MultiplyVector4(*projInvMat, tmp);
@@ -282,6 +331,52 @@
     // make sure t0 is smaller than t1
     if (t0 > t1) CC_SWAP(t0, t1);
 
+    // if t1 is less than zero, the object is in the ray's negative direction
+    // and consequently the ray misses the sphere
+    if (t1 < 0.0f) return NO;
+    
+    // if t0 is less than zero, the intersection point is at t1
+    if (t0 < 0.0f) {
+        if (t) *t = t1;
+        return YES;
+    } else { // else the intersection point is at t0
+        if (t) *t = t0;
+        return NO;
+    }
+}
+
+-(BOOL)intersectionOfRayOriginVec4:(const GLKVector4 *)o direction:(const GLKVector4 *)d
+                      sphereRadius:(float)r foundT:(float *)t
+{
+    // taken from http://wiki.cgsociety.org/index.php/Ray_Sphere_Intersection
+    
+    // Compute A, B and C coefficients
+    float a = GLKVector4DotProduct(*d, *d);
+    float b = 2.0f * GLKVector4DotProduct(*d, *o);
+    float c = GLKVector4DotProduct(*o, *o) - (r * r);
+    
+    // Find discriminant
+    float disc = b * b - 4.0f * a * c;
+    
+    // if discriminant is negative there are no real roots, so return
+    // false as ray misses sphere
+    if (disc < 0) return NO;
+    
+    // compute q as described above
+    float distSqrt = sqrtf(disc);
+    float q;
+    if (b < 0)
+        q = (-b - distSqrt) / 2.0f;
+    else
+        q = (-b + distSqrt) / 2.0f;
+    
+    // compute t0 and t1
+    float t0 = q / a;
+    float t1 = c / q;
+    
+    // make sure t0 is smaller than t1
+    if (t0 > t1) CC_SWAP(t0, t1);
+    
     // if t1 is less than zero, the object is in the ray's negative direction
     // and consequently the ray misses the sphere
     if (t1 < 0.0f) return NO;
