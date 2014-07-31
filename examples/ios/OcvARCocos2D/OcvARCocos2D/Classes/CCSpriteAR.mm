@@ -15,10 +15,13 @@
 @synthesize rotationalSkewZ = _rotationalSkewZ;
 @synthesize position3D = _position3D;
 
-#pragma mark init/dealloc
+#pragma mark parent methods
 
--(id)init {
-    self = [super init];
+-(id) initWithTexture:(CCTexture*)texture rect:(CGRect)rect rotated:(BOOL)rotated {
+    // this is the designated initializer for CCSprite.
+    // took me long to find that out...
+    
+    self = [super initWithTexture:texture rect:rect rotated:rotated];
     if (self) {
         _scaleZ = 1.0f;
         _rotationalSkewZ = 0.0f;
@@ -28,8 +31,6 @@
     
     return self;
 }
-
-#pragma mark parent methods
 
 -(void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
     if (!_parent) {
@@ -81,15 +82,14 @@
     transform = GLKMatrix4RotateX(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewX));
     transform = GLKMatrix4RotateY(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewY));
     transform = GLKMatrix4RotateZ(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewZ));
-    
+//
     // 3. scale
     transform = GLKMatrix4Scale(transform, _scaleX, _scaleY, _scaleZ);
     
-//    NSLog(@"CCSpriteAR: localTransform:");
-//    [Tools printGLKMat4x4:&localTransform];
-//    GLKMatrix4 globalTransform = GLKMatrix4Multiply(*parentTransform, localTransform);
+//    NSLog(@"CCSpriteAR - transform:");
+//    [Tools printGLKMat4x4:&transform];
     
-    @synchronized(self) {
+    @synchronized(self) {   // synchronized with "hitTest3DWithTouchPoint" method
         _curTransformMat = transform;
     }
     
@@ -153,12 +153,12 @@
         return NO;
     }
     
-    GLKMatrix4 globalTransform;
-    @synchronized(self) {
-        globalTransform = _curTransformMat;
+    GLKMatrix4 transform;
+    @synchronized(self) {   // synchronized with visit:parentTransform:
+        transform = _curTransformMat;
     }
     
-    return [_arParent hitTest3DWithTouchPoint:pos useTransform:&globalTransform];
+    return [_arParent hitTest3DWithTouchPoint:pos useTransform:&transform];
 }
 
 -(void)setPosition3D:(GLKVector3)position3D {

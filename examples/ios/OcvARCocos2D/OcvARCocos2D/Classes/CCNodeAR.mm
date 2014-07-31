@@ -60,7 +60,7 @@
     return YES;
 }
 
--(BOOL)hitTest3DWithTouchPoint:(CGPoint)pos useTransform:(const GLKMatrix4 *)useTransMat {
+-(BOOL)hitTest3DWithTouchPoint:(CGPoint)pos useTransform:(const GLKMatrix4 *)transMat {
     NSAssert(_initializedForUserInteraction, @"CCNodeAR: must be initialized for user interaction");
     
     // apply screen scale to touch point
@@ -69,12 +69,20 @@
     NSLog(@"CCNodeAR: touch point at %d, %d px", (int)pos.x, (int)pos.y);
     
     // get the model-view transform matrix
-    GLKMatrix4 mvMat = _arTransformGLKMat;
-
+    // and the maximum ray <-> object distance for later
+    GLKMatrix4 mvpMat;
+    float maxDist;
+    if (transMat) {
+        mvpMat = *transMat;     // this implies that the projection matrix was already applied to <transMat>
+        maxDist = 0.5f;         // this implies that scaling was already applied to <transMat>
+    } else {
+        mvpMat = GLKMatrix4Multiply(_projMat, _arTransformGLKMat);
+        maxDist = self.scale / 2.0f;
+    }
     
     // get the inverse of the model-view-projection matrix
     bool isInv;
-    GLKMatrix4 mvpInvMat = GLKMatrix4Invert(GLKMatrix4Multiply(_projMat, mvMat), &isInv);
+    GLKMatrix4 mvpInvMat = GLKMatrix4Invert(mvpMat, &isInv);
     if (!isInv) {
         NSLog(@"CCNodeAR: Could not invert MVP matrix for hit test");
         return NO;
@@ -88,11 +96,10 @@
                                          mvpInverse:&mvpInvMat
                                            viewport:&_glViewportSpecs];
     
-    GLKVector3 rayDir = GLKVector3Normalize(GLKVector3Subtract(rayPt2, rayPt1));
-
-    NSLog(@"CCNodeAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
-          rayPt1.x, rayPt1.y, rayPt1.z,
-          rayDir.x, rayDir.y, rayDir.z);
+//    GLKVector3 rayDir = GLKVector3Normalize(GLKVector3Subtract(rayPt2, rayPt1));
+//    NSLog(@"CCNodeAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
+//          rayPt1.x, rayPt1.y, rayPt1.z,
+//          rayDir.x, rayDir.y, rayDir.z);
     
     GLKVector3 origin = GLKVector3Make(0.0f, 0.0f, 0.0f);
     
@@ -100,7 +107,7 @@
     
     NSLog(@"CCNodeAR: distance = %f", dist);
     
-    return (dist <= (self.scale / 2.0f) * _userInteractionRadiusFactor);
+    return (dist <= maxDist * _userInteractionRadiusFactor);
 }
 
 #pragma mark parent methods
@@ -186,8 +193,8 @@
     n = GLKVector4AddScalar(n, -1.0f);
     n.y *= -1.0f;
     
-    NSLog(@"CCNodeAR: unproject normalized vector = [%f, %f, %f, %f]",
-          n.x, n.y, n.z, n.w);
+//    NSLog(@"CCNodeAR: unproject normalized vector = [%f, %f, %f, %f]",
+//          n.x, n.y, n.z, n.w);
     
     // transform the normalized coordinates by the inverse model-view-projection matrix
     n = GLKMatrix4MultiplyVector4(*mvpInvMat, n);

@@ -66,12 +66,9 @@
     // create a "AR" node
     CCNodeAR *markerNode = [CCNodeAR node];
     [markerNode setObjectId:marker->getId()];
-//    [markerNode setScale:markerScale];
-    
+
     // set the 3D transform matrix for the marker
     [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
-//    const float *tVecData = marker->getTVec().ptr<float>(0);
-//    [markerNode setArTranslationVec:GLKVector3Make(tVecData[0], tVecData[1], tVecData[2])];
     [markerNode setScale:markerScale]; // markerScale scales down the coord. system so that 1 opengl unit
                                        // is 1 marker side length
     
@@ -81,10 +78,12 @@
     
     // use the cocos logo as sprite for a marker
     ARTouchableSprite *cocosLogo = [ARTouchableSprite spriteWithImageNamed:@"Icon.png"];
+    
+    // it is possible to apply transformations to a sprite in 3D:
 //    [cocosLogo setPosition:ccp(1.0f,1.0f)];
 //    [cocosLogo setRotationalSkewZ:45.0f];
-    [cocosLogo setPosition3D:GLKVector3Make(0.0f, 0.0f, 0.75f)];
-//    [cocosLogo setScale:markerScale];
+//    [cocosLogo setPosition3D:GLKVector3Make(0.0f, 0.0f, 0.75f)];
+//    [cocosLogo setScale:0.5f];
     
     [markerNode addChild:cocosLogo];
     

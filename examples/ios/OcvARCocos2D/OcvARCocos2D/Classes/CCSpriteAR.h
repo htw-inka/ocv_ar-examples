@@ -4,7 +4,7 @@
 @interface CCSpriteAR : CCSprite {
     BOOL _position3DIsSet;
     CCNodeAR * __weak _arParent;
-    GLKMatrix4 _curTransformMat;
+    GLKMatrix4 _curTransformMat;    // current global transform matrix. necessary for picking
 }
 
 @property (nonatomic, assign) GLKVector3 position3D;
