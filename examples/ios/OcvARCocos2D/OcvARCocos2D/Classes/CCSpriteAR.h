@@ -1,7 +1,10 @@
 #import "CCSprite.h"
+#import "CCNodeAR.h"
 
 @interface CCSpriteAR : CCSprite {
     BOOL _position3DIsSet;
+    CCNodeAR * __weak _arParent;
+    GLKMatrix4 _curTransformMat;
 }
 
 @property (nonatomic, assign) GLKVector3 position3D;
@@ -9,10 +12,10 @@
 @property (nonatomic, assign) float rotationalSkewZ;
 
 // necessary override because it is private in CCNode
--(void) sortAllChildren;
-
-- (BOOL)arHitTestWithTouchPoint:(CGPoint)pos;
+-(void)sortAllChildren;
 
 -(void)setPosition3D:(GLKVector3)position3D;
+
+-(BOOL)hitTest3DWithTouchPoint:(CGPoint)pos;
 
 @end

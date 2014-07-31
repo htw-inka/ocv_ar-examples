@@ -13,5 +13,7 @@
 @property (nonatomic, strong) NSString* screenOrientationAR;
 @property (nonatomic, readonly) GLKVector4 glViewportSpecs;
 
++(float)uiScreenScale;
+
 @end
 

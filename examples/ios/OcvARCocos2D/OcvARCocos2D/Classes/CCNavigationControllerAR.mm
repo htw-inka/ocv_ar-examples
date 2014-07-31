@@ -2,6 +2,8 @@
 
 @implementation CCNavigationControllerAR
 
+static float _uiScreenScale = 0.0f;
+
 @synthesize glViewportSpecs = _glViewportSpecs;
 @synthesize appDelegateAR = _appDelegateAR;
 @synthesize screenOrientationAR = _screenOrientationAR;
@@ -75,5 +77,16 @@
 	}
 }
 
++(float)uiScreenScale {
+    if (_uiScreenScale == 0.0f) {
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
+            _uiScreenScale = [UIScreen mainScreen].scale;
+        } else {
+            _uiScreenScale = 1.0f;
+        }
+    }
+    
+    return _uiScreenScale;
+}
 
 @end

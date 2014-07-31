@@ -6,34 +6,8 @@
 
 #import "CCSpriteAR.h"
 
-#import "CCDirector.h"
 #import "CCNodeAR.h"
-#import "CCNavigationControllerAR.h"
 #import "Tools.h"
-
-@interface CCSpriteAR (Private)
--(CGPoint)normalizePoint:(CGPoint)p usingViewport:(const GLKVector4 *)viewport;
-
--(float)distanceOfPoint:(const GLKVector3 *)x0 toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
-
--(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
-                        mvpInverse:(const GLKMatrix4 *)mvpInvMat
-                          viewport:(const GLKVector4 *)viewport;
-
--(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
-                       projInverse:(const GLKMatrix4 *)projInvMat
-                          viewport:(const GLKVector4 *)viewport;
-
--(BOOL)intersectionOfRayOrigin:(const GLKVector3 *)o direction:(const GLKVector3 *)d
-                  sphereRadius:(float)r foundT:(float *)t;
-
--(BOOL)intersectionOfRayOriginVec4:(const GLKVector4 *)o direction:(const GLKVector4 *)d
-                      sphereRadius:(float)r foundT:(float *)t;
-
--(BOOL)intersectionOfRayOrigin:(const GLKVector3 *)o direction:(const GLKVector3 *)l    // <l> must be unit vector
-                  sphereCenter:(const GLKVector3 *)c radius:(float)r;
-
-@end
 
 @implementation CCSpriteAR
 
@@ -49,12 +23,30 @@
         _scaleZ = 1.0f;
         _rotationalSkewZ = 0.0f;
         _position3DIsSet = NO;
+        _arParent = NULL;
     }
     
     return self;
 }
 
 #pragma mark parent methods
+
+-(void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+    if (!_parent) {
+        NSLog(@"CCSpriteAR: parent node must be set to a 'CCNodeAR' *before* calling 'setUserInteractionEnabled'");
+        return;
+    }
+    
+    if (![_parent isKindOfClass:[CCNodeAR class]]) {
+        NSLog(@"CCSpriteAR: parent node must be of type 'CCNodeAR' for hit test");
+        return;
+    }
+    
+    _arParent = (CCNodeAR *)_parent;
+    if ([_arParent initForUserInteraction]) {
+        [super setUserInteractionEnabled:userInteractionEnabled];
+    }
+}
 
 -(void)setScale:(float)scale {
     _scaleZ = scale;
@@ -75,12 +67,9 @@
     
     [self sortAllChildren];
     
-//    NSLog(@"CCSpriteAR - parentTransform:");
-//    [Tools printGLKMat4x4:parentTransform];
-    
+    // apply transformations
     GLKMatrix4 transform = *parentTransform;
     
-    // apply transformations
     // 1. translate
     if (_position3DIsSet) {
         transform = GLKMatrix4Translate(transform, _position3D.x, _position3D.y, _position3D.z);
@@ -95,7 +84,14 @@
     
     // 3. scale
     transform = GLKMatrix4Scale(transform, _scaleX, _scaleY, _scaleZ);
-
+    
+//    NSLog(@"CCSpriteAR: localTransform:");
+//    [Tools printGLKMat4x4:&localTransform];
+//    GLKMatrix4 globalTransform = GLKMatrix4Multiply(*parentTransform, localTransform);
+    
+    @synchronized(self) {
+        _curTransformMat = transform;
+    }
     
 	BOOL drawn = NO;
     
@@ -151,6 +147,20 @@
 
 #pragma mark public methods
 
+-(BOOL)hitTest3DWithTouchPoint:(CGPoint)pos {
+    if (!self.userInteractionEnabled || !_arParent) {
+        NSLog(@"CCSpriteAR: no hit test, because user interaction is not enabled or parent node is invalid");
+        return NO;
+    }
+    
+    GLKMatrix4 globalTransform;
+    @synchronized(self) {
+        globalTransform = _curTransformMat;
+    }
+    
+    return [_arParent hitTest3DWithTouchPoint:pos useTransform:&globalTransform];
+}
+
 -(void)setPosition3D:(GLKVector3)position3D {
     _position3D = position3D;
     _position3DIsSet = YES;
@@ -169,247 +179,6 @@
         [[[CCDirector sharedDirector] responderManager] markAsDirty];
         
 	}
-}
-
-- (BOOL)arHitTestWithTouchPoint:(CGPoint)pos {
-    // todo: move this to init
-    if (![_parent isKindOfClass:[CCNodeAR class]]) {
-        NSLog(@"CCSpriteAR: parent node must be of type 'CCNodeAR' for hit test");
-        return NO;
-    }
-    
-    CCDirector *director = [CCDirector sharedDirector];
-    if (![[director delegate] isKindOfClass:[CCNavigationControllerAR class]]) {
-        NSLog(@"CCSpriteAR: Navigation controller must be of type 'CCNavigationControllerAR' for hit test");
-        return NO;
-    }
-    
-    float sf;
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
-        sf = [UIScreen mainScreen].scale;
-    } else {
-        sf = 1.0f;
-    }
-    
-    pos = CGPointMake(pos.x * sf, pos.y * sf);
-    
-    NSLog(@"CCSpriteAR: touch point at %d, %d", (int)pos.x, (int)pos.y);
-    
-    CCNodeAR *arParent = (CCNodeAR *)_parent;
-    CCNavigationControllerAR *navCtrl = (CCNavigationControllerAR *)[director delegate];
-    
-    GLKMatrix4 projMat = director.projectionMatrix;
-    GLKVector4 viewport = navCtrl.glViewportSpecs;
-
-//    CGPoint normPos = [self normalizePoint:pos usingViewport:&viewport];
-//    GLKVector4 normPosVec = GLKVector4Make(normPos.x, normPos.y, 0.0f, 1.0f);
-    
-//    NSLog(@"CCSpriteAR: normalized touch point at %f, %f", normPos.x, normPos.y);
-    
-//    GLKMatrix4 projMatInv = GLKMatrix4Invert(projMat, NULL);
-    
-    // get current transform matrix
-//	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(_scaleX, _scaleY, _scaleZ);
-//    GLKMatrix4 mvMat = GLKMatrix4Multiply(*arParent.arTransformMatrixPtr, scaleMat);
-    GLKMatrix4 mvMat = *arParent.arTransformMatrixPtr;
-//    GLKMatrix4 mvMatInv = GLKMatrix4Invert(mvMat, NULL);
-    
-    // get the inverse of the model-view-projection matrix
-    bool isInv;
-    GLKMatrix4 mvpInvMat = GLKMatrix4Invert(GLKMatrix4Multiply(projMat, mvMat), &isInv);
-    if (!isInv) {
-        NSLog(@"CCSpriteAR: Could not invert MVP matrix for hit test");
-        return NO;
-    }
-    
-    // construct a ray into the 3D scene
-    GLKVector3 rayPt1 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 0.0f)
-                                         mvpInverse:&mvpInvMat
-                                           viewport:&viewport];
-    GLKVector3 rayPt2 = [self unprojectScreenCoords:GLKVector3Make(pos.x, pos.y, 1.0f)
-                                         mvpInverse:&mvpInvMat
-                                           viewport:&viewport];
-//
-//    // transform the ray origin to object space for intersection test
-////    GLKVector3 rayOrig = GLKVector3Add(rayPt1, arParent.arTranslationVec);
-//    
-    GLKVector3 rayDir = GLKVector3Normalize(GLKVector3Subtract(rayPt2, rayPt1));
-//
-    NSLog(@"CCSpriteAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
-          rayPt1.x, rayPt1.y, rayPt1.z,
-          rayDir.x, rayDir.y, rayDir.z);
-    
-    GLKVector3 origin = GLKVector3Make(0.0f, 0.0f, 0.0f);
-    
-    float dist = [self distanceOfPoint:&origin toLineFrom:&rayPt1 to:&rayPt2];
-    
-    NSLog(@"CCSpriteAR: distance = %f", dist);
-    
-    return (dist <= (self.scale / 2.0f));
-}
-
-#pragma mark private methods
-
--(CGPoint)normalizePoint:(CGPoint)p usingViewport:(const GLKVector4 *)viewport {
-    CGPoint n = CGPointMake(
-        2.0f * ((p.x - viewport->v[0]) / viewport->v[2]) - 1.0f,
-        1.0f - 2.0f * ((p.y - viewport->v[1]) / viewport->v[3])
-    );
-    
-    return n;
-}
-
--(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
-                        mvpInverse:(const GLKMatrix4 *)mvpInvMat
-                          viewport:(const GLKVector4 *)viewport
-{
-    // taken from glm implementation
-    
-    GLKVector4 tmp = GLKVector4Make(screenPt.x, screenPt.y, screenPt.z, 1.0f);
-    tmp.x = (tmp.x - viewport->v[0]) / viewport->v[2];
-    tmp.y = (tmp.y - viewport->v[1]) / viewport->v[3];
-    tmp = GLKVector4MultiplyScalar(tmp, 2.0f);
-    tmp = GLKVector4AddScalar(tmp, -1.0f);
-    tmp.y *= -1.0f;
-    
-    NSLog(@"CCSpriteAR: unproject tmp = [%f, %f, %f, %f]",
-          tmp.x, tmp.y, tmp.z, tmp.w);
-    tmp = GLKMatrix4MultiplyVector4(*mvpInvMat, tmp);
-    
-    return GLKVector3Make(tmp.x / tmp.w, tmp.y / tmp.w, tmp.z / tmp.w);
-}
-
--(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
-                       projInverse:(const GLKMatrix4 *)projInvMat
-                          viewport:(const GLKVector4 *)viewport
-{
-    // taken from glm implementation
-    
-    GLKVector4 tmp = GLKVector4Make(screenPt.x, screenPt.y, screenPt.z, 1.0f);
-    tmp.x = (tmp.x - viewport->v[0]) / viewport->v[2];
-    tmp.y = (tmp.y - viewport->v[1]) / viewport->v[3];
-    tmp = GLKVector4MultiplyScalar(tmp, 2.0f);
-    tmp = GLKVector4AddScalar(tmp, -1.0f);
-    tmp.y *= -1.0f;
-    
-//    NSLog(@"CCSpriteAR: unproject tmp = [%f, %f, %f, %f]",
-//          tmp.x, tmp.y, tmp.z, tmp.w);
-    tmp = GLKMatrix4MultiplyVector4(*projInvMat, tmp);
-    
-    return GLKVector3Make(tmp.x / tmp.w, tmp.y / tmp.w, tmp.z / tmp.w);
-}
-
--(BOOL)intersectionOfRayOrigin:(const GLKVector3 *)o direction:(const GLKVector3 *)d
-                  sphereRadius:(float)r foundT:(float *)t
-{
-    // taken from http://wiki.cgsociety.org/index.php/Ray_Sphere_Intersection
-    
-    // Compute A, B and C coefficients
-    float a = GLKVector3DotProduct(*d, *d);
-    float b = 2.0f * GLKVector3DotProduct(*d, *o);
-    float c = GLKVector3DotProduct(*o, *o) - (r * r);
-    
-    // Find discriminant
-    float disc = b * b - 4.0f * a * c;
-    
-    // if discriminant is negative there are no real roots, so return
-    // false as ray misses sphere
-    if (disc < 0) return NO;
-    
-    // compute q as described above
-    float distSqrt = sqrtf(disc);
-    float q;
-    if (b < 0)
-        q = (-b - distSqrt) / 2.0f;
-    else
-        q = (-b + distSqrt) / 2.0f;
-    
-    // compute t0 and t1
-    float t0 = q / a;
-    float t1 = c / q;
-    
-    // make sure t0 is smaller than t1
-    if (t0 > t1) CC_SWAP(t0, t1);
-
-    // if t1 is less than zero, the object is in the ray's negative direction
-    // and consequently the ray misses the sphere
-    if (t1 < 0.0f) return NO;
-    
-    // if t0 is less than zero, the intersection point is at t1
-    if (t0 < 0.0f) {
-        if (t) *t = t1;
-        return YES;
-    } else { // else the intersection point is at t0
-        if (t) *t = t0;
-        return NO;
-    }
-}
-
--(BOOL)intersectionOfRayOriginVec4:(const GLKVector4 *)o direction:(const GLKVector4 *)d
-                      sphereRadius:(float)r foundT:(float *)t
-{
-    // taken from http://wiki.cgsociety.org/index.php/Ray_Sphere_Intersection
-    
-    // Compute A, B and C coefficients
-    float a = GLKVector4DotProduct(*d, *d);
-    float b = 2.0f * GLKVector4DotProduct(*d, *o);
-    float c = GLKVector4DotProduct(*o, *o) - (r * r);
-    
-    // Find discriminant
-    float disc = b * b - 4.0f * a * c;
-    
-    // if discriminant is negative there are no real roots, so return
-    // false as ray misses sphere
-    if (disc < 0) return NO;
-    
-    // compute q as described above
-    float distSqrt = sqrtf(disc);
-    float q;
-    if (b < 0)
-        q = (-b - distSqrt) / 2.0f;
-    else
-        q = (-b + distSqrt) / 2.0f;
-    
-    // compute t0 and t1
-    float t0 = q / a;
-    float t1 = c / q;
-    
-    // make sure t0 is smaller than t1
-    if (t0 > t1) CC_SWAP(t0, t1);
-    
-    // if t1 is less than zero, the object is in the ray's negative direction
-    // and consequently the ray misses the sphere
-    if (t1 < 0.0f) return NO;
-    
-    // if t0 is less than zero, the intersection point is at t1
-    if (t0 < 0.0f) {
-        if (t) *t = t1;
-        return YES;
-    } else { // else the intersection point is at t0
-        if (t) *t = t0;
-        return NO;
-    }
-}
-
--(BOOL)intersectionOfRayOrigin:(const GLKVector3 *)o direction:(const GLKVector3 *)l    // <l> must be unit vector
-                  sphereCenter:(const GLKVector3 *)c radius:(float)r
-{
-    GLKVector3 v = GLKVector3Subtract(*o, *c);
-    float lv = GLKVector3DotProduct(*l, v);         // l.(o-c)
-    float oc2 = v.x * v.x + v.y * v.y + v.z * v.z;  // |o-c|^2
-    
-    float D = lv * lv - oc2 + r * r;
-    
-    return D > 0.0f;
-}
-
--(float)distanceOfPoint:(const GLKVector3 *)x0 toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2 {
-    GLKVector3 x1x0 = GLKVector3Subtract(*x0, *x1);
-    GLKVector3 x2x0 = GLKVector3Subtract(*x0, *x2);
-    GLKVector3 num = GLKVector3CrossProduct(x1x0, x2x0);
-    GLKVector3 x1x2 = GLKVector3Subtract(*x2, *x1);
-
-    return GLKVector3Length(num) / GLKVector3Length(x1x2);
 }
 
 @end

@@ -10,6 +10,7 @@
 
 #import <sys/utsname.h>
 #import "Tools.h"
+#import "CCNavigationControllerAR.h"
 
 /**
  * Small helper function to convert a fourCC <code> to
@@ -216,12 +217,7 @@ static CGRect _correctedGLViewFrameUnits;
           (int)_correctedGLViewFramePx.size.width, (int)_correctedGLViewFramePx.size.height,
           (int)_correctedGLViewFramePx.origin.x, (int)_correctedGLViewFramePx.origin.y);
     
-    float sf;
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
-        sf = 1.0f / [UIScreen mainScreen].scale;
-    } else {
-        sf = 1.0f;
-    }
+    float sf = 1.0f / [CCNavigationControllerAR uiScreenScale];
     
     _correctedGLViewFrameUnits = CGRectMake(_correctedGLViewFramePx.origin.x * sf,
                                             _correctedGLViewFramePx.origin.y * sf,
