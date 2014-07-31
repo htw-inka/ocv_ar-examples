@@ -3,13 +3,17 @@
 #import "Tools.h"
 #import "CCNavigationControllerAR.h"
 
+#define GLKVEC3_SQ_LEN(v) ((v).x * (v).x + (v).y * (v).y + (v).z * (v).z)
+
 @interface CCNodeAR (Private)
 -(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
                         mvpInverse:(const GLKMatrix4 *)mvpInvMat
                           viewport:(const GLKVector4 *)viewport;
 
--(float)distanceOfPoint:(const GLKVector3 *)x0
-             toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
+//-(float)distanceOfPoint:(const GLKVector3 *)x0
+//             toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
+
+-(float)squaredDistBetweenOriginAndLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
 @end
 
 @implementation CCNodeAR
@@ -101,13 +105,14 @@
 //          rayPt1.x, rayPt1.y, rayPt1.z,
 //          rayDir.x, rayDir.y, rayDir.z);
     
-    GLKVector3 origin = GLKVector3Make(0.0f, 0.0f, 0.0f);
+//    GLKVector3 origin = GLKVector3Make(0.0f, 0.0f, 0.0f);
     
-    float dist = [self distanceOfPoint:&origin toLineFrom:&rayPt1 to:&rayPt2];
+    float sqDist = [self squaredDistBetweenOriginAndLineFrom:&rayPt1 to:&rayPt2];
     
-    NSLog(@"CCNodeAR: distance = %f", dist);
+//    NSLog(@"CCNodeAR: distance = %f", sqrtf(sqDist));
     
-    return (dist <= maxDist * _userInteractionRadiusFactor);
+    float distLimit = maxDist * _userInteractionRadiusFactor;
+    return (sqDist <= distLimit * distLimit);
 }
 
 #pragma mark parent methods
@@ -203,15 +208,22 @@
     return GLKVector3Make(n.x / n.w, n.y / n.w, n.z / n.w);
 }
 
--(float)distanceOfPoint:(const GLKVector3 *)x0
-             toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2
-{
-    GLKVector3 x1x0 = GLKVector3Subtract(*x0, *x1);
-    GLKVector3 x2x0 = GLKVector3Subtract(*x0, *x2);
-    GLKVector3 num = GLKVector3CrossProduct(x1x0, x2x0);
+//-(float)distanceOfPoint:(const GLKVector3 *)x0
+//             toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2
+//{
+//    GLKVector3 x1x0 = GLKVector3Subtract(*x0, *x1);
+//    GLKVector3 x2x0 = GLKVector3Subtract(*x0, *x2);
+//    GLKVector3 num = GLKVector3CrossProduct(x1x0, x2x0);
+//    GLKVector3 x1x2 = GLKVector3Subtract(*x2, *x1);
+//    
+//    return GLKVector3Length(num) / GLKVector3Length(x1x2);
+//}
+
+-(float)squaredDistBetweenOriginAndLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2 {
+    GLKVector3 num = GLKVector3CrossProduct(*x1, *x2);
     GLKVector3 x1x2 = GLKVector3Subtract(*x2, *x1);
     
-    return GLKVector3Length(num) / GLKVector3Length(x1x2);
+    return GLKVEC3_SQ_LEN(num) / GLKVEC3_SQ_LEN(x1x2);
 }
 
 @end
