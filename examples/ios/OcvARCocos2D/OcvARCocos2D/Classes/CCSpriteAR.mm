@@ -38,6 +38,8 @@
 @implementation CCSpriteAR
 
 @synthesize scaleZ = _scaleZ;
+@synthesize rotationalSkewZ = _rotationalSkewZ;
+@synthesize position3D = _position3D;
 
 #pragma mark init/dealloc
 
@@ -45,6 +47,8 @@
     self = [super init];
     if (self) {
         _scaleZ = 1.0f;
+        _rotationalSkewZ = 0.0f;
+        _position3DIsSet = NO;
     }
     
     return self;
@@ -55,6 +59,11 @@
 -(void)setScale:(float)scale {
     _scaleZ = scale;
     [super setScale:scale];
+}
+
+-(void)setRotation:(float)rotation {
+    _rotationalSkewZ = rotation;
+    [super setRotation:rotation];
 }
 
 -(void)visit:(CCRenderer *)renderer parentTransform:(const GLKMatrix4 *)parentTransform {
@@ -69,9 +78,25 @@
 //    NSLog(@"CCSpriteAR - parentTransform:");
 //    [Tools printGLKMat4x4:parentTransform];
     
+    GLKMatrix4 transform = *parentTransform;
     
-	GLKMatrix4 scaleMat = GLKMatrix4MakeScale(_scaleX, _scaleY, _scaleZ);
-    GLKMatrix4 transform = GLKMatrix4Multiply(*parentTransform, scaleMat);
+    // apply transformations
+    // 1. translate
+    if (_position3DIsSet) {
+        transform = GLKMatrix4Translate(transform, _position3D.x, _position3D.y, _position3D.z);
+    } else {
+        transform = GLKMatrix4Translate(transform, _position.x, _position.y, 0.0f);
+    }
+    
+    // 2. rotate
+    transform = GLKMatrix4RotateX(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewX));
+    transform = GLKMatrix4RotateY(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewY));
+    transform = GLKMatrix4RotateZ(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewZ));
+    
+    // 3. scale
+    transform = GLKMatrix4Scale(transform, _scaleX, _scaleY, _scaleZ);
+
+    
 	BOOL drawn = NO;
     
 	for(CCNode *child in _children){
@@ -122,6 +147,13 @@
 	
 	CCRenderBufferSetTriangle(buffer, 0, 0, 1, 2);
 	CCRenderBufferSetTriangle(buffer, 1, 0, 2, 3);
+}
+
+#pragma mark public methods
+
+-(void)setPosition3D:(GLKVector3)position3D {
+    _position3D = position3D;
+    _position3DIsSet = YES;
 }
 
 - (void) sortAllChildren

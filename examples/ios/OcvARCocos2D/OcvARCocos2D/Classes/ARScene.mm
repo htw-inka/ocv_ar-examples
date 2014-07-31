@@ -81,6 +81,9 @@
     
     // use the cocos logo as sprite for a marker
     ARTouchableSprite *cocosLogo = [ARTouchableSprite spriteWithImageNamed:@"Icon.png"];
+//    [cocosLogo setPosition:ccp(1.0f,1.0f)];
+//    [cocosLogo setRotationalSkewZ:45.0f];
+//    [cocosLogo setPosition3D:GLKVector3Make(0.0f, 0.0f, 1.0f)];
     [cocosLogo setUserInteractionEnabled:YES];
 //    [cocosLogo setScale:markerScale];
     
