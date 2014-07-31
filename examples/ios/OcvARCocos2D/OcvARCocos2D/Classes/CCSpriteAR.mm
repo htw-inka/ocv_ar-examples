@@ -14,6 +14,8 @@
 @interface CCSpriteAR (Private)
 -(CGPoint)normalizePoint:(CGPoint)p usingViewport:(const GLKVector4 *)viewport;
 
+-(float)distanceOfPoint:(const GLKVector3 *)x0 toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
+
 -(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
                         mvpInverse:(const GLKMatrix4 *)mvpInvMat
                           viewport:(const GLKVector4 *)viewport;
@@ -167,10 +169,10 @@
     GLKMatrix4 projMat = director.projectionMatrix;
     GLKVector4 viewport = navCtrl.glViewportSpecs;
 
-    CGPoint normPos = [self normalizePoint:pos usingViewport:&viewport];
-    GLKVector4 normPosVec = GLKVector4Make(normPos.x, normPos.y, 0.0f, 1.0f);
+//    CGPoint normPos = [self normalizePoint:pos usingViewport:&viewport];
+//    GLKVector4 normPosVec = GLKVector4Make(normPos.x, normPos.y, 0.0f, 1.0f);
     
-    NSLog(@"CCSpriteAR: normalized touch point at %f, %f", normPos.x, normPos.y);
+//    NSLog(@"CCSpriteAR: normalized touch point at %f, %f", normPos.x, normPos.y);
     
 //    GLKMatrix4 projMatInv = GLKMatrix4Invert(projMat, NULL);
     
@@ -181,16 +183,12 @@
 //    GLKMatrix4 mvMatInv = GLKMatrix4Invert(mvMat, NULL);
     
     // get the inverse of the model-view-projection matrix
-//    bool isInv;
-//    GLKMatrix4 mvpInvMat = GLKMatrix4Invert(GLKMatrix4Multiply(projMat, mvMat), &isInv);
-//    if (!isInv) {
-//        NSLog(@"CCSpriteAR: Could not invert MVP matrix for hit test");
-//        return NO;
-//    }
-
-    GLKMatrix4 mvpM
-    
-    GLKMatrix4 mvpInvMat = GLKMatrix4Multiply(mvMatInv, projMatInv);
+    bool isInv;
+    GLKMatrix4 mvpInvMat = GLKMatrix4Invert(GLKMatrix4Multiply(projMat, mvMat), &isInv);
+    if (!isInv) {
+        NSLog(@"CCSpriteAR: Could not invert MVP matrix for hit test");
+        return NO;
+    }
     
 //    // calculate the ray
 //    GLKVector4 rayDest = GLKMatrix4MultiplyVector4(mvpInvMat, normPosVec);
@@ -228,11 +226,19 @@
     NSLog(@"CCSpriteAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
           rayPt1.x, rayPt1.y, rayPt1.z,
           rayDir.x, rayDir.y, rayDir.z);
+    
+    GLKVector3 origin = GLKVector3Make(0.0f, 0.0f, 0.0f);
+    
+    float dist = [self distanceOfPoint:&origin toLineFrom:&rayPt1 to:&rayPt2];
+    
+    NSLog(@"CCSpriteAR: distance = %f", dist);
+    
+    return (dist <= (self.scale / 2.0f));
 //
 ////    NSLog(@"CCSpriteAR: projected picking ray: %f, %f, %f", ray.x, ray.y, ray.z);
 //    
-    return [self intersectionOfRayOrigin:&rayPt1 direction:&rayDir
-                            sphereRadius:self.scale/2.0f foundT:NULL];
+//    return [self intersectionOfRayOrigin:&rayPt1 direction:&rayDir
+//                            sphereRadius:self.scale/2.0f foundT:NULL];
     
 //    GLKVector3 objTVec = arParent.arTranslationVec;
 //    
@@ -401,6 +407,15 @@
     float D = lv * lv - oc2 + r * r;
     
     return D > 0.0f;
+}
+
+-(float)distanceOfPoint:(const GLKVector3 *)x0 toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2 {
+    GLKVector3 x1x0 = GLKVector3Subtract(*x0, *x1);
+    GLKVector3 x2x0 = GLKVector3Subtract(*x0, *x2);
+    GLKVector3 num = GLKVector3CrossProduct(x1x0, x2x0);
+    GLKVector3 x1x2 = GLKVector3Subtract(*x2, *x1);
+
+    return GLKVector3Length(num) / GLKVector3Length(x1x2);
 }
 
 @end
