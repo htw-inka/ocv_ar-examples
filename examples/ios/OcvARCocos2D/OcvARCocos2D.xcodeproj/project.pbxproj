@@ -219,11 +219,11 @@
 		285C9D311975555B00A981BA /* CamView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D301975555B00A981BA /* CamView.mm */; };
 		285C9D34197555DB00A981BA /* ARCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D33197555DB00A981BA /* ARCtrl.mm */; };
 		285C9D37197576BE00A981BA /* Tools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 285C9D36197576BE00A981BA /* Tools.mm */; };
-		28657243197D286600774E01 /* CCSpriteAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28657242197D286600774E01 /* CCSpriteAR.mm */; };
-		28657246197D32F200774E01 /* CCSceneAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28657245197D32F200774E01 /* CCSceneAR.mm */; };
-		287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 287EE4371977E4A500072F3A /* CCNodeAR.mm */; };
 		28ADFAE819868569006F71C0 /* ipad2-front.xml in Resources */ = {isa = PBXBuildFile; fileRef = 28ADFAE719868569006F71C0 /* ipad2-front.xml */; };
-		28F98574197E8345000BCA51 /* CCNavigationControllerAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */; };
+		28BE5B11199125E500B6EC94 /* CCNavigationControllerAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28BE5B0A199125E500B6EC94 /* CCNavigationControllerAR.mm */; };
+		28BE5B12199125E500B6EC94 /* CCNodeAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28BE5B0C199125E500B6EC94 /* CCNodeAR.mm */; };
+		28BE5B13199125E500B6EC94 /* CCSceneAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28BE5B0E199125E500B6EC94 /* CCSceneAR.mm */; };
+		28BE5B14199125E500B6EC94 /* CCSpriteAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28BE5B10199125E500B6EC94 /* CCSpriteAR.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -666,15 +666,15 @@
 		285C9D33197555DB00A981BA /* ARCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ARCtrl.mm; path = Classes/ARCtrl.mm; sourceTree = "<group>"; };
 		285C9D35197576BE00A981BA /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Classes/Tools.h; sourceTree = "<group>"; };
 		285C9D36197576BE00A981BA /* Tools.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Tools.mm; path = Classes/Tools.mm; sourceTree = "<group>"; };
-		28657241197D286600774E01 /* CCSpriteAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSpriteAR.h; path = Classes/CCSpriteAR.h; sourceTree = "<group>"; };
-		28657242197D286600774E01 /* CCSpriteAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCSpriteAR.mm; path = Classes/CCSpriteAR.mm; sourceTree = "<group>"; };
-		28657244197D32F200774E01 /* CCSceneAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCSceneAR.h; path = Classes/CCSceneAR.h; sourceTree = "<group>"; };
-		28657245197D32F200774E01 /* CCSceneAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCSceneAR.mm; path = Classes/CCSceneAR.mm; sourceTree = "<group>"; };
-		287EE4361977E4A500072F3A /* CCNodeAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNodeAR.h; path = Classes/CCNodeAR.h; sourceTree = "<group>"; };
-		287EE4371977E4A500072F3A /* CCNodeAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNodeAR.mm; path = Classes/CCNodeAR.mm; sourceTree = "<group>"; };
 		28ADFAE719868569006F71C0 /* ipad2-front.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "ipad2-front.xml"; sourceTree = "<group>"; };
-		28F98572197E8345000BCA51 /* CCNavigationControllerAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNavigationControllerAR.h; path = Classes/CCNavigationControllerAR.h; sourceTree = "<group>"; };
-		28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCNavigationControllerAR.mm; path = Classes/CCNavigationControllerAR.mm; sourceTree = "<group>"; };
+		28BE5B09199125E500B6EC94 /* CCNavigationControllerAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNavigationControllerAR.h; sourceTree = "<group>"; };
+		28BE5B0A199125E500B6EC94 /* CCNavigationControllerAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCNavigationControllerAR.mm; sourceTree = "<group>"; };
+		28BE5B0B199125E500B6EC94 /* CCNodeAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeAR.h; sourceTree = "<group>"; };
+		28BE5B0C199125E500B6EC94 /* CCNodeAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCNodeAR.mm; sourceTree = "<group>"; };
+		28BE5B0D199125E500B6EC94 /* CCSceneAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSceneAR.h; sourceTree = "<group>"; };
+		28BE5B0E199125E500B6EC94 /* CCSceneAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCSceneAR.mm; sourceTree = "<group>"; };
+		28BE5B0F199125E500B6EC94 /* CCSpriteAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSpriteAR.h; sourceTree = "<group>"; };
+		28BE5B10199125E500B6EC94 /* CCSpriteAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCSpriteAR.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1497,6 +1497,7 @@
 		282C4874196C20040036CAE2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				28BE5B08199125E500B6EC94 /* CCExtensionsAR */,
 				282C4875196C20040036CAE2 /* AppDelegate.h */,
 				282C4876196C20040036CAE2 /* AppDelegate.mm */,
 				285C9D32197555DB00A981BA /* ARCtrl.h */,
@@ -1507,14 +1508,6 @@
 				285A2F651987B5BB00969A64 /* ARTouchableSprite.mm */,
 				285C9D2F1975555B00A981BA /* CamView.h */,
 				285C9D301975555B00A981BA /* CamView.mm */,
-				28F98572197E8345000BCA51 /* CCNavigationControllerAR.h */,
-				28F98573197E8345000BCA51 /* CCNavigationControllerAR.mm */,
-				287EE4361977E4A500072F3A /* CCNodeAR.h */,
-				287EE4371977E4A500072F3A /* CCNodeAR.mm */,
-				28657244197D32F200774E01 /* CCSceneAR.h */,
-				28657245197D32F200774E01 /* CCSceneAR.mm */,
-				28657241197D286600774E01 /* CCSpriteAR.h */,
-				28657242197D286600774E01 /* CCSpriteAR.mm */,
 				285C9D35197576BE00A981BA /* Tools.h */,
 				285C9D36197576BE00A981BA /* Tools.mm */,
 			);
@@ -1556,6 +1549,22 @@
 			);
 			name = "cam-intrinsics";
 			path = "Resources/cam-intrinsics";
+			sourceTree = "<group>";
+		};
+		28BE5B08199125E500B6EC94 /* CCExtensionsAR */ = {
+			isa = PBXGroup;
+			children = (
+				28BE5B09199125E500B6EC94 /* CCNavigationControllerAR.h */,
+				28BE5B0A199125E500B6EC94 /* CCNavigationControllerAR.mm */,
+				28BE5B0B199125E500B6EC94 /* CCNodeAR.h */,
+				28BE5B0C199125E500B6EC94 /* CCNodeAR.mm */,
+				28BE5B0D199125E500B6EC94 /* CCSceneAR.h */,
+				28BE5B0E199125E500B6EC94 /* CCSceneAR.mm */,
+				28BE5B0F199125E500B6EC94 /* CCSpriteAR.h */,
+				28BE5B10199125E500B6EC94 /* CCSpriteAR.mm */,
+			);
+			name = CCExtensionsAR;
+			path = Classes/CCExtensionsAR;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1665,7 +1674,6 @@
 				282C4713196C20020036CAE2 /* CCTexturePVR.m in Sources */,
 				282C47F4196C20030036CAE2 /* CCBReader.m in Sources */,
 				282C4793196C20020036CAE2 /* ALBuffer.m in Sources */,
-				28657246197D32F200774E01 /* CCSceneAR.mm in Sources */,
 				282C4799196C20030036CAE2 /* ALChannelSource.m in Sources */,
 				282C47BC196C20030036CAE2 /* IOSVersion.m in Sources */,
 				282C48A7196C22350036CAE2 /* ident.cpp in Sources */,
@@ -1704,7 +1712,6 @@
 				282C48AF196C22350036CAE2 /* marker.cpp in Sources */,
 				282C479F196C20030036CAE2 /* ALDevice.m in Sources */,
 				282C4765196C20020036CAE2 /* NSThread+performBlock.m in Sources */,
-				28F98574197E8345000BCA51 /* CCNavigationControllerAR.mm in Sources */,
 				282C4702196C20020036CAE2 /* CCSpriteBatchNode.m in Sources */,
 				282C4652196C20000036CAE2 /* CCEffectBrightness.m in Sources */,
 				282C4787196C20020036CAE2 /* OALAudioTrackNotifications.m in Sources */,
@@ -1712,7 +1719,6 @@
 				282C4673196C20000036CAE2 /* CCAction.m in Sources */,
 				282C48AB196C22350036CAE2 /* ident_templ.cpp in Sources */,
 				282C47AD196C20030036CAE2 /* ALWrapper.m in Sources */,
-				28657243197D286600774E01 /* CCSpriteAR.mm in Sources */,
 				282C47F7196C20030036CAE2 /* CCBsequence.m in Sources */,
 				282C47E2196C20030036CAE2 /* CCTableView.m in Sources */,
 				282C46B1196C20010036CAE2 /* CCLayout.m in Sources */,
@@ -1764,7 +1770,9 @@
 				282C47BE196C20030036CAE2 /* mach_timing.c in Sources */,
 				282C46F8196C20020036CAE2 /* CCScheduler.m in Sources */,
 				282C48B5196C22350036CAE2 /* track.cpp in Sources */,
+				28BE5B14199125E500B6EC94 /* CCSpriteAR.mm in Sources */,
 				282C4716196C20020036CAE2 /* CCTiledMap.m in Sources */,
+				28BE5B12199125E500B6EC94 /* CCNodeAR.mm in Sources */,
 				282C48B3196C22350036CAE2 /* tools.cpp in Sources */,
 				282C4658196C20000036CAE2 /* CCEffectColorPulse.m in Sources */,
 				282C46EE196C20010036CAE2 /* CCResponder.m in Sources */,
@@ -1778,13 +1786,13 @@
 				282C4686196C20000036CAE2 /* CCActionProgressTimer.m in Sources */,
 				282C4769196C20020036CAE2 /* TGAlib.m in Sources */,
 				282C467C196C20000036CAE2 /* CCActionInstant.m in Sources */,
+				28BE5B13199125E500B6EC94 /* CCSceneAR.mm in Sources */,
 				282C467F196C20000036CAE2 /* CCActionInterval.m in Sources */,
 				282C46AD196C20010036CAE2 /* CCNodeColor.m in Sources */,
 				282C473B196C20020036CAE2 /* CCAppDelegate.m in Sources */,
 				282C469B196C20010036CAE2 /* CCDirector.m in Sources */,
 				282C4679196C20000036CAE2 /* CCActionEase.m in Sources */,
 				282C465A196C20000036CAE2 /* CCEffectGlow.m in Sources */,
-				287EE4381977E4A500072F3A /* CCNodeAR.mm in Sources */,
 				282C47A6196C20030036CAE2 /* ALSoundSourcePool.m in Sources */,
 				282C47F1196C20030036CAE2 /* CCBKeyframe.m in Sources */,
 				282C46A7196C20010036CAE2 /* CCLabelBMFont.m in Sources */,
@@ -1799,6 +1807,7 @@
 				282C477D196C20020036CAE2 /* OALAudioActions.m in Sources */,
 				282C4877196C20040036CAE2 /* AppDelegate.mm in Sources */,
 				282C472E196C20020036CAE2 /* CCDirectorIOS.m in Sources */,
+				28BE5B11199125E500B6EC94 /* CCNavigationControllerAR.mm in Sources */,
 				282C46C8196C20010036CAE2 /* CCParticleBatchNode.m in Sources */,
 				282C4762196C20020036CAE2 /* NSAttributedString+CCAdditions.m in Sources */,
 				282C4873196C20040036CAE2 /* main.m in Sources */,
