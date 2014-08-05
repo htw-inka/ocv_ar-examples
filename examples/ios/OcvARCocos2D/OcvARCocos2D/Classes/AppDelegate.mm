@@ -118,6 +118,17 @@
 	// make main window visible
 	[window_ makeKeyAndVisible];
     
+    
+    // fix an error where touches with x > 768 are not recognized. this seems to be
+    // a bug related to the window size and orientation. now we set the window
+    // height to be equal to the width to recognize all touches. seems weird but works.
+    CGRect winRect = window_.bounds;
+    if (winRect.size.height < winRect.size.width) {
+        winRect.size.height = winRect.size.width;
+        [window_ setBounds:winRect];
+        [window_ setFrame:winRect];
+    }
+    
     // somehow, this is necessary here
     [director startAnimation];
     
