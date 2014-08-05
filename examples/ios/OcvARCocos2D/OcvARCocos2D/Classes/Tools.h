@@ -1,3 +1,14 @@
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * Common tools - header file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
+
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <GLKit/GLKit.h>
@@ -18,6 +29,19 @@
  */
 + (UIImage *)imageFromCvMat:(const cv::Mat *)mat;
 
+/**
+ * Get the full device name such as "ipad2,1".
+ */
++ (NSString *)deviceModel;
+
+/**
+ * Get the short device name such as "ipad2".
+ */
++ (NSString *)deviceModelShort;
+
+/**
+ * Print a GLKMatrix4 <mat> to the console.
+ */
 + (void)printGLKMat4x4:(const GLKMatrix4 *)mat;
 
 @end

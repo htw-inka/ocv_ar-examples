@@ -1,4 +1,17 @@
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * Common tools - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
+
 #import "Tools.h"
+
+#import <sys/utsname.h>
 
 @implementation Tools
 
@@ -63,6 +76,21 @@
     return finalImage;
     
 }
+
++ (NSString *)deviceModel {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *machineInfo = [[NSString stringWithCString:systemInfo.machine encoding:NSASCIIStringEncoding] lowercaseString];
+    
+    return machineInfo;
+}
+
++ (NSString *)deviceModelShort {
+    NSString *m = [Tools deviceModel];
+    NSRange r = [m rangeOfString:@","];
+    return [[m substringToIndex:r.location] lowercaseString];
+}
+
 
 + (void)printGLKMat4x4:(const GLKMatrix4 *)mat {
     for (int y = 0; y < 4; ++y) {

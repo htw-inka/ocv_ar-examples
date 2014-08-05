@@ -1,8 +1,13 @@
-// http://www.opengl.org/archives/resources/faq/technical/selection.htm#sele0010
-// http://stackoverflow.com/questions/2093096/implementing-ray-picking
-// http://nehe.gamedev.net/article/using_gluunproject/16013/
-// http://wiki.cgsociety.org/index.php/Ray_Sphere_Intersection
-// https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * CCSprite extension for AR - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
 
 #import "CCSpriteAR.h"
 
@@ -23,6 +28,7 @@
     
     self = [super initWithTexture:texture rect:rect rotated:rotated];
     if (self) {
+        // set defaults
         _scaleZ = 1.0f;
         _rotationalSkewZ = 0.0f;
         _position3DIsSet = NO;
@@ -43,6 +49,7 @@
         return;
     }
     
+    // init user interaction in parent node of type CCNodeAR
     _arParent = (CCNodeAR *)_parent;
     if ([_arParent initForUserInteraction]) {
         [super setUserInteractionEnabled:userInteractionEnabled];
@@ -82,7 +89,7 @@
     transform = GLKMatrix4RotateX(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewX));
     transform = GLKMatrix4RotateY(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewY));
     transform = GLKMatrix4RotateZ(transform, CC_DEGREES_TO_RADIANS(_rotationalSkewZ));
-//
+
     // 3. scale
     transform = GLKMatrix4Scale(transform, _scaleX, _scaleY, _scaleZ);
     
@@ -152,6 +159,8 @@
         NSLog(@"CCSpriteAR: no hit test, because user interaction is not enabled or parent node is invalid");
         return NO;
     }
+    
+    // make a hit test and use this sprite's full transform information for it
     
     GLKMatrix4 transform;
     @synchronized(self) {   // synchronized with visit:parentTransform:

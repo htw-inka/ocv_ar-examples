@@ -1,25 +1,30 @@
-//
-//  AppDelegate.h
-//  OcvARCocos2D
-//
-//  Created by Markus Konrad on 08.07.14.
-//  Copyright INKA Research Group 2014. All rights reserved.
-//
-// -----------------------------------------------------------------------
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * AppDelegate header file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
 
 #import "cocos2d.h"
 
 #import "ARCtrl.h"
 #import "ARScene.h"
-#import "RootViewCtrl.h"
 
+/**
+ * Application delegate. Initializes the application on startup and handles
+ * application life cycle events.
+ */
 @interface AppDelegate : CCAppDelegate {
-    ARCtrl *arCtrl;
-    ARScene *arScene;
+    ARCtrl *_arCtrl;     // AR controller
+    ARScene *_arScene;   // AR scene (CCSceneAR instance) to display the markers
     
-    RootViewCtrl *rootViewCtrl;
+    UIViewController *_rootViewCtrl; // root UIViewController
     
-    CCGLView *glView;
+    CCGLView *_glView;   // OpenGL view from cocos2D
 }
 
 @end

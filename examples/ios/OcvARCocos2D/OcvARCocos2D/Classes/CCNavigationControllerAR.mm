@@ -1,3 +1,14 @@
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * Special navigation controller with AR extensions - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
+
 #import "CCNavigationControllerAR.h"
 
 @implementation CCNavigationControllerAR
@@ -48,7 +59,7 @@ static float _uiScreenScale = 0.0f;
 // Projection delegate is only used if the fixed resolution mode is enabled
 -(GLKMatrix4)updateProjection
 {
-    if ([ARCtrl arProjectionMatrix]) {
+    if ([ARCtrl arProjectionMatrix]) {  // return the AR projection matrix if available
         CGRect viewportFrame = [ARCtrl correctedGLViewFramePx];
         glViewport(0.0f, 0.0f, viewportFrame.size.width, viewportFrame.size.height);
         _glViewportSpecs = GLKVector4Make(0.0f, 0.0f, viewportFrame.size.width, viewportFrame.size.height);

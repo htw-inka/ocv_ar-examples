@@ -1,3 +1,14 @@
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * CCNode extension for AR - implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
+
 #import "CCNodeAR.h"
 
 #import "Tools.h"
@@ -6,13 +17,18 @@
 #define GLKVEC3_SQ_LEN(v) ((v).x * (v).x + (v).y * (v).y + (v).z * (v).z)
 
 @interface CCNodeAR (Private)
+/**
+ * Perform a "unprojection" of <screenPt> by using the *inverse* model-view-projection
+ * matrix <mvpInvMat> and the OpenGL viewport specifications <viewport>.
+ */
 -(GLKVector3)unprojectScreenCoords:(GLKVector3)screenPt
                         mvpInverse:(const GLKMatrix4 *)mvpInvMat
                           viewport:(const GLKVector4 *)viewport;
 
-//-(float)distanceOfPoint:(const GLKVector3 *)x0
-//             toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
-
+/**
+ * Return the squared distance between the coordinate system origin (0,0,0) and a line
+ * from <x1> to <x2>.
+ */
 -(float)squaredDistBetweenOriginAndLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2;
 @end
 
@@ -20,7 +36,6 @@
 
 @synthesize objectId = _objectId;
 @synthesize alive = _alive;
-//@synthesize arTranslationVec;
 @synthesize scaleZ = _scaleZ;
 @synthesize userInteractionRadiusFactor = _userInteractionRadiusFactor;
 
@@ -29,6 +44,7 @@
 -(id)init {
     self = [super init];
     if (self) {
+        // set defaults
         _scaleZ = 1.0f;
         _userInteractionRadiusFactor = 1.0f;
         _initializedForUserInteraction = NO;
@@ -57,6 +73,8 @@
     
     CCNavigationControllerAR *navCtrl = (CCNavigationControllerAR *)[director delegate];
     
+    // get the AR projection matrix and viewport specifications, which are needed
+    // for 3D picking
     _projMat = director.projectionMatrix;
     _glViewportSpecs = navCtrl.glViewportSpecs;
 
@@ -66,6 +84,8 @@
 }
 
 -(BOOL)hitTest3DWithTouchPoint:(CGPoint)pos useTransform:(const GLKMatrix4 *)transMat {
+    // implements ray picking (see http://stackoverflow.com/a/6264670)
+    
     NSAssert(_initializedForUserInteraction, @"CCNodeAR: must be initialized for user interaction");
     
     // apply screen scale to touch point
@@ -105,8 +125,6 @@
 //    NSLog(@"CCNodeAR: Ray for hit test is o=[%f, %f, %f], l=[%f, %f, %f]",
 //          rayPt1.x, rayPt1.y, rayPt1.z,
 //          rayDir.x, rayDir.y, rayDir.z);
-    
-//    GLKVector3 origin = GLKVector3Make(0.0f, 0.0f, 0.0f);
     
     float sqDist = [self squaredDistBetweenOriginAndLineFrom:&rayPt1 to:&rayPt2];
     
@@ -209,17 +227,6 @@
     // form a 3-component vector and return it
     return GLKVector3Make(n.x / n.w, n.y / n.w, n.z / n.w);
 }
-
-//-(float)distanceOfPoint:(const GLKVector3 *)x0
-//             toLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2
-//{
-//    GLKVector3 x1x0 = GLKVector3Subtract(*x0, *x1);
-//    GLKVector3 x2x0 = GLKVector3Subtract(*x0, *x2);
-//    GLKVector3 num = GLKVector3CrossProduct(x1x0, x2x0);
-//    GLKVector3 x1x2 = GLKVector3Subtract(*x2, *x1);
-//    
-//    return GLKVector3Length(num) / GLKVector3Length(x1x2);
-//}
 
 -(float)squaredDistBetweenOriginAndLineFrom:(const GLKVector3 *)x1 to:(const GLKVector3 *)x2 {
     GLKVector3 num = GLKVector3CrossProduct(*x1, *x2);

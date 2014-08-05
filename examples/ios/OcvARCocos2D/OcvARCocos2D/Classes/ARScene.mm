@@ -1,10 +1,28 @@
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * Augmented Reality main scene implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
+
 #import "ARScene.h"
 
 #import "CCNodeAR.h"
 #import "ARTouchableSprite.h"
 
 @interface ARScene (Private)
-- (CCNodeAR *)createMarkerNodeWithMarkerObj:(const ocv_ar::Marker *)markerObj;
+/**
+ * Create a new marker node with a cocos logo sprite as child.
+ */
+- (CCNodeAR *)createMarkerNodeWithId:(int)markerId;
+
+/**
+ * Update <markerNode> and set its properties according to <markerObj>.
+ */
 - (void)updateMarkerNode:(CCNodeAR *)markerNode withMarkerObj:(const ocv_ar::Marker *)markerObj;
 @end
 
@@ -23,6 +41,7 @@
     self = [super init];
     if (!self) return(nil);
 
+    // init defaults
     _markerScale = s;
     _tracker = NULL;
     _markers = [[NSMutableDictionary alloc] init];
@@ -59,7 +78,7 @@
         if (presentMarker) { // marker is already known -> update it
             [self updateMarkerNode:presentMarker withMarkerObj:markerObj];
         } else {    // marker is not known -> create a new node for it
-            presentMarker = [self createMarkerNodeWithMarkerObj:markerObj];
+            presentMarker = [self createMarkerNodeWithId:markerId];
             [self updateMarkerNode:presentMarker withMarkerObj:markerObj];
             [self addChild:presentMarker];
             
@@ -83,10 +102,10 @@
 
 #pragma mark private methods
 
-- (CCNodeAR *)createMarkerNodeWithMarkerObj:(const ocv_ar::Marker *)markerObj {
+- (CCNodeAR *)createMarkerNodeWithId:(int)markerId {
     // create a "AR" node
     CCNodeAR *markerNode = [CCNodeAR node];
-    [markerNode setObjectId:markerObj->getId()];
+    [markerNode setObjectId:markerId];
     
     [markerNode setScale:_markerScale]; // markerScale scales down the coord. system so that 1 opengl unit
                                         // is 1 marker side length
@@ -113,7 +132,7 @@
 }
 
 -(void)updateMarkerNode:(CCNodeAR *)markerNode withMarkerObj:(const ocv_ar::Marker *)markerObj {
-    [markerNode setARTransformMatrix:markerObj->getPoseMatPtr()];
+    [markerNode setARTransformMatrix:markerObj->getPoseMatPtr()];   // determines the 3D transform
     [markerNode setAlive:YES];  // shows that this marker was updated lately
 }
 

@@ -1,12 +1,12 @@
 /**
- * OcvARBasicNativeCam - Basic ocv_ar example for iOS with native camera usage
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
  *
- * camera view - header file.
+ * Camera view header file.
  *
- * Author: Markus Konrad <konrad@htw-berlin.de>, June 2014.
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
  * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
  *
- * BSD licensed (see LICENSE file).
+ * See LICENSE for license.
  */
 
 #import <UIKit/UIKit.h>

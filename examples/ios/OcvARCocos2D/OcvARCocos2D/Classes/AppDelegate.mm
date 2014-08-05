@@ -1,11 +1,13 @@
-//
-//  AppDelegate.m
-//  OcvARCocos2D
-//
-//  Created by Markus Konrad on 08.07.14.
-//  Copyright INKA Research Group 2014. All rights reserved.
-//
-// -----------------------------------------------------------------------
+/**
+ * OcvARCocos2D - Marker-based Augmented Reality with ocv_ar and Cocos2D.
+ *
+ * AppDelegate implementation file.
+ *
+ * Author: Markus Konrad <konrad@htw-berlin.de>, August 2014.
+ * INKA Research Group, HTW Berlin - http://inka.htw-berlin.de/
+ *
+ * See LICENSE for license.
+ */
 
 #import "AppDelegate.h"
 #import "ARScene.h"
@@ -13,37 +15,39 @@
 #import "CCNavigationControllerAR.h"
 
 @interface AppDelegate (Private)
+/**
+ * Will create a proper OpenGL view for property <_glView> with <frame>
+ */
 - (void)createGLViewWithFrame:(CGRect)frame;
 @end
 
 @implementation AppDelegate
 
-
+/**
+ * application start up method. it recreates many things that [CCAppDelegate setupCocos2dWithOptions:]
+ * implements but has some modifications to create a custom view hierarchy.
+ */
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Custom AppDelegate launch method
-    // We need full power over how the view hiearchy is created, that's why this method does not use cocos2d's
-    // default setup function
-    
     // create the window
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     NSLog(@"screen bounds: %dx%d", (int)screenSize.width, (int)screenSize.height);
     if (screenSize.width < screenSize.height) CC_SWAP(screenSize.width, screenSize.height);
     CGRect customBounds = CGRectMake(0, 0, screenSize.width, screenSize.height);
-    self.window = [[UIWindow alloc] initWithFrame:customBounds];
+    window_ = [[UIWindow alloc] initWithFrame:customBounds];
     
     // create a custom root view controller
     // this will be the root view controller instead of CCDirector!
-    rootViewCtrl = [[RootViewCtrl alloc] init];
+    _rootViewCtrl = [[UIViewController alloc] init];
     
     // create the gl view
-	[self createGLViewWithFrame:self.window.bounds];
+	[self createGLViewWithFrame:window_.bounds];
     
     // create the director
     CCDirectorIOS *director = (CCDirectorIOS*) [CCDirector sharedDirector];
     [director setWantsFullScreenLayout:YES];
     
     // set its gl view
-    [director setView:glView];
+    [director setView:_glView];
     
 #ifdef DEBUG
     [director setDisplayStats:YES];
@@ -51,9 +55,9 @@
     
     // calculate screen size and content scaling
     NSLog(@"view size in units: %dx%d, scale factor: %f",
-          (int)glView.frame.size.width, (int)glView.frame.size.height,  director.UIScaleFactor);
+          (int)_glView.frame.size.width, (int)_glView.frame.size.height, director.UIScaleFactor);
     
-    CGSize size = glView.frame.size;
+    CGSize size = _glView.frame.size;
     CGSize fixed = {568, 384};
     if (size.width < size.height) CC_SWAP(fixed.width, fixed.height);
     
@@ -80,30 +84,31 @@
     CGFloat arFrameH = size.height;
     if (arFrameW < arFrameH) CC_SWAP(arFrameW, arFrameH);
     
-    arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, arFrameW, arFrameH)
+    _arCtrl = [[ARCtrl alloc] initWithFrame:CGRectMake(0, 0, arFrameW, arFrameH)
                                orientation:UIInterfaceOrientationLandscapeRight];
     
-    [arCtrl startCam];  // MUST be called before [arCtrl setupProjection]
+    [_arCtrl startCam];  // MUST be called before [arCtrl setupProjection]
     
     // the "baseView" contains the camera view
-    UIView *baseView = arCtrl.baseView;
-    [baseView addSubview:glView];    // add the cocos2d opengl on top of the camera view
+    UIView *baseView = _arCtrl.baseView;
+    [baseView addSubview:_glView];    // add the cocos2d opengl on top of the camera view
 
-    [rootViewCtrl setView:baseView];
+    // set the base view as view for the root view controller
+    [_rootViewCtrl setView:baseView];
 
     // create the AR start scene
-	arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
-    [arScene setTracker:[arCtrl tracker]];
-    [arCtrl setMainScene:arScene];
+	_arScene = [ARScene sceneWithMarkerScale:[ARCtrl markerScale]];
+    [_arScene setTracker:[_arCtrl tracker]];
+    [_arCtrl setMainScene:_arScene];
     
     // calculate the AR projection matrix
-    [arCtrl setupProjection];
+    [_arCtrl setupProjection];
     
     // gl view frame must fit the video's aspect ratio, so resize it
-    [glView setFrame:[ARCtrl correctedGLViewFrameUnits]];
+    [_glView setFrame:[ARCtrl correctedGLViewFrameUnits]];
 
 	// Create a Navigation Controller with the custom root view controller
-	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:rootViewCtrl];
+	CCNavigationControllerAR *navCtrl = [[CCNavigationControllerAR alloc] initWithRootViewController:_rootViewCtrl];
     [navCtrl setNavigationBarHidden:YES];
     [navCtrl setAppDelegateAR:self];
     [navCtrl setScreenOrientationAR:CCScreenOrientationLandscape];
@@ -139,11 +144,11 @@
 
 -(CCScene *)startScene
 {
-    return arScene;
+    return _arScene;
 }
 
 - (void)createGLViewWithFrame:(CGRect)frame {
-	glView = [CCGLView viewWithFrame:frame
+	_glView = [CCGLView viewWithFrame:frame
                          pixelFormat:kEAGLColorFormatRGBA8
                          depthFormat:GL_DEPTH_COMPONENT24_OES
                   preserveBackbuffer:NO
@@ -151,7 +156,7 @@
                        multiSampling:NO
                      numberOfSamples:0 ];
 
-    [glView setOpaque:NO];   // needed for transparent overlay
+    [_glView setOpaque:NO];   // needed for transparent overlay
 }
 
 @end
