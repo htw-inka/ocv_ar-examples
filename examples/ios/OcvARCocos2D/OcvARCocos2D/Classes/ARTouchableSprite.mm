@@ -24,7 +24,7 @@
     // make a hit test calling CCSpriteAR's 3D hit test method
     BOOL hit = [super hitTest3DWithTouchPoint:uiLocation];
     
-    NSLog(@"ARTouchableSprite: hit = %d", hit);
+    NSLog(@"ARTouchableSprite #%d: hit = %d", _arParent.objectId, hit);
     
     // change the color on a successful hit
     if (hit) {
@@ -35,6 +35,8 @@
             [self setColor:[CCColor colorWithCcColor3b:_defaultColor.ccColor3b]];
             _defaultColor = nil;
         }
+    } else {
+        [super touchBegan:touch withEvent:event];
     }
 }
 
