@@ -19,6 +19,7 @@
 @implementation CCNodeAR
 
 @synthesize objectId = _objectId;
+@synthesize alive = _alive;
 //@synthesize arTranslationVec;
 @synthesize scaleZ = _scaleZ;
 @synthesize userInteractionRadiusFactor = _userInteractionRadiusFactor;
@@ -161,6 +162,7 @@
     
 	// reset for next frame
 	_orderOfArrival = 0;
+    _alive = NO;
 }
 
 - (void) sortAllChildren

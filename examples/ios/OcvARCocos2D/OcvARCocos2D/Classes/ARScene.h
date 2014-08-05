@@ -5,7 +5,8 @@
 #include "../../../../../ocv_ar/ocv_ar.h"
 
 @interface ARScene : CCSceneAR {
-    float markerScale;  // real marker size in meters
+    float _markerScale;  // real marker size in meters
+    NSMutableDictionary *_markers;  // maps NSNumber (marker ID) -> CCNodeAR (visual marker)
 }
 
 @property (nonatomic, assign) ocv_ar::Track *tracker;   // pointer to the AR marker tracker

@@ -2,6 +2,8 @@
 
 #import "CCSpriteAR.h"
 
-@interface ARTouchableSprite : CCSpriteAR
+@interface ARTouchableSprite : CCSpriteAR {
+    CCColor *_defaultColor;
+}
 
 @end

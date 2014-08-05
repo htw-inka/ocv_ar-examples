@@ -12,6 +12,7 @@
 
 @property (nonatomic, assign) float scaleZ;
 @property (nonatomic, assign) int objectId; // used later to identify nodes that belong to a certain marker id
+@property (nonatomic, assign, getter = isAlive) BOOL alive;
 @property (nonatomic, assign) float userInteractionRadiusFactor;
 //@property (nonatomic, assign) GLKVector3 arTranslationVec;
 

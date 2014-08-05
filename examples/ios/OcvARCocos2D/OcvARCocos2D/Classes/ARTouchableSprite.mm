@@ -12,9 +12,15 @@
     
     NSLog(@"ARTouchableSprite: hit = %d", hit);
     
-//    if (hit) {
-//        [self setColor:[CCColor redColor]];
-//    }
+    if (hit) {
+        if (!_defaultColor) {
+            _defaultColor = [CCColor colorWithCcColor3b:self.color.ccColor3b];
+            [self setColor:[CCColor redColor]];
+        } else {
+            [self setColor:[CCColor colorWithCcColor3b:_defaultColor.ccColor3b]];
+            _defaultColor = nil;
+        }
+    }
 }
 
 @end

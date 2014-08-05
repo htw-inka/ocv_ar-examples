@@ -4,12 +4,13 @@
 #import "ARTouchableSprite.h"
 
 @interface ARScene (Private)
-- (void)drawMarker:(const ocv_ar::Marker *)marker;
+- (CCNodeAR *)createMarkerNodeWithMarkerObj:(const ocv_ar::Marker *)markerObj;
+- (void)updateMarkerNode:(CCNodeAR *)markerNode withMarkerObj:(const ocv_ar::Marker *)markerObj;
 @end
 
 @implementation ARScene
 
-@synthesize tracker;
+@synthesize tracker = _tracker;
 
 #pragma mark init/dealloc
 
@@ -22,10 +23,11 @@
     self = [super init];
     if (!self) return(nil);
 
-    markerScale = s;
-    tracker = NULL;
+    _markerScale = s;
+    _tracker = NULL;
+    _markers = [[NSMutableDictionary alloc] init];
     
-    NSLog(@"ARScene: initializing AR scene with marker scale %f", markerScale);
+    NSLog(@"ARScene: initializing AR scene with marker scale %f", _markerScale);
     
     // this will set the glClearColor
     // it is important to set the alpha channel to zero for the transparent overlay
@@ -36,62 +38,83 @@
 }
 
 - (void)update:(CCTime)delta {
-    if (tracker) {
-        tracker->update();
+    if (!_tracker) return;
+    
+    // update the ocv_ar tracker
+    _tracker->update();
+    
+    _tracker->lockMarkers();     // lock the tracked markers, because they might get updated in a different thread
+    
+    // update the markers dictionary
+    const ocv_ar::MarkerMap *markers = _tracker->getMarkers();
+    for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
+         it != markers->end();
+         ++it)
+    {
+        int markerId = it->first;
+        NSNumber *markerIdNum = [NSNumber numberWithInt:markerId];
+        const ocv_ar::Marker *markerObj = &it->second;
+        CCNodeAR *presentMarker = [_markers objectForKey:markerIdNum];
         
-        // we'll do it like this for now and re-add the sprite for each marker on each update
-        // in the future, check for added and lost markers and keep the others
-        [self removeAllChildren];
-        
-        tracker->lockMarkers();     // lock the tracked markers, because they might get updated in a different thread
-        
-        // draw each marker
-        const ocv_ar::MarkerMap *markers = tracker->getMarkers();
-//        NSLog(@"ARScene: got %lu markers", markers->size());
-        for (ocv_ar::MarkerMap::const_iterator it = markers->begin();
-             it != markers->end();
-             ++it)
-        {
-//            NSLog(@"ARScene: drawing marker #%d", it->second.getId());
-            [self drawMarker:&(it->second)];
+        if (presentMarker) { // marker is already known -> update it
+            [self updateMarkerNode:presentMarker withMarkerObj:markerObj];
+        } else {    // marker is not known -> create a new node for it
+            presentMarker = [self createMarkerNodeWithMarkerObj:markerObj];
+            [self updateMarkerNode:presentMarker withMarkerObj:markerObj];
+            [self addChild:presentMarker];
+            
+            [_markers setObject:presentMarker forKey:markerIdNum];
         }
-        
-        tracker->unlockMarkers();   // unlock the tracked markers again
     }
+    
+    _tracker->unlockMarkers();   // unlock the tracked markers again
+    
+    // remove "dead" markers
+    NSMutableArray *markerNodesToDelete = [NSMutableArray array];
+    for (CCNodeAR *markerNode in _markers.allValues) {
+        if (!markerNode.isAlive) {
+            [markerNode removeFromParent];
+            [markerNodesToDelete addObject:[NSNumber numberWithInt:markerNode.objectId]];
+        }
+    }
+    
+    [_markers removeObjectsForKeys:markerNodesToDelete];
 }
 
 #pragma mark private methods
 
-- (void)drawMarker:(const ocv_ar::Marker *)marker {
+- (CCNodeAR *)createMarkerNodeWithMarkerObj:(const ocv_ar::Marker *)markerObj {
     // create a "AR" node
     CCNodeAR *markerNode = [CCNodeAR node];
-    [markerNode setObjectId:marker->getId()];
-
-    // set the 3D transform matrix for the marker
-    [markerNode setARTransformMatrix:marker->getPoseMatPtr()];
-    [markerNode setScale:markerScale]; // markerScale scales down the coord. system so that 1 opengl unit
-                                       // is 1 marker side length
+    [markerNode setObjectId:markerObj->getId()];
     
-//    CCDrawNode *drawNode = [CCDrawNode node];
-//    [drawNode drawDot:ccp(0.0f, 0.0f) radius:(markerScale * 0.6667f) color:[CCColor redColor]];
-//    [markerNode addChild:drawNode z:0];
+    [markerNode setScale:_markerScale]; // markerScale scales down the coord. system so that 1 opengl unit
+                                        // is 1 marker side length
+    
+    // Note: 3D transform information will be set in updateMarkerNode:withMarkerObj:
     
     // use the cocos logo as sprite for a marker
     ARTouchableSprite *cocosLogo = [ARTouchableSprite spriteWithImageNamed:@"Icon.png"];
     
     // it is possible to apply transformations to a sprite in 3D:
-//    [cocosLogo setPosition:ccp(1.0f,1.0f)];
-//    [cocosLogo setRotationalSkewZ:45.0f];
-//    [cocosLogo setPosition3D:GLKVector3Make(0.0f, 0.0f, 0.75f)];
-//    [cocosLogo setScale:0.5f];
+    //    [cocosLogo setPosition:ccp(1.0f,1.0f)];
+    //    [cocosLogo setRotationalSkewZ:45.0f];
+    //    [cocosLogo setPosition3D:GLKVector3Make(0.0f, 0.0f, 0.75f)];
+    //    [cocosLogo setScale:0.5f];
     
+    // add the cocos logo sprite as child to the marker node
     [markerNode addChild:cocosLogo];
     
     // enabled touch interaction
     // this must be called *after* it has been added to a CCNodeAR
     [cocosLogo setUserInteractionEnabled:YES];
     
-    [self addChild:markerNode];
+    return markerNode;
+}
+
+-(void)updateMarkerNode:(CCNodeAR *)markerNode withMarkerObj:(const ocv_ar::Marker *)markerObj {
+    [markerNode setARTransformMatrix:markerObj->getPoseMatPtr()];
+    [markerNode setAlive:YES];  // shows that this marker was updated lately
 }
 
 @end
